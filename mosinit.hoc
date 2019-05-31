@@ -1,0 +1,6 @@
+load_file("nrngui.hoc")
+print "This NEURON program creates NResults.res for comparison with new C language methods"
+xpanel("start button")
+ xbutton("Start NEURON driver","load_file(\"NeuronDriver.hoc\")")
+ xlabel("Click above to start NEURON driver to create output in NResults.res")
+xpanel()

@@ -1,0 +1,97 @@
+begintemplate Simul
+
+public soma, dend, run
+create soma, dend[16]
+
+proc init() {local i
+
+    create soma, dend[16]
+    access soma
+
+    L = 40
+    diam = 40
+    nseg = 1
+    Ra = 69.9986
+    insert pas
+    g_pas = 0.000091
+    e_pas = -60.0
+
+    dend[0] {  L = 265.791375  diam = 2.00000000   nseg = 14 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[1] {  L = 265.791375  diam = 2.00000000   nseg = 14 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[2] {  L = 265.791375  diam = 2.00000000   nseg = 14 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[3] {  L = 325.526623  diam = 3.00000000   nseg = 17 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[4] {  L = 325.526623  diam = 3.00000000   nseg = 17 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[5] {  L = 205.068923  diam = 4.76220316   nseg = 11 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[6] {  L = 191.668747  diam = 4.16016760   nseg = 11 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[7] {  L =  83.404623  diam = 7.08975084   nseg = 6  Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[8] {  L = 250.590512  diam = 4.00000000   nseg = 14 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[9] {  L = 250.590512  diam = 4.00000000   nseg = 14 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[10] {  L = 198.109194  diam = 2.50000000  nseg = 11 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[11] {  L = 198.109194  diam = 2.50000000  nseg = 11 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[12] {  L = 198.109194  diam = 2.50000000  nseg = 11 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[13] {  L = 285.722900  diam = 5.20020956  nseg = 15 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[14] {  L = 315.724260  diam = 6.34960420  nseg = 17 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[15] {  L = 189.914193  diam = 9.18978988  nseg = 11 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+
+    connect dend[15](0), soma(1)
+    for i=13,14 connect dend[i](0), dend[15](1)
+    for i=10,12 connect dend[i](0), dend[13](1)
+    for i=8,9 connect  dend[i](0),dend[14](1)
+
+    connect dend[7](0), soma(1)
+    for i=5,6 connect dend[i](0), dend[7](1)
+    for i=3,4 connect dend[i](0), dend[5](1)
+    for i=0,2 connect dend[i](0), dend[6](1)
+
+}
+
+
+objref stim[75]
+
+proc run() {local i
+
+    for i=0,74 dend[$1] { stim[i] = new IClamp($2)
+        stim[i].del = 0
+        stim[i].dur = 10
+        stim[i].amp = 0.02
+    }
+
+    dt = 0.001
+    v_init = -60
+    finitialize(-60)
+
+    for i=1,10 {
+        while (t <= i) {
+            secondorder = 2
+            fadvance()
+        }
+        fprint("%f \t",-(60 + v(0.5)) )
+    }
+    fprint("\n")
+}
+
+endtemplate Simul
+
+objref f1
+f1 = new File()
+
+objref f2
+f2 = new File()
+
+f1.ropen("InputDendrite.dat")
+f2.ropen("InputCurrents.dat")
+
+wopen("NRes010.res")
+
+objectvar Simuls
+    Simuls = new Simul( )
+
+for i=0,9 {
+    print "Simulation ", i "complete"
+    Simuls.run( f1.scanvar(), f2.scanvar() )
+}
+
+f1.ropen()
+f2.ropen()
+
+wopen()

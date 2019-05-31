@@ -1,0 +1,462 @@
+\section{Introduction}
+The traditional compartmental model of a neuron, in which the
+behaviour of its complexly branched dendrites is described by the
+solution of a family of ordinary differential equations, was
+originally developed as a means of reducing the mathematical
+complexity associated with the continuum description of a neuron
+in terms of a family of connected partial differential equations
+(Rall,\cite{Rall64}). The question posed in this project is
+whether or not the accuracy of the traditional compartmental model
+of a dendrite can be significantly improved without additional
+computational effort. Toward this end, a generalised compartmental
+model is developed and its computational properties examined with
+reference to the behaviour of a test neuron with known exact
+solution for given input. To facilitate this development, the
+terminology used to describe the morphology of a neuron and its
+input/output structure is now set out.
+
+\begin{figure}[!h]
+%THE FULLY IDEALISED NEURON
+\centerline{\begin{mfpic}[0.8][0.8]{10}{210}{-80}{270}
+\pen{1pt}
+% Draws the dendrite
+\shade\cyclic{(80,14),(85,15),(93,10),(100,7),(110,5),(110,3),(100,-3),(90,-5),(80,14)}
+\curve{(80,14),(85,15),(93,10),(100,7),(110,5),(110,3),(100,-3),(90,-5),(80,14)}
+\gfill\cyclic{(90,-5),(100,-2),(90,3),(85,1),(90,-5)}
+\curve{(110,4),(115,10),(120,15),(125,19),(130,22),
+(135,24),(140,25),(145,24),(150,22),(155,19)}
+\curve{(135,24),(140,27),(145,32),(150,39),(155,48)}
+\curve{(125,19),(120,30),(123,50),(125,80),(128,100),(126,120),(124,140),(128,160),(136,180),(148,200)}
+\curve{(125,80),(130,85),(135,95),(140,110),(145,130)}
+\curve{(124,140),(122,150),(120,158),(118,164)}
+\curve{(80,14),(75,15),(70,17),(65,19.5),(60,23),(55,30)}
+\curve{(80,14),(85,30),(90,50),(80,70),(70,80),(60,90),(50,110),(40,140),(5,190)}
+\curve{(50,110),(60,125),(70,160),(80,195),(115,235)}
+\curve{(80,70),(85,80),(90,100),(95,140)}
+\curve{(85,30),(75,35),(65,45),(50,50),(40,65)}
+% Draw axon
+\pen{2pt}
+\curve{(90,-5),(95,-20),(93,-30),(92,-40)}
+\pen{1pt}
+\lines{(118,-7),(118,-10),(143,-10),(143,-7)}
+\tlabel[cc](130,-18){\footnotesize $100\;\mu$m}
+\headlen7pt
+% Deals with nodes
+\tlabel[bc](180,170){\footnotesize branch}
+\tlabel[bc](180,160){\footnotesize point}
+\lines{(180,155),(165,140)}
+\arrow\lines{(165,140),(129,140)}
+\tlabel[bc](180,110){\footnotesize branch}
+\tlabel[bc](180,100){\footnotesize point}
+\lines{(180,95),(165,80)}
+\arrow\lines{(165,80),(130,80)}
+% Deals with terminal
+\tlabel[bc](190,215){\footnotesize terminals}
+\lines{(190,210),(180,200)}
+\lines{(190,225),(180,235)}
+\arrow\lines{(180,235),(120,235)}
+\arrow\lines{(180,200),(153,200)}
+% Deals with segments
+\tlabel[bc](190,25){\footnotesize sections}
+\lines{(190,35),(170,55)}
+\arrow\lines{(170,55),(130,55)}
+\lines{(190,20),(180,10)}
+\arrow\lines{(180,10),(120,10)}
+% Deals with Soma
+\tlabel[bc](25,15){\footnotesize Soma showing}
+\tlabel[bc](25,5){\footnotesize trigger zone}
+\lines{(25,0),(30,-5)}
+\arrow\lines{(30,-5),(80,-5)}
+% Deals with Axon
+\tlabel[cr](60,-25){\footnotesize Axon}
+\arrow\lines{(65,-25),(90,-25)}
+% Somal spike train
+\curve{(30,-70),(39.2,-70),(40,-68),(40.2,-66),(40.4,-64),
+(40.6,-62),(40.8,-60),(41,-58),(41.2,-56),(41.4,-54),
+(41.6,-52),(41.8,-50),(42,-49),(43,-60),(44,-71),(45,-70)}
+\lines{(45,-70),(49.2,-70)}
+\curve{(49.2,-70),(50,-68),(50.2,-66),(50.4,-64),(50.6,-62),(50.8,-60),
+(51,-58),(51.2,-56),(51.4,-54),(51.6,-52), (51.8,-50),(52,-49),(53,-60),
+(54,-71),(55,-70)}
+\lines{(55,-70),(69.2,-70)}
+\curve{(69.2,-70),(70,-68),(70.2,-66),(70.4,-64),(70.6,-62),(70.8,-60),
+(71,-58),(71.2,-56),(71.4,-54),(71.6,-52), (71.8,-50),(72,-49),(73,-60),
+(74,-71),(75,-70)}
+\lines{(75,-70),(83.2,-70)}
+\curve{(83.2,-70),(84,-68),(84.2,-66),(84.4,-64),(84.6,-62),(84.8,-60),
+(85,-58),(85.2,-56),(85.4,-54),(85.6,-52), (85.8,-50),(85,-49),(86,-60),
+(87,-71),(88,-70)}
+\lines{(88,-70),(114.2,-70)}
+\curve{(114.2,-70),(115,-68),(115.2,-66),(115.4,-64),(115.6,-62),
+(115.8,-60),(116,-58),(116.2,-56),(116.4,-54),(116.6,-52),
+(116.8,-50),(117,-49),(118,-60),(119,-71),(120,-70)}
+\lines{(120,-70),(130,-70)}
+% Input spike train
+\curve{(10,250),(19.2,250),(20,252),(20.2,254),(20.4,256),(20.6,258),
+(20.8,260),(21,262),(21.2,264),(21.4,266),(21.6,268), (21.8,270),
+(22,271),(23,260),(24,249),(25,250)}
+\curve{(25,250),(29.2,250),(30,252),(30.2,254),(30.4,256),(30.6,258),
+(30.8,260),(31,262),(31.2,264),(31.4,266),(31.6,268),(31.8,270),
+(32,271),(33,260),(34,249),(35,250)}
+\curve{(35,250),(39.2,250),(40,252),(40.2,254),(40.4,256),(40.6,258),
+(40.8,260),(41,262),(41.2,264),(41.4,266),(41.6,268), (41.8,270),(42,271),(43,260),(44,249),(45,250)}
+\lines{(45,250),(49.2,250)}
+\curve{(49.2,250),(50,252),(50.2,254),(50.4,256),(50.6,258),
+(50.8,260),(51,262),(51.2,264),(51.4,266),(51.6,268), (51.8,270),(52,271),(53,260),(54,249),(55,250)}
+\lines{(55,250),(69.2,250)}
+\curve{(69.2,250),(70,252),(70.2,254),(70.4,256),(70.6,258),
+(70.8,260),(71,262),(71.2,264),(71.4,266),(71.6,268), (71.8,270),(72,271),(73,260),(74,249),(75,250)}
+\lines{(75,250),(83.2,250)}
+\curve{(83.2,250),(84,252),(84.2,254),(84.4,256),(84.6,258),
+(84.8,260),(85,262),(85.2,264),(85.4,266),(85.6,268), (85.8,270),(85,271),(86,260),(87,249),(88,250)}
+\lines{(88,250),(99.2,250)}
+\curve{(99.2,250),(100,252),(100.2,254),(100.4,256),(100.6,258),
+(100.8,260),(101,262),(101.2,264),(101.4,266),(101.6,268),
+(101.8,270),(102,271),(103,260),(104,249),(105,250)}
+\lines{(105,250),(114.2,250)}
+\curve{(114.2,250),(115,252),(115.2,254),(115.4,256),(115.6,258),
+(115.8,260),(116,262),(116.2,264),(116.4,266),(116.6,268),
+(116.8,270),(117,271),(118,260),(119,249),(120,250)}
+\lines{(120,250),(130,250)}
+\tlabel[cc](180,265){\footnotesize An Input}
+\tlabel[cc](180,255){\footnotesize Spike Train}
+\arrow\lines{(145,260),(130,260)}
+%  Heading
+\tlabel[bc](180,-30){\footnotesize Output Spike}
+\tlabel[bc](180,-40){\footnotesize Train}
+\lines{(180,-45),(165,-60)}
+\arrow\lines{(165,-60),(130,-60)}
+% Synaptic inputs
+\pen{0.5pt}
+\curve{(76,199),(75,200),(74,201),(73,203),(72,207),(71,213),(70,223),(69,240)}
+\lines{(77,194),(76,199),(80,200)}
+\curve{(91,220),(90,222),(89,223),(86,225),(81,226),(73,225),(69,225)}
+\lines{(91,215),(91,220),(96,220)}
+\lines{(17,180),(23,180),(23,174)}
+\curve{(23,180),(30,183),(40,186),(50,188),(60,189),(65,190),(66,191),(67,193),
+(68,196),(69,201),(70,209),(71,213)}
+\lines{(37,153),(41,151),(41,145)}
+\curve{(41,151),(45,155),(50,160),(55,166),(61,174),(64,185),(65,190)}
+\tlabel[cc](30,235){\footnotesize Synaptic}
+\tlabel[cc](30,225){\footnotesize inputs}
+\arrow\lines{(30,215),(50,195)}
+% Deal with tree heading
+\tlabel[bc](20,110){\footnotesize An}
+\tlabel[bc](20,100){\footnotesize Idealised}
+\tlabel[bc](20,90){\footnotesize Dendritic}
+\tlabel[bc](20,80){\footnotesize  Tree}
+\end{mfpic}}
+\centering
+\parbox{2.2in}{\caption{\label{neuron} A stylised neuron with
+some common nomenclature.}}
+\end{figure}
+
+Figure \ref{neuron} illustrates a typical neuron with two
+dendrites or branching structures emanating from the cell body
+(soma) of the neuron. The length of dendrite connecting one branch
+point to a neighbouring branch point, the soma or a dendritic
+terminal is called a dendritic section. In practice, dendritic
+sections are divided into shorter units called segments. Following
+Segev and Burke (\cite{Segev98}), a segment is assumed to be a
+uniform cylinder and a section is represented by a series of such
+cylinders as illustrated in Figure \ref{ld}.
+
+\pagebreak[4]
+
+\begin{figure}[!h]
+\centerline{\begin{mfpic}[0.8][1]{0}{350}{160}{320}
+\headlen7pt
+\pen{1pt}
+\dotspace=4pt
+\dotsize=1.5pt
+%
+% Partial cylinder on right
+\ellipse{(350,240),12,16}
+\lines{(350,256),(380,256)}
+\dashed\lines{(380,256),(400,256)}
+\lines{(350,224),(380,224)}
+\dashed\lines{(380,224),(400,224)}
+%
+% RH cylinder
+\ellipse{(350,240),18,24}
+\lines{(250,264),(350,264)}
+\lines{(250,216),(350,216)}
+\dotted\parafcn[s]{0,180,5}{(250+18*sind(t),240+24*cosd(t))}
+\parafcn[s]{0,180,5}{(250-18*sind(t),240+24*cosd(t))}
+%
+% Central cylinder
+\dotted\parafcn[s]{0,180,5}{(250+24*sind(t),240+32*cosd(t))}
+\parafcn[s]{-30,210,5}{(250-24*sind(t),240+32*cosd(t))}
+\lines{(100,272),(250,272)}
+\lines{(100,208),(250,208)}
+\dotted\parafcn[s]{0,180,5}{(100+24*sind(t),240+32*cosd(t))}
+\parafcn[s]{0,180,5}{(100-24*sind(t),240+32*cosd(t))}
+%
+% LH cylinder
+\dotted\parafcn[s]{0,180,5}{(100+30*sind(t),240+40*cosd(t))}
+\parafcn[s]{-30,210,5}{(100-30*sind(t),240+40*cosd(t))}
+\lines{(0,280),(100,280)}
+\lines{(0,200),(100,200)}
+\dotted\parafcn[s]{0,180,5}{(30*sind(t),240+40*cosd(t))}
+\parafcn[s]{0,180,5}{(-30*sind(t),240+40*cosd(t))}
+%
+% Partial cylinder on left
+\dotted\parafcn[s]{0,180,5}{(36*sind(t),240+48*cosd(t))}
+\parafcn[s]{-30,210,5}{(-36*sind(t),240+48*cosd(t))}
+\lines{(-30,288),(0,288)}
+\lines{(-30,192),(0,192)}
+\dashed\lines{(-50,288),(-30,288)}
+\dashed\lines{(-50,192),(-30,192)}
+%
+% Delimit cylinders
+\arrow\lines{(-50,300),(-5,300)}
+\arrow\lines{(50,300),(5,300)}
+\arrow\lines{(50,300),(95,300)}
+\arrow\lines{(175,300),(105,300)}
+\arrow\lines{(175,300),(245,300)}
+\arrow\lines{(300,300),(255,300)}
+\arrow\lines{(300,300),(345,300)}
+\arrow\lines{(400,300),(355,300)}
+%
+% Annotation of LH cylinder
+\arrow\lines{(0,240),(20,240)}
+\arrow\lines{(100,240),(150,240)}
+\tlabel[br](112,250){$I_\mathrm{LC}$}
+\tlabel[bc](50,250){$V_\mathrm{L}$}
+\tlabel[tl](55,235){\large $x_\mathrm{L}$}
+\tlabel[cc](50,240){\large $\bullet$}
+\arrow\lines{(50,225),(50,180)}
+\tlabel[tc](50,170){$I_\mathrm{L}$}
+%
+% Annotation of Central cylinder
+\arrow\lines{(250,240),(290,240)}
+\tlabel[br](265,250){$I_\mathrm{CR}$}
+\tlabel[bc](175,250){$V_\mathrm{C}$}
+\tlabel[tl](180,235){\large $x_\mathrm{C}$}
+\tlabel[cc](175,240){\large $\bullet$}
+\arrow\lines{(175,225),(175,180)}
+\tlabel[tc](175,170){$I_\mathrm{C}$}
+%
+% Annotation of RH cylinder
+\arrow\lines{(350,240),(390,240)}
+\tlabel[bc](300,250){$V_\mathrm{R}$}
+\tlabel[tl](305,235){\large $x_\mathrm{R}$}
+\tlabel[cc](300,240){\large $\bullet$}
+\arrow\lines{(300,225),(300,180)}
+\tlabel[tc](300,170){$I_\mathrm{R}$}
+\end{mfpic}}
+\centering
+\parbox{5.5in}{\caption{\label{ld}
+Three consecutive segments of a dendritic section are illustrated.
+Current $I_\mathrm{C}$ flows across the membrane at
+$x_\mathrm{C}$, axial currents $I_\mathrm{LC}$ and $I_\mathrm{CR}$
+flow from $x_\mathrm{L}$ to $x_\mathrm{C}$ and from $x_\mathrm{C}$
+to $x_\mathrm{R}$ respectively through a resistive dendritic
+core.}}
+\end{figure}
+
+In the traditional compartmental model, each segment is
+represented by an elemental circuit with electrical properties
+that incorporate the local biophysical and morphological
+properties of the dendritic segment it represents. For example,
+Figure \ref{circuit} illustrates how the three segments of Figure
+\ref{ld} might be represented by three elemental circuits.
+
+\begin{figure}[!h]
+\centerline{\begin{mfpic}[1][0.8]{0}{400}{20}{260}
+\headlen7pt
+\pen{1pt}
+% Build axonal resistances
+\dashed\lines{(0,230),(27.5,230)}
+\lines{(27.5,230),(30,235),(35,225),(40,235),(45,225),
+(50,235),(55,225),(60,235),(65,225),(67.5,230),(80,230)}
+\lines{(80,230),(92.5,230),(95,235),(100,225),(105,235),
+(110,225),(115,235),(120,225),(125,235),(130,225),(135,235),
+(140,225),(145,235),(150,225),(155,235),(160,225),(165,235),
+(170,225),(175,235),(180,225),(185,235),(187.5,230),(200,230)}
+\tlabel[tc](145,220){$R_\mathrm{LC}$}
+\lines{(200,230),(212.5,230),(215,235),(220,225),(225,235),
+(230,225),(235,235),(240,225),(245,235),(250,225),(255,235),
+(260,225),(265,235),(270,225),(275,235),(280,225),(285,235),
+(290,225),(295,235),(300,225),(305,235),(307.5,230),(320,230)}
+\tlabel[tc](260,220){$R_\mathrm{CR}$}
+\lines{(320,230),(332.5,230),(335,235),(340,225),(345,235),
+(350,225),(355,235),(360,225),(365,235),(370,225),(372.5,230)}
+\dashed\lines{(372.5,230),(400,230)}
+\tlabel[cc](80,230){$\bullet$}
+\tlabel[cc](200,230){$\bullet$}
+\tlabel[cc](320,230){$\bullet$}
+\arrow\lines{(100,245),(180,245)}
+\arrow\lines{(220,245),(300,245)}
+\tlabel[bc](140,255){$I_\mathrm{LC}$}
+\tlabel[bc](260,255){$I_\mathrm{CR}$}
+\tlabel[bc](80,255){$V_\mathrm{L}$}
+\tlabel[bc](200,255){$V_\mathrm{C}$}
+\tlabel[bc](320,255){$V_\mathrm{R}$}
+% Build Right hand circuit
+\lines{(320,230),(320,180),(300,180)}
+\lines{(300,142.5),(295,140),(305,135),(295,130),(305,125),
+(295,120),(305,115),(295,110),(305,105),(295,100),
+(300,97.5),(300,90),(340,90),(340,130)}
+\lines{(350,130),(330,130)}
+\lines{(350,140),(330,140)}
+\tlabel[bl](345,150){$c^{(m)}_\mathrm{R}$}
+\lines{(340,140),(340,180),(320,180)}
+\lines{(320,90),(320,40)}
+\lines{(310,40),(330,40)}
+\lines{(312.5,35),(327.5,35)}
+\lines{(315,30),(325,30)}
+\lines{(317.5,25),(322.5,25)}
+\dashed\lines{(300,180),(260,180)}
+\dashed\lines{(300,90),(260,90)}
+\lines{(300,180),(320,180)}
+\lines{(300,180),(300,170)}
+% Battery
+\lines{(295,170),(305,170)}
+\lines{(295,162),(305,162)}
+\lines{(295,154),(305,154)}
+\lines{(255,150),(265,150)}
+\lines{(255,166),(265,166)}
+\lines{(255,158),(265,158)}
+\pen{2pt}
+\lines{(297.5,150),(302.5,150)}
+\lines{(297.5,166),(302.5,166)}
+\lines{(297.5,158),(302.5,158)}
+\lines{(257.5,170),(262.5,170)}
+\lines{(257.5,162),(262.5,162)}
+\lines{(257.5,154),(262.5,154)}
+\pen{1pt}
+\lines{(300,150),(300,142.5)}
+\lines{(260,180),(260,170)}
+\lines{(260,150),(260,142.5),(255,140),(265,135),(255,130),
+(265,125),(255,120),(265,115),(255,110),(265,105),(255,100),
+(260,97.5),(260,90)}
+\arrow\lines{(290,135),(290,105)}
+\arrow\lines{(310,80),(310,50)}
+\tlabel[cr](305,65){$I^{(m)}_\mathrm{R}$}
+% Build Left hand circuit
+\lines{(80,230),(80,180),(60,180)}
+\lines{(60,142.5),(55,140),(65,135),(55,130),(65,125),
+(55,120),(65,115),(55,110),(65,105),(55,100),(60,97.5),
+(60,90),(100,90),(100,130)}
+\lines{(110,130),(90,130)}
+\lines{(110,140),(90,140)}
+\tlabel[bl](105,150){$c^{(m)}_\mathrm{L}$}
+\lines{(100,140),(100,180),(80,180)}
+\lines{(80,90),(80,40)}
+\lines{(70,40),(90,40)}
+\lines{(72.5,35),(87.5,35)}
+\lines{(75,30),(85,30)}
+\lines{(77.5,25),(82.5,25)}
+\dashed\lines{(60,180),(20,180)}
+\dashed\lines{(60,90),(20,90)}
+\lines{(60,180),(80,180)}
+\lines{(60,180),(60,170)}
+% Battery
+\lines{(55,170),(65,170)}
+\lines{(55,162),(65,162)}
+\lines{(55,154),(65,154)}
+\lines{(15,150),(25,150)}
+\lines{(15,166),(25,166)}
+\lines{(15,158),(25,158)}
+\pen{2pt}
+\lines{(57.5,150),(62.5,150)}
+\lines{(57.5,166),(62.5,166)}
+\lines{(57.5,158),(62.5,158)}
+\lines{(17.5,170),(22.5,170)}
+\lines{(17.5,162),(22.5,162)}
+\lines{(17.5,154),(22.5,154)}
+\pen{1pt}
+\lines{(60,150),(60,142.5)}
+\lines{(20,180),(20,170)}
+\lines{(20,150),(20,142.5),(15,140),(25,135),(15,130),
+(25,125),(15,120),(25,115),(15,110),(25,105),(15,100),
+(20,97.5),(20,90)}
+\arrow\lines{(50,135),(50,105)}
+\arrow\lines{(70,80),(70,50)}
+\tlabel[cr](65,65){$I^{(m)}_\mathrm{L}$}
+% Build Middle circuit
+\lines{(200,230),(200,180),(180,180)}
+\lines{(180,142.5),(175,140),(185,135),(175,130),(185,125),
+(175,120),(185,115),(175,110),(185,105),(175,100),
+(180,97.5),(180,90),(220,90),(220,130)}
+\lines{(230,130),(210,130)}
+\lines{(230,140),(210,140)}
+\tlabel[bl](225,150){$c^{(m)}_\mathrm{C}$}
+\lines{(220,140),(220,180),(200,180)}
+\lines{(200,90),(200,40)}
+\lines{(190,40),(210,40)}
+\lines{(192.5,35),(207.5,35)}
+\lines{(195,30),(205,30)}
+\lines{(197.5,25),(202.5,25)}
+\dashed\lines{(180,180),(140,180)}
+\dashed\lines{(180,90),(140,90)}
+\lines{(180,180),(200,180)}
+\lines{(180,180),(180,170)}
+% Battery
+\lines{(175,170),(185,170)}
+\lines{(175,162),(185,162)}
+\lines{(175,154),(185,154)}
+\lines{(135,150),(145,150)}
+\lines{(135,166),(145,166)}
+\lines{(135,158),(145,158)}
+\pen{2pt}
+\lines{(177.5,150),(182.5,150)}
+\lines{(177.5,166),(182.5,166)}
+\lines{(177.5,158),(182.5,158)}
+\lines{(137.5,170),(142.5,170)}
+\lines{(137.5,162),(142.5,162)}
+\lines{(137.5,154),(142.5,154)}
+\pen{1pt}
+\lines{(180,150),(180,142.5)}
+\lines{(140,180),(140,170)}
+\lines{(140,150),(140,142.5),(135,140),(145,135),(135,130),
+(145,125),(135,120),(145,115),(135,110),(145,105),(135,100),
+(140,97.5),(140,90)}
+\arrow\lines{(170,135),(170,105)}
+\arrow\lines{(190,80),(190,50)}
+\tlabel[cr](185,65){$I^{(m)}_\mathrm{C}$}
+% Far right
+\dashed\lines{(400,180),(380,180)}
+\dashed\lines{(400,90),(380,90)}
+\lines{(380,150),(380,142.5),(375,140),(385,135),(375,130),
+(385,125),(375,120),(385,115),(375,110),(385,105),(375,100),
+(380,97.5),(380,90)}
+\arrow\lines{(50,135),(50,105)}
+\arrow\lines{(70,80),(70,50)}
+% Battery
+\lines{(375,150),(385,150)}
+\lines{(375,166),(385,166)}
+\lines{(375,158),(385,158)}
+\lines{(380,180),(380,170)}
+\pen{2pt}
+\lines{(377.5,170),(382.5,170)}
+\lines{(377.5,162),(382.5,162)}
+\lines{(377.5,154),(382.5,154)}
+\pen{1pt}
+\end{mfpic}}
+\centering
+\parbox{5.6in}{\caption{\label{circuit} A diagrammatic
+representation of two elemental circuits used to construct the
+compartmental model of a dendritic section. Axial current
+$I_\mathrm{L}$ flows in the left hand compartment under the
+influence of the potential difference
+$(V_\mathrm{L}-V_\mathrm{C})$. Axial current $I_\mathrm{R}$ flows
+in the right hand compartment under the influence of the potential
+difference $(V_\mathrm{C}-V_\mathrm{R})$. Transmembrane current
+flow from the left and right hand circuits to the extracellular
+medium at the endpoints of the left and right hand compartments.}}
+\end{figure}
+
+The accuracy of the two compartmental models can be assessed by
+comparing their response to deterministic input for situations in
+which the potential distribution in the model dendrite is known
+analytically. The objective of this report is to examine the error
+in the potential at the soma of a branched neuron in response to a
+sustained input randomly placed on the dendritic tree. This
+procedure will be repeated 2000 times and because of the linearity
+of the model, the results of the simulation study will mimic the
+effect of large scale exogenous input on the branched neuron. The
+accuracy and precision of the models are assessed by comparing
+their responses to this input in situations in which the potential
+at the soma is known analytically.

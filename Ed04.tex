@@ -1,0 +1,1333 @@
+\documentclass{slides}
+\usepackage{amsfonts,amsbsy,amssymb,graphicx}
+
+% Tree-saver
+%\setlength{\textwidth}{11.705in}
+%\setlength{\textheight}{8.276in}
+\setlength{\textwidth}{8.276in}
+\setlength{\textheight}{11.705in}
+%Allow 1in margin on each side and nothing else
+\addtolength{\textwidth}{-2in}
+\addtolength{\textheight}{-2in}
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\topmargin}{0pt}
+\addtolength{\topmargin}{-\headheight}
+\addtolength{\topmargin}{-\headsep}
+
+\input mfpic.tex
+
+\newcommand{\dfrac}[2]{\displaystyle{\frac{#1}{#2}}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\def\ds{\displaystyle}
+\def\ss{\,\scriptsize}
+
+
+\begin{document}
+
+\opengraphsfile{mfpic}
+
+%
+%
+\begin{slide}
+\begin{center}
+{\bf Some new ideas in compartmental modelling}\\[60pt]
+K.A. Lindsay, \\
+Department of Mathematics, University of Glasgow\\[40pt]
+A.E. Lindsay, \\
+Department of Mathematics, University of Edinburgh\\[40pt]
+J.R. Rosenberg \\
+Division of Neuroscience and Biomedical Systems,
+University of Glasgow
+\end{center}
+\end{slide}
+
+%
+%
+\begin{slide}
+\begin{center}
+\textbf{Some general observations on \\ compartmental models}
+\end{center}
+\begin{enumerate}
+\item
+Motivation for compartmental modelling is the desire to reduce the
+mathematical complexity inherent in a continuum description of a
+neuron.
+
+\item
+A localised region of neuron (segment) and its input is described
+by an elementary unit (often a simple circuit) called a compartment.
+
+\item
+The model is constructed by joining compartments in a
+branching pattern corresponding to that of the neuron.
+
+\item
+Compartments can interact only with their nearest
+neighbours.
+
+\item
+Compartments are connected together by enforcing conservation of current.
+\end{enumerate}
+\end{slide}
+
+%
+%
+\begin{slide}
+\centerline{\textbf{Traditional compartmental models - I}}
+
+``\dots \, each lump of membrane becomes a compartment;
+the rate  constants governing exchange between compartments
+are proportional to the series conductance between them."
+\begin{flushright}
+Rall 1964
+\end{flushright}
+\centerline{\begin{mfpic}[1][1]{0}{250}{-30}{50}
+\pen{1pt}
+\lines{(30,10),(70,10),(70,-10),(30,-10)}
+\dashed\lines{(30,10),(0,10)}
+\dashed\lines{(30,-10),(0,-10)}
+\rect{(80,10),(150,-10)}
+\lines{(200,10),(160,10),(160,-10),(200,-10)}
+\dashed\lines{(200,10),(230,10)}
+\dashed\lines{(200,-10),(230,-10)}
+\arrow\lines{(75,15),(75,5)}
+\arrow\lines{(75,-15),(75,-5)}
+\arrow\lines{(155,15),(155,5)}
+\arrow\lines{(155,-15),(155,-5)}
+\pen{2pt}
+\headlen7pt
+\lines{(40,15),(110,15)}
+\lines{(40,-15),(110,-15)}
+\lines{(120,15),(190,15)}
+\lines{(120,-15),(190,-15)}
+\tlabel[bc](75,20){\tiny \textsf{Membrane}}
+\tlabel[bc](155,20){\tiny \textsf{Membrane}}
+\end{mfpic}}
+
+``Cable theory and compartmental models are
+\underline{complementary} approaches $\cdots$ cable
+theory regards dendrites as continuous cylindrical or conical
+structures, whereas a compartmental model approximates a
+continuous dendrite (or dendritic tree) as a set of resistively
+coupled iso-potential regions.''
+\begin{flushright}
+Perkel and Mulloney 1978.
+\end{flushright}
+\vfill
+\end{slide}
+
+%
+%
+\begin{slide}
+\centerline{\textbf{Traditional compartmental models - II}}
+
+``Spatial discretization of this partial differential equation
+(cable equation) is equivalent to reducing the spatially
+distributed neuron to a set of connected compartments.''
+
+``Spatially varying membrane current is represented by its value
+at the center of the compartment. This is much less drastic than
+the often heard statement that a compartment is assumed to be
+iso-potential.''
+\begin{flushright}
+Hines and Carnevale 1997
+\end{flushright}
+
+``The compartmental approach \underline{replaces} the continuous
+differential equations of the analytical model by a set of
+ordinary differential equations. Thus, if the continuously
+distributed system is divided into sufficiently small segments (or
+compartments), one makes a negligibly small error by assuming that
+each compartment is iso-potential and spatially uniform in its
+properties.''
+
+\begin{flushright}
+Segev and Burke 1998
+\end{flushright}
+\vfill
+\end{slide}
+
+%
+%
+\begin{slide}
+\begin{center}
+\textbf{Summary of traditional models}
+\end{center}
+
+\begin{itemize}
+\item
+Two different definitions of a compartment. Despite these
+conceptual differences, both approaches lead to the same
+mathematical model.
+
+\item
+Each compartment has a single associated potential.
+
+\item
+Compartments cannot exist as independent entities, and therefore
+seem to be an inappropriate choice for the fundamental building
+blocks of a compartmental model. For example:-
+\begin{enumerate}
+\item
+Half-compartments may be needed to model the behaviour of
+terminals.
+
+\item
+The quantification of axial current requires two neighbouring
+compartments.
+\end{enumerate}
+\end{itemize}
+\end{slide}
+
+%
+%
+\begin{slide}
+\centerline{\textbf{How to define a compartment?}}
+
+\textbf{Some guidance}
+
+We form for ourselves images of symbols of external objects; and
+the form that we give to them is such that the necessary
+consequences of the images in thought are always images of the
+necessary consequences in nature of the things pictured.
+\begin{flushright}
+Hertz: \emph{Principles of Mechanics}
+\end{flushright}
+
+The function of the model is to represent the necessity that
+exists in nature by the logical necessity of the model. In the
+case of a good model one parallels the other.
+\begin{flushright}
+Regnier: \emph{Les Infortunes de la Raison}
+\end{flushright}
+\end{slide}
+
+%
+%
+\begin{slide}
+\vfill
+
+\begin{quotation}
+\noindent In our view the primary weakness in traditional
+compartmental models is that their compartments lack the
+sensitivity necessary to reflect the location of input within a
+segment. (We demonstrate this to be the case).
+\end{quotation}
+
+\begin{quotation}
+\noindent It is also aesthetically unsatisfactory that traditional
+compartments cannot exist as isolated entities by contrast with
+the object they represent.
+\end{quotation}
+\vfil
+\end{slide}
+
+%
+%
+\begin{slide}
+\centerline{\textbf{New compartmental model}}
+
+\textbf{Idea}:- Assign two potentials to a compartment -- one
+potential at each end of the length of dendrite (segment)
+represented by the compartment.
+
+\begin{itemize}
+\item
+Every dendritic section is a whole number of compartments.
+
+\item
+Neighbouring compartments share potentials at common boundaries.
+
+\item
+Compartments need not be iso-potential regions of dendrite.
+
+\item
+Model equations are constructed by enforcing conservation of
+current at segment boundaries.
+\end{itemize}
+\vfill
+\end{slide}
+
+%
+%
+\begin{slide}
+\centerline{\textbf{Partitioning of transmembrane current}}
+
+\textbf{Problem}:- The new model requires all transmembrane
+current acting on a segment to be divided between the axial
+currents at the proximal and distal boundaries of the segment.
+
+\centerline{\begin{mfpic}[1][1]{0}{400}{-60}{100}
+\pen{1pt}
+\headlen7pt
+\rect{(0,0),(400,50)}
+\arrow\lines{(5,25),(25,25)}
+\tlabel[cl](30,25){\tiny $I_\mathrm{PD}+I_\mathrm{P}$}
+\arrow\lines{(375,25),(395,25)}
+\tlabel[cr](370,25){\tiny $I_\mathrm{PD}+I_\mathrm{D}$}
+\arrow\lines{(240,50),(240,75)}
+\tlabel[bc](230,85){\tiny $I_\mathrm{S}$}
+\arrow\lines{(265,25),(245,25)}
+\arrow\lines{(220,25),(235,25)}
+\tlabel[tc](0,-10){$\lambda=0$}
+\tlabel[tc](240,-10){$\lambda$}
+\tlabel[tc](400,-10){$\lambda=1$}
+\dashed\lines{(0,-30),(0,-60)}
+\dashed\lines{(240,-30),(240,-60)}
+\dashed\lines{(400,-30),(400,-60)}
+\dotsize=1.5pt
+\dotspace=4pt
+\tlabel[cc](120,-45){$R_\mathrm{P}(\lambda)$}
+\dotted\arrow\lines{(160,-45),(235,-45)}
+\dotted\arrow\lines{(80,-45),(5,-45)}
+\tlabel[cc](320,-45){$R_\mathrm{D}(\lambda)$}
+\dotted\arrow\lines{(360,-45),(395,-45)}
+\dotted\arrow\lines{(280,-45),(245,-45)}
+\end{mfpic}}
+
+The partitioning in this instance is:
+
+\[
+\begin{array}{ll}
+\mbox{Towards }\lambda=0 \qquad& \frac{R_\mathrm{D}(\lambda)\,I_\mathrm{S}}
+{R_\mathrm{P}(\lambda)+R_\mathrm{D}(\lambda)}\\[30pt]
+\mbox{Towards }\lambda=1 \qquad& \frac{R_\mathrm{P}(\lambda)\,I_\mathrm{S}}
+{R_\mathrm{P}(\lambda)+R_\mathrm{D}(\lambda)}
+\end{array}
+\]
+
+\vfill
+\end{slide}
+
+%
+%
+\begin{slide}
+\centerline{\textbf{Distributed transmembrane current}}
+
+Consider a cylindrical dendritic segment of radius $a$, of
+length $L$ filled with axoplasm of conductance $g_\mathrm{A}$
+and with membrane of constant conductance $g_\mathrm{M}$.
+
+A potential difference $V$ applied between the ends of
+segment induces axial current flow
+\[
+\pi a^2 g_\mathrm{A} V/L
+\]
+and total transmembrane current flow
+\[
+2\pi a L g_\mathrm{M}\,(V/2)\,.
+\]
+The ratio of these currents is
+\[
+\frac{I_\mathrm{Transmembrane}}{I_\mathrm{Axial}}
+=\frac{L^2 g_\mathrm{M}} {a
+g_\mathrm{A}}=\frac{L^2}{a^2}\, \Bigg(
+\frac{a g_\mathrm{M}}{g_\mathrm{A}}\Bigg).
+\]
+Typically $a g_\mathrm{M}/g_\mathrm{A}$ is small, say $\approx
+10^{-5}$, which suggests that the transmembrane current acting on
+a segment is small by comparison with axial current for ``short''
+segments.
+\end{slide}
+
+%
+%
+\begin{slide}
+\begin{center}
+\textbf{Schematic illustration of a segment}
+\end{center}
+
+The Figure illustrates a dendritic segment of length $h$ (cm)
+where $\lambda\in[0,1]$ indicates the fractional distance of a
+point of the segment from its proximal end ($\lambda=0$).
+
+\centerline{\begin{mfpic}[2][2]{-40}{140}{180}{310}
+\headlen7pt
+\pen{0.5pt}
+\dotspace=4pt
+\dotsize=1pt
+\pen{1pt}
+\dotspace=4pt
+\dotsize=1.5pt
+%
+% LH cylinder
+\parafcn[s]{-180,180,5}{(100-21*sind(t),240+28*cosd(t))}
+\lines{(0,288),(100,268)}
+\lines{(0,192),(100,212)}
+%
+% Partial cylinder on left
+\dotted\parafcn[s]{0,180,5}{(36*sind(t),240+48*cosd(t))}
+\parafcn[s]{0,180,5}{(-36*sind(t),240+48*cosd(t))}
+%
+% Annotation of LH cylinder
+\dashed\arrow\lines{(0,240),(100,240)}
+\tlabel[bl](50,250){\large $I_\mathrm{PD}$}
+\tlabel[bc](0,250){$V_\mathrm{P}$}
+\tlabel[cc](0,180){\large $\lambda=0$}
+\tlabel[bc](0,295){\textsf{P}}
+\arrow\lines{(0,235),(0,200)}
+\tlabel[cr](-5,220){\textsf{$r_\mathrm{P}$}}
+%
+% Annotation of RH cylinder
+\tlabel[bc](100,250){$V_\mathrm{D}$}
+\tlabel[cc](100,180){\large $\lambda=1$}
+\tlabel[cc](100,280){\textsf{D}}
+\arrow\lines{(100,235),(100,216)}
+\tlabel[cl](105,228){\textsf{$r_\mathrm{D}$}}
+\arrow\lines{(60,228),(95,228)}
+\arrow\lines{(40,228),(5,228)}
+\tlabel[cc](50,228){$h$}
+\end{mfpic}}
+
+$I_\mathrm{PD}$ is axial current in the absence of transmembrane
+current.
+\end{slide}
+
+%
+%
+\begin{slide}
+\centerline{\textbf{Transmembrane current free solution}}
+\begin{itemize}
+\item
+Segment membrane is modelled by the frustum of a cone of radius
+\[
+r(\lambda)=(1-\lambda)r_\mathrm{P}+\lambda r_\mathrm{D} \,,\qquad
+\lambda\in[0,1]
+\]
+formed by rotating the straight line PD about the axis of the
+dendrite
+
+\item
+Assuming axoplasm of constant axial conductance $g_\mathrm{A}$ and
+that no transmembrane current acts on the segment then
+\[
+I_\mathrm{PD}= \frac{\pi g_\mathrm{A} r_\mathrm{P}
+r_\mathrm{D}}{h}\,\big(\,V_\mathrm{P}-V_\mathrm{D}\,\big)
+\]
+and the membrane potential at point $\lambda$ is
+\[
+V(\lambda) = \frac{V_\mathrm{P}\,(1-\lambda)\,
+r_\mathrm{P}+V_\mathrm{D}\,\lambda\,r_\mathrm{D}}
+{(1-\lambda)\,r_\mathrm{P}+\lambda\,r_\mathrm{D}}\,.
+\]
+\end{itemize}
+\end{slide}
+
+%
+%
+\begin{slide}
+\centerline{\textbf{Transmembrane current}}
+
+Transmembrane current is usually described by the sum of four
+distinct components:-
+\begin{itemize}
+\item
+Capacitative current
+\[
+\int 2\pi r(x) \,c_\mathrm{M}\,\frac{\partial V}{\partial t}\,dx
+\]
+
+\item
+Intrinsic voltage-dependent current (IVDC)
+\[
+\int 2\pi r(x)\,J_\mathrm{IVDC}(V)\,dx
+\]
+
+\item
+Synaptic current
+\[
+\sum J_\mathrm{SYN}(V_\mathrm{syn})
+\]
+
+\item
+Exogenous current
+\[
+\sum I_\mathrm{EX}(x,t)
+\]
+\end{itemize}
+The integrals and summations in these expressions are calculated
+over the segment.
+\end{slide}
+
+%
+%
+\begin{slide}
+\centerline{\textbf{Conservation of current}}
+
+Assume current $I_\mathrm{PD}+I_\mathrm{P}$ leaves the proximal
+boundary of a segment towards its distal boundary and that current
+$I_\mathrm{PD}+I_\mathrm{D}$ arrives at that distal boundary, then
+\[
+I_\mathrm{P}-I_\mathrm{D}=h\int_0^1 J(\lambda,t)\,d\lambda\,.
+\]
+where
+\[
+\begin{array}{rcl}
+h J(\lambda,t) & = & \ds 2\pi h r(\lambda)\,c_\mathrm{M}(\lambda)\,
+\frac{\partial V(\lambda,t)}{\partial t}\\[15pt]
+&&\quad\ds+\;2\pi h r(\lambda)\,J_\mathrm{IVDC}(V(\lambda,t))\\[10pt]
+&&\qquad \ds+\; \sum_k J_\mathrm{SYN}(V_\mathrm{syn})\,
+\delta(\lambda-\lambda_k)\\[10pt]
+&&\qquad\quad\ds+\;\sum_k I_\mathrm{EX}(t)\,
+\delta(\lambda-\lambda_k)
+\end{array}
+\]
+where $\lambda_k$ denotes the relative location of the $k^{th}$
+synapse or exogenous input with respect to the proximal boundary
+of the segment.
+\end{slide}
+
+%
+%
+\begin{slide}
+\begin{center}
+\textbf{Partitioning rule for \\ transmembrane current}
+\end{center}
+
+\textbf{Task}: We need expressions for $I_\mathrm{P}$ and
+$I_\mathrm{D}$ that conserve current independently of the
+constitutive forms for $J(\lambda,t)$.
+
+\textbf{Idea}: Divide transmembrane current acting at point
+$\lambda$ between the proximal and distal boundaries of
+a segment in inverse proportion to the resistance of the segment
+lying between the point $\lambda$ and that boundary.
+
+This idea leads to the partitioning rule
+\[
+\begin{array}{rcl}
+I_\mathrm{P} & = & \ds h\int_0^1 \frac{(1-\lambda)\,r_\mathrm{P}\,
+J(\lambda,t)\,d\lambda}{(1-\lambda)\,r_\mathrm{P}
++\lambda\,r_\mathrm{D}}\,,\\[25pt]
+-I_\mathrm{D} & = & \ds h\int_0^1
+\frac{\lambda\,r_\mathrm{D}\,J(\lambda,t)\,d\lambda}
+{(1-\lambda)\,r_\mathrm{P}+\lambda\,r_\mathrm{D}}\,.
+\end{array}
+\]
+
+The rule is based on the observation that
+\[
+R_\mathrm{P}(\lambda) = \frac{\lambda h} {\pi g_\mathrm{A}
+r_\mathrm{P} r(\lambda)}\,,\quad R_\mathrm{D}(\lambda) =
+\frac{(1-\lambda)h} {\pi g_\mathrm{A} r_\mathrm{D}
+r(\lambda)}\,,
+\]
+and that
+\[
+R_\mathrm{P}(\lambda)+R_\mathrm{D}(\lambda) =
+\frac{h} {\pi g_\mathrm{A} r_\mathrm{P} r_\mathrm{D}}\,.
+\]
+\end{slide}
+
+%
+%
+\begin{slide}
+\begin{center}
+\textbf{I - Exogenous point currents}
+\end{center}
+Let $\lambda_1,\cdots,\lambda_n$ be the locations of
+exogenous current input $\mathcal{I}_1,\ \cdots\
+\mathcal{I}_n$ to a segment.
+
+The resulting transmembrane current is
+\[
+\sum_{k=1}^n \mathcal{I}_k(t)\,\delta(\lambda-\lambda_k)\,.
+\]
+
+The perturbations $I_\mathrm{P}$ and $I_\mathrm{D}$ to
+$I_\mathrm{PD}$ are
+\[
+\begin{array}{rcl}
+I_\mathrm{P} & = &\ds \sum_{k=1}^n\,
+\frac{r_\mathrm{P}}{r_k}\,(1-\lambda_k)\,\mathcal{I}_k(t)\,,\\[25pt]
+-I_\mathrm{D} & = &\ds \sum_{k=1}^n\,
+\frac{r_\mathrm{D}}{r_k}\,\lambda_k\,\mathcal{I}_k(t)\,,
+\end{array}
+\]
+where $r_k=(1-\lambda_k)\,r_\mathrm{P} +\lambda_k\,r_\mathrm{D}$.
+\end{slide}
+
+%
+%
+\begin{slide}
+\begin{center}
+\textbf{II - Synaptic point currents}
+\end{center}
+The current flow induced by $n$ synapses at points
+$\lambda_1,\lambda_2, \cdots, \lambda_n$ on a segment of length
+$h$ is represented by the Figure
+
+\centerline{\qquad\begin{mfpic}[1.3][1]{0}{300}{-30}{60}
+\pen{1pt}
+\headlen7pt
+%
+% Sealed cable
+\arrow\lines{(0,20),(25,20)}
+\arrow\lines{(40,20),(65,20)}
+\arrow\lines{(120,20),(145,20)}
+\arrow\lines{(160,20),(185,20)}
+\arrow\lines{(240,20),(265,20)}
+\arrow\lines{(280,20),(305,20)}
+%
+%
+\dotspace=4pt
+\dotsize=2pt
+\dotted\lines{(75,20),(110,20)}
+\dotted\lines{(195,20),(230,20)}
+%
+% Nodes on sealed cable
+\tlabel[cc](0,20){$\bullet$}
+\tlabel[cc](40,20){$\bullet$}
+\tlabel[cc](120,20){$\bullet$}
+\tlabel[cc](160,20){$\bullet$}
+\tlabel[cc](240,20){$\bullet$}
+\tlabel[cc](280,20){$\bullet$}
+\tlabel[cc](320,20){$\bullet$}
+%
+% Points on sealed cable
+\tlabel[bc](40,30){\tiny $\lambda_1$}
+\tlabel[bc](120,30){\tiny $\lambda_{k-1}$}
+\tlabel[bc](160,30){\tiny $\lambda_k$}
+\tlabel[bc](240,30){\tiny $\lambda_{n-1}$}
+\tlabel[bc](280,30){\tiny $\lambda_n$}
+%
+\tlabel[cc](20,10){\tiny $I_1$}
+\tlabel[cc](60,10){\tiny $I_2$}
+\tlabel[cc](140,10){\tiny $I_k$}
+\tlabel[cc](180,10){\tiny $I_{k+1}$}
+\tlabel[cc](260,10){\tiny $I_n$}
+\tlabel[cc](300,10){\tiny $I_{n+1}$}
+%
+% Sealed cable
+\arrow\lines{(40,10),(40,-10)}
+\tlabel[tc](40,-15){\tiny\textsf{$\mathcal{I}_1$}}
+\arrow\lines{(120,10),(120,-10)}
+\tlabel[tc](120,-15){\tiny\textsf{$\mathcal{I}_{k-1}$}}
+\arrow\lines{(160,10),(160,-10)}
+\tlabel[tc](160,-15){\tiny\textsf{$\mathcal{I}_k$}}
+\arrow\lines{(240,10),(240,-10)}
+\tlabel[tc](240,-15){\tiny\textsf{$\mathcal{I}_{n-1}$}}
+\arrow\lines{(280,10),(280,-10)}
+\tlabel[tc](280,-15){\tiny\textsf{$\mathcal{I}_n$}}
+\end{mfpic}}
+
+Synaptic input at $\lambda_k$ is modelled by the
+constitutive law
+\[
+\mathcal{I}_k(t)=g_k(t)(V(\lambda_k,t)-E_k)
+\]
+where $E_k$ is the synaptic reversal potential and $g_k(t)$ is the
+time course of the synaptic conductance.
+
+The partitioning rule now gives
+\[
+\begin{array}{rcl}
+I_\mathrm{P} & = &\ds \sum_{k=1}^n\,
+\frac{r_\mathrm{P}}{r_k}\,(1-\lambda_k)\,g_k(t)\Bigg[
+V(\lambda_k,t)-E_k\Bigg]\,,\\[25pt]
+-I_\mathrm{D} & = &\ds \sum_{k=1}^n\,
+\frac{r_\mathrm{D}}{r_k}\,\lambda_k\,g_k(t)\Bigg[V(\lambda_k,t)-E_k\Bigg]\,,
+\end{array}
+\]
+but now $V(\lambda_k,t)$ is unknown.
+\vfill
+\end{slide}
+
+%
+%
+\begin{slide}
+\begin{center}
+\textbf{Preliminary idea}
+\end{center}
+\begin{itemize}
+\item
+Estimate $V(\lambda_k,t)$ by the formula
+\[
+\widehat{V}_k(t)=V_\mathrm{P}(t)\,(1-\lambda_k)\,
+\frac{r_\mathrm{P}}{r_k}+V_\mathrm{D}(t)\,\lambda_k\,
+\frac{r_\mathrm{D}}{r_k}\,.
+\]
+
+\item For a single synapse at $\lambda_1$, the partitioning rule
+with $V(\lambda_k,t)=\widehat{V}_k(t)$ gives
+\[
+\begin{array}{rcl}
+I_\mathrm{P} & = &\ds \frac{r_\mathrm{P}}{r_1}\,(1-\lambda_1)\,g_1(t)
+\Bigg[\widehat{V}_1(t)-E_1\Bigg]\,,\\[25pt]
+-I_\mathrm{D} & = & \ds\frac{r_\mathrm{D}}{r_1}\,\lambda_1\,g_1(t)
+\Bigg[\widehat{V}_1(t)-E_1\Bigg]\,.
+\end{array}
+\]
+
+\item
+In fact, the case of a single synaptic input at $\lambda_1$ has
+exact solution
+\[
+\begin{array}{rcl}
+I_\mathrm{P} & = & \ds\frac{r_\mathrm{P}}{r_1}\,
+\frac{(1-\lambda_1)\,g_1(t)\Bigg[\widehat{V}_1(t)-E_1\Bigg]}
+{1+\frac{\lambda_1(1-\lambda_1 )h g_1}{\pi g_\mathrm{A}
+r^2_1}}\,,\\[35pt]
+-I_\mathrm{D} & = &\ds\frac{r_\mathrm{D}}{r_1}\,
+\frac{\lambda_1\,g_1(t)\Bigg[\widehat{V}_1(t)-E_1\Bigg]}
+{1+\frac{\lambda_1(1-\lambda_1 )h g_1}{\pi g_\mathrm{A} r^2_1}}\,.
+\end{array}
+\]
+The estimate $V(\lambda_k,t)=\widehat{V}_k(t)$ therefore
+overstates the influence of the synapse.
+\end{itemize}
+\end{slide}
+
+%
+%
+\begin{slide}
+\begin{center}
+\textbf{A more detailed analysis}
+\end{center}
+\textbf{Current conservation} at each synapse gives
+\[
+I_{k+1}+g_k(V_k-E_k) = I_k\,,\quad k=1,\cdots,n
+\]
+where $V_k$ is the potential at $\lambda_k$ and
+\[
+I_k = \frac{\pi g_\mathrm{A}r_{k-1}r_k}
+{h(\lambda_k-\lambda_{k-1})}\,\big(V_{k-1}-V_k\,\big)
+\]
+for $k=1,\cdots,(n+1)$.
+
+\vfil
+
+\textbf{Solve the equation} relating $I_k$ to $V_k$ to get
+\[
+V_k = V_\mathrm{P} -\frac{h}{\pi g_\mathrm{A}}\,\sum_{j=1}^k \,
+\frac{(\lambda_j-\lambda_{j-1})I_j}{r_{j-1}r_j}
+\]
+for $k=1,\cdots,(n+1)$. The case $k=n+1$ is the constraint
+\[
+\sum_{j=1}^{n+1} \,
+\frac{(\lambda_j-\lambda_{j-1})I_j}{r_{j-1}r_j}=
+\frac{h(V_\mathrm{P}-V_\mathrm{D})}{\pi g_\mathrm{A}}.
+\]
+\end{slide}
+
+%
+%
+\begin{slide}
+\textbf{Eliminate} $V_k$ from the current conservation condition
+to obtain $n$ linear equations connecting $I_1$ to $I_{n+1}$. The
+$(n+1)^{th}$ equation is the constraint.
+
+\textbf{Re-express} the equations for $I_1$ to $I_{n+1}$ in terms
+of $\widehat{I}_k=I_k-I_\mathrm{PD}$ where $\widehat{I}_k$ is the
+perturbation in $I_k$ from $I_\mathrm{PD}$. The equations
+satisfied by $\widehat{I}_0,\ \cdots \,\widehat{I}_{n+1}$ are
+
+{\tiny
+\[
+\hskip-30pt\begin{array}{rcl} \ds\Big[1+\frac{\lambda_1 h g_1}{\pi
+g_\mathrm{A} r_\mathrm{P}
+r_1}\Big]\widehat{I}_1-\widehat{I}_2 & = & \mathcal{I}_1(t) \\[10pt]
+\vdots & &\vdots\\
+\ds\frac{g_k h}{\pi g_\mathrm{A}}\sum_{j=1}^{k-1}
+\frac{(\lambda_j-\lambda_{j-1})\widehat{I}_j}{r_{j-1}r_j}+
+\Big[1+\frac{(\lambda_k-\lambda_{k-1})hg_k}{\pi g_\mathrm{A}
+r_{k-1}r_k}\Big]\widehat{I}_k-\widehat{I}_{k+1} & = & \mathcal{I}_k(t)\\[10pt]
+\vdots & &\vdots\\
+\ds\frac{g_n h}{\pi g_\mathrm{A}}\sum_{j=1}^{n-1}
+\frac{(\lambda_j-\lambda_{j-1})\widehat{I}_j}{r_{j-1}r_j}+
+\Big[1+\frac{(\lambda_n-\lambda_{n-1})hg_n}{\pi g_\mathrm{A}
+r_{n-1}r_n}\Big]\widehat{I}_n-\widehat{I}_{n+1} & = & \mathcal{I}_n(t)\\[10pt]
+\ds\sum_{j=1}^{n+1}\frac{(\lambda_j-\lambda_{j-1})
+\widehat{I}_j}{r_{j-1}r_j} & = & 0
+\end{array}
+\]
+} where $\mathcal{I}_k(t)=g_k(t)\,[\,\widehat{V}_k-E_k\,]$.
+\end{slide}
+
+%
+%
+\begin{slide}
+These equations have matrix formulation
+\[
+A\,\widehat{I}+GD\,\widehat{I}=\mathcal{I}
+\]
+where $G$ and $D$ are $(n+1)\times(n+1)$ matrices and
+\[
+\begin{array}{rcl}
+\widehat{I} & = & [\widehat{I}_1,\ \cdots\ ,
+\widehat{I}_{n+1}]^\mathrm{T}\\[10pt]
+\mathcal{I} & = & [\mathcal{I}_1,\ \cdots\ ,
+\mathcal{I}_n,0\,]^\mathrm{T}
+\end{array}
+\]
+The matrix $A$ is
+
+{
+\tiny
+\[
+\left[\begin{array}{ccccc}
+1 & \hskip-9pt-1 &  0 & \cdots & 0 \\[5pt]
+0 &  1 & \hskip-9pt-1 & \cdots & 0 \\[5pt]
+0 &  0 &  1 & \cdots & 0 \\[5pt]
+\cdots & \cdots & \cdots & \cdots & \cdots \\[5pt]
+0 & 0 & 0 & \cdots & \hskip-9pt-1 \\[5pt]
+\ds\frac{(\lambda_1-\lambda_0)}{r_0 r_1} &
+\ds\frac{(\lambda_2-\lambda_1)}{r_1 r_2} &
+\ds\frac{(\lambda_3-\lambda_2)}{r_2 r_3} &
+\cdots & \ds\frac{(\lambda_{n+1}-\lambda_n)}{r_n r_{n+1}}
+\end{array}\right]
+\]
+}
+with inverse
+
+{\tiny
+\[
+\left[\begin{array}{ccccccc}
+(1-\lambda_1)\ds\frac{r_\mathrm{P}}{r_1} & (1-\lambda_2)\ds\frac{r_\mathrm{P}}{r_2} &
+(1-\lambda_3)\ds\frac{r_\mathrm{P}}{r_3} &
+\cdots & \cdots & r_\mathrm{P}r_\mathrm{D} \\[15pt]
+ -\lambda_1\ds\frac{r_\mathrm{D}}{r_1} & (1-\lambda_2)\ds\frac{r_\mathrm{P}}{r_2} &
+(1-\lambda_3)\ds\frac{r_\mathrm{P}}{r_3} &
+\cdots & \cdots & r_\mathrm{P}r_\mathrm{D} \\[15pt]
+ -\lambda_1\ds\frac{r_\mathrm{D}}{r_1} &  -\lambda_2\ds\frac{r_\mathrm{D}}{r_2} &
+(1-\lambda_3)\ds\frac{r_\mathrm{P}}{r_3} &
+\cdots & \cdots & r_\mathrm{P}r_\mathrm{D} \\[15pt]
+\cdots & \cdots & \cdots & \cdots & \cdots & \cdots \\[15pt]
+-\lambda_1\ds\frac{r_\mathrm{D}}{r_1} & -\lambda_2\ds\frac{r_\mathrm{D}}{r_2} &
+-\lambda_3\ds\frac{r_\mathrm{D}}{r_3} & \cdots &
+(1-\lambda_n)\ds\frac{r_\mathrm{P}}{r_n} & r_\mathrm{P}r_\mathrm{D} \\[15pt]
+-\lambda_1\ds\frac{r_\mathrm{D}}{r_1} &
+-\lambda_2\ds\frac{r_\mathrm{D}}{r_2} &
+-\lambda_3\ds\frac{r_\mathrm{D}}{r_3} & \cdots &
+-\lambda_n\ds\frac{r_\mathrm{D}}{r_n} & r_\mathrm{P}r_\mathrm{D}
+\end{array}\right]\,.
+\]
+}
+\end{slide}
+
+%
+%
+\begin{slide}
+\textbf{Exogenous point current}:
+
+Here $G=0$ and therefore $\widehat{I}=A^{-1}\mathcal{I}$.
+In fact, only the first ($I_\mathrm{P}$) and last ($I_\mathrm{D}$)
+rows of $A^{-1}\mathcal{I}$ are needed.
+
+\textbf{General synaptic point current}:
+
+The first and last rows of $A^{-1}\mathcal{I}$ now give the
+preliminary estimates of $I_\mathrm{P}$ and $I_\mathrm{D}$ (which
+overestimate synaptic influence).
+
+Solve by rewriting $A\,\widehat{I}+GD\,\widehat{I}=\mathcal{I}$ as
+\[
+A\,\widehat{I}^{\;(m+1)}=\mathcal{I}-GD\,\widehat{I}^{\;(m)}
+\]
+and iterate starting with $\widehat{I}^{\;(1)}=A^{-1}\mathcal{I}$.
+
+Clearly the solution for $\widehat{I}$ has generic form
+\[
+\widehat{I} = \phi_1(t)V_\mathrm{P} + \phi_2(t)V_\mathrm{D}+\phi_3(t)
+\]
+where $\phi_1(t)$, $\phi_2(t)$ and $\phi_3(t)$ are functions of
+time only.
+\end{slide}
+
+%
+%
+\begin{slide}
+\begin{center}
+\textbf{III - Capacitative current}
+\end{center}
+The contribution of capacitative current is estimated by
+approximating the true membrane potential with
+$\widehat{V}(\lambda,t)$ to obtain
+\[
+\begin{array}{rcl}
+I^\mathrm{\,cap}_\mathrm{P} & = & 2\pi\, r_\mathrm{P} h
+\ds\Bigg[r_\mathrm{P}\frac{dV_\mathrm{P}}{dt}
+\int_0^1\frac{(1-\lambda)^2 c_\mathrm{M}(\lambda)\,d\lambda}
+{(1-\lambda)\,r_\mathrm{P}+\lambda\,r_\mathrm{D}}\\[25pt]
+&&\ds\quad+r_\mathrm{D}\frac{dV_\mathrm{D}}{dt}
+\int_0^1 \frac{\lambda(1-\lambda)c_\mathrm{M}(\lambda)\,d\lambda}
+{(1-\lambda)\,r_\mathrm{P}+\lambda\,r_\mathrm{D}}\Bigg],\\[25pt]
+-I^\mathrm{\,cap}_\mathrm{D} & = & 2\pi\, r_\mathrm{D} h
+\ds\Bigg[r_\mathrm{P}\frac{dV_\mathrm{P}}{dt}\int_0^1\,
+\frac{\lambda(1-\lambda)c_\mathrm{M}(\lambda)\,d\lambda}
+{(1-\lambda)\,r_\mathrm{P}+\lambda\,r_\mathrm{D}}\\[25pt]
+&&\quad\ds+r_\mathrm{D}\frac{dV_\mathrm{D}}{dt}\int_0^1\,\frac{\lambda^2
+c_\mathrm{M}(\lambda)\,d\lambda}
+{(1-\lambda)\,r_\mathrm{P}+\lambda\,r_\mathrm{D}}\,\Bigg]\,.
+\end{array}
+\]
+For a compartment with constant specific membrane capacitance in the
+shape of a uniform right circular cylinder,
+\[
+\begin{array}{rcl}
+I^\mathrm{\,cap}_\mathrm{P} & = & \ds\frac{C}{6}\,
+\Bigg[\,2\frac{dV_\mathrm{P}}{dt}+\frac{dV_\mathrm{D}}{dt}\,\Bigg]\\[25pt]
+-I^\mathrm{\,cap}_\mathrm{D} & = & \ds\frac{C}{6}\,
+\Bigg[\,\frac{dV_\mathrm{P}}{dt}+2\frac{dV_\mathrm{D}}{dt} \,\Bigg]
+\end{array}
+\]
+where $C$ is the total membrane capacitance of the segment.
+\end{slide}
+
+%
+%
+\begin{slide}
+\begin{center}
+\textbf{IV - Intrinsic voltage-dependent current}
+\end{center}
+IVDC is often described by the constitutive law
+$J=g_\alpha(V)(V-E_\alpha)$ where $V$ is the membrane potential,
+$E_\alpha$ is the reversal potential for species $\alpha$ and
+$g_\alpha(V)$ is a voltage-dependent membrane conductance.
+
+For a compartment with constant specific membrane capacitance in the
+shape of a uniform right circular cylinder,
+\[
+\begin{array}{rcl}
+I^\mathrm{\,ivdc}_\mathrm{P} & = & \ds\frac{\pi h r_\mathrm{P}}{6}
+\,\Bigg[\,(3g_\mathrm{P}+g_\mathrm{D})(V_\mathrm{P}-E)\\[10pt]
+&&\ds\qquad+\;(g_\mathrm{P}+g_\mathrm{D})(V_\mathrm{D}-E)\Bigg]\,,\\[20pt]
+-I^\mathrm{\,ivdc}_\mathrm{D} & = & \ds\frac{\pi h r_\mathrm{D}}{6}
+\,\Bigg[\,(g_\mathrm{P}+g_\mathrm{D})(V_\mathrm{P}-E)\\[10pt]
+&&\qquad+\;(g_\mathrm{P}+3g_\mathrm{D})(V_\mathrm{D}-E)\Bigg].
+\end{array}
+\]
+where $g_\mathrm{P}=g_\alpha(V_\mathrm{P})$ and $g_\mathrm{D}=g_\alpha(
+V_\mathrm{D})$.
+\end{slide}
+
+%
+%
+\begin{slide}
+\begin{center}
+\textbf{Construction of the model equations}
+\end{center}
+The model (differential) equations are constructed as follows:-
+
+\textbf{Equate} the expression for the axial current at the
+distal boundary of one segment to that of the axial current
+at the proximal boundary of the neighbouring segment.
+
+\textbf{Apply} appropriate boundary conditions on the axial
+current at the distal boundary of each terminal segment
+(\emph{e.g.} current is zero).
+
+\textbf{Assert} that the sum of the axial currents at the proximal
+boundary of segments meeting at a branch point balances the axial
+current at the distal boundary of the parent segment.
+
+\textbf{Apply} a suitable somal boundary condition.
+\end{slide}
+
+%
+%
+\begin{slide}
+The model differential equations are integrated using the
+trapezoidal and midpoint quadratures, as appropriate.
+
+The reorganised equations can usually be expressed in the form
+\[
+\begin{array}{ll}
+\ds A_\mathrm{L}(t_{k+1},t_k)\,V^{(k+1)} = &
+A_\mathrm{R}(t_{k+1},t_k)\,V^{(k)}\\[10pt]
+&\quad+B(t_{k+1},t_k)+O(h^3).
+\end{array}
+\]
+where $A_\mathrm{L}$ and $A_\mathrm{R}$ are sparse matrix with
+structural form that of the connectivity matrix of the neuron.
+\end{slide}
+
+%
+%
+\begin{slide}
+\begin{center}
+\textbf{Model Neuron}
+\end{center}
+The accuracy of the new and traditional compartmental models is
+compared using a branched neuron for which the continuum model has
+a closed form expression for the membrane potential in response to
+input.
+\[
+\begin{array}{c}
+$\begin{mfpic}[1.3][1.3]{0}{220}{-20}{220}
+\pen{2pt}
+\dotsize=1pt
+\dotspace=3pt
+\lines{(-5,100),(5,110),(15,100),(5,90),(-5 ,100)}
+% Upper dendrite
+% Root branch
+\dotted\lines{(5,115),(15,170),(20,170)}
+\lines{(20.0,160),(36.7,160)}
+\tlabel[tc](28.4,150){\textsf{(a)}}
+% Level 1
+\lines{(50.0,190),(88.3,190)}
+\tlabel[bc](75,200){\textsf{(c)}}
+\lines{(50.0,130),(91.0,130)}
+\tlabel[tc](75,120){\textsf{(d)}}
+\dotted\lines{(36.7,160),(45,200),(55,200)}
+\dotted\lines{(36.7,160),(45,120),(55,120)}
+% Level 2
+\lines{(100.0,210),(153.2,210)}
+\lines{(100.0,190),(153.2,190)}
+\lines{(100.0,170),(153.2,170)}
+\tlabel[cl](160,210){\textsf{(g)}}
+\tlabel[cl](160,190){\textsf{(g)}}
+\tlabel[cl](160,170){\textsf{(g)}}
+\dotted\lines{(88.3,190),(95,220),(105,220)}
+\dotted\lines{(88.3,190),(95,160),(105,160)}
+\lines{(100.0,140),(165.1,140)}
+\lines{(100.0,120),(165.1,120)}
+\dotted\lines{(91.0,130),(95,150),(105,150)}
+\dotted\lines{(91.0,130),(95,110),(105,110)}
+\tlabel[cl](175,140){\textsf{(h)}}
+\tlabel[cl](175,120){\textsf{(h)}}
+%
+% Lower dendrite
+% Root branch
+\lines{(20.0,40),(58.0,40)}
+\dotted\lines{(5,85),(15,30),(25,30)}
+\tlabel[bc](39,50){\textsf{(b)}}
+% Level 1
+\lines{(70.0,70),(133.1,70)}
+\lines{(70.0,10),(127.1,10)}
+\dotted\lines{(58,40),(66.5,80),(76.5,80)}
+\dotted\lines{(58,40),(66.5,0),(76.5,0)}
+\tlabel[bc](105,80){\textsf{(e)}}
+\tlabel[tc](105,0){\textsf{(f)}}
+% Level 2
+\lines{(145,80),(195.1,80)}
+\lines{(145,60),(195.1,60)}
+\dotted\lines{(133.1,70),(140,90),(150,90)}
+\dotted\lines{(133.1,70),(140,50),(150,50)}
+\tlabel[cl](205,80){\textsf{(i)}}
+\tlabel[cl](205,60){\textsf{(i)}}
+\lines{(140,30),(179.6,30)}
+\lines{(140,10),(179.6,10)}
+\lines{(140,-10),(179.6,-10)}
+\dotted\lines{(127.1,10),(134,40),(144,40)}
+\dotted\lines{(127.1,10),(134,-20),(144,-20)}
+\tlabel[cl](190,30){\textsf{(j)}}
+\tlabel[cl](190,10){\textsf{(j)}}
+\tlabel[cl](190,-10){\textsf{(j)}}
+\end{mfpic}$
+\end{array}
+\]
+The diameters and lengths of the dendritic sections are organised
+so that $l/\sqrt{r}$ is fixed for all children of each branch point.
+\end{slide}
+
+%
+%
+\begin{slide}
+It can be proved that the solution of any well-configured
+compartmental model of a neuron converges to the solution of the
+continuum model of that neuron in the limit as the maximum segment
+size tends to zero.
+
+The accuracy of the new compartmental model will be compared with
+that of a traditional compartmental model by measuring the
+closeness with which the solutions of both models estimate the
+exact solution for the somal potential of the continuum model.
+\end{slide}
+
+%
+%
+\begin{slide}
+\centerline{\textbf{Simulation exercises}}
+
+\begin{itemize}
+\item 75 exogenous point inputs each of strength
+$2\times10^{-5}\,\mu$A were distributed randomly over the branched
+model neuron.
+
+\item The difference between the exact somal potential and its
+value computed by each compartmental model was determined at one
+millisecond intervals for the first 10 milliseconds of the
+simulation.
+
+\item  Each difference was divided by the (known) exact potential
+of the soma at that time to get relative errors for that model.
+
+\item For a fixed number of compartments, each simulation exercise
+consisted of 2000 repetitions of the procedure for each model (for
+identical input).
+\end{itemize}
+\end{slide}
+
+%
+%
+\begin{slide}
+\begin{center}
+\textbf{Results}
+\end{center}
+
+\vfil
+
+\centerline{\begin{mfpic}[84][36]{0.4}{3}{-7.2}{1.3}
+\headlen7pt
+\pen{1pt}
+\dotspace=4pt
+\dotsize=1.5pt
+%
+% x-axis
+\tlabel[br](3.0,0.7){\tiny\textsf{$\log_{10}(\mbox{No. Compartments})$}}
+\lines{(1.0,0),(3.0,0)}
+\lines{(1.5,0),(1.5,-0.2)}
+\lines{(2.0,0),(2.0,-0.2)}
+\lines{(2.5,0),(2.5,-0.2)}
+\lines{(3.0,0),(3.0,-0.2)}
+\tlabel[bc](1.0,0.3){\tiny\textsf{1.0}}
+\tlabel[bc](1.5,0.3){\tiny\textsf{1.5}}
+\tlabel[bc](2.0,0.3){\tiny\textsf{2.0}}
+\tlabel[bc](2.5,0.3){\tiny\textsf{2.5}}
+\tlabel[bc](3.0,0.3){\tiny\textsf{3.0}}
+% y-axis
+\tlabel[bc](0.5,-6){\rotatebox{90}{\tiny\textsf{$\log_{10}(\mbox{Mean
+relative error})$}}} \lines{(1,0),(1,-7)}
+\lines{(1.0,-1.0),(1.05,-1.0)}
+\lines{(1.0,-2.0),(1.05,-2.0)}
+\lines{(1.0,-3.0),(1.05,-3.0)}
+\lines{(1.0,-4.0),(1.05,-4.0)}
+\lines{(1.0,-5.0),(1.05,-5.0)}
+\lines{(1.0,-6.0),(1.05,-6.0)}
+\lines{(1.0,-7.0),(1.05,-7.0)}
+\tlabel[cr](0.95,-0.0){\tiny\textsf{0.0}}
+\tlabel[cr](0.95,-1.0){\tiny\textsf{-1.0}}
+\tlabel[cr](0.95,-2.0){\tiny\textsf{-2.0}}
+\tlabel[cr](0.95,-3.0){\tiny\textsf{-3.0}}
+\tlabel[cr](0.95,-4.0){\tiny\textsf{-4.0}}
+\tlabel[cr](0.95,-5.0){\tiny\textsf{-5.0}}
+\tlabel[cr](0.95,-6.0){\tiny\textsf{-6.0}}
+\tlabel[cr](0.95,-7.0){\tiny\textsf{-7.0}}
+%
+\lines{(2,-1),(2.3,-1)}
+\tlabel[cl](2.4,-1){\tiny\textsf{New Model}}
+\dashed\lines{(2,-1.8),(2.3,-1.8)}
+\tlabel[cl](2.4,-1.8){\tiny\textsf{NEURON}}
+%
+% Mean values at t=10
+\dashed\lines{(1.2,-2.494),(3.0,-4.60)}
+\lines{(1.2,-2.686),(3.0,-6.466)}
+\end{mfpic}}
+
+\vfil
+
+\centerline{\begin{mfpic}[84][36]{0.4}{3}{-7.2}{1.3}
+\headlen7pt
+\pen{1pt}
+\dotspace=4pt
+\dotsize=1.5pt
+%
+% x-axis
+\tlabel[br](3.0,0.7){\tiny\textsf{$\log_{10}(\mbox{No Compartments})$}}
+\lines{(1.0,0),(3.0,0)}
+\lines{(1.5,0),(1.5,-0.2)}
+\lines{(2.0,0),(2.0,-0.2)}
+\lines{(2.5,0),(2.5,-0.2)}
+\lines{(3.0,0),(3.0,-0.2)}
+\tlabel[bc](1.0,0.3){\tiny\textsf{1.0}}
+\tlabel[bc](1.5,0.3){\tiny\textsf{1.5}}
+\tlabel[bc](2.0,0.3){\tiny\textsf{2.0}}
+\tlabel[bc](2.5,0.3){\tiny\textsf{2.5}}
+\tlabel[bc](3.0,0.3){\tiny\textsf{3.0}}
+% y-axis
+\tlabel[bc](0.5,-6){\rotatebox{90}{\tiny\textsf\tiny{$\log_{10}(\mbox{Standard
+Dev.})$}}} \lines{(1,0),(1,-7)}
+\lines{(1.0,-1.0),(1.05,-1.0)}
+\lines{(1.0,-2.0),(1.05,-2.0)}
+\lines{(1.0,-3.0),(1.05,-3.0)}
+\lines{(1.0,-4.0),(1.05,-4.0)}
+\lines{(1.0,-5.0),(1.05,-5.0)}
+\lines{(1.0,-6.0),(1.05,-6.0)}
+\lines{(1.0,-7.0),(1.05,-7.0)}
+\tlabel[cr](0.95,-0.0){\tiny\textsf{0.0}}
+\tlabel[cr](0.95,-1.0){\tiny\textsf{-1.0}}
+\tlabel[cr](0.95,-2.0){\tiny\textsf{-2.0}}
+\tlabel[cr](0.95,-3.0){\tiny\textsf{-3.0}}
+\tlabel[cr](0.95,-4.0){\tiny\textsf{-4.0}}
+\tlabel[cr](0.95,-5.0){\tiny\textsf{-5.0}}
+\tlabel[cr](0.95,-6.0){\tiny\textsf{-6.0}}
+\tlabel[cr](0.95,-7.0){\tiny\textsf{-7.0}}
+%
+\lines{(2,-1),(2.3,-1)}
+\tlabel[cl](2.4,-1){\tiny\textsf{New Model}}
+\dashed\lines{(2,-1.8),(2.3,-1.8)}
+\tlabel[cl](2.4,-1.8){\tiny\textsf{NEURON}}
+%
+% Standard deviations at t=10
+\dashed\lines{(1.2,-2.664),(3.0,-4.680)}
+\lines{(1.2,-3.169),(3.0,-7.021)}
+\end{mfpic}}
+\vfill
+\end{slide}
+
+%
+%
+\begin{slide}
+\centerline{\textbf{Concluding remarks}}
+\begin{itemize}
+\item At each level of discretisation the new compartmental model
+always performs better that the traditional model.
+
+\item This improvement in accuracy is achieved without a
+comparable increase in computational effort. In the simulation
+exercises described here, there was no discernible difference in
+computational effort.
+
+\item This difference in accuracy can be attributed in large part
+to the fact that the new model is more sensitive to the location
+of point input than the traditional model.
+
+\end{itemize}
+
+\end{slide}
+
+%
+%
+\begin{slide}
+\centerline{\textbf{Regression lines}}
+
+\textbf{Mean regressions}
+
+NEURON ($R^2=97.4\%$ (adj))
+\[
+\log_{10}(\mbox{MRE})=-1.09-1.17\log_{10}(\mbox{Nodes}).
+\]
+
+New Model ($R^2=99.5\%$ (adj))
+\[
+\log_{10}(\mbox{MRE})=-0.17-2.10\log_{10}(\mbox{Nodes}).
+\]
+
+\textbf{Standard deviations}
+
+NEURON ($R^2=98.7\%$ (adj))
+\[
+\log_{10}(\mbox{SD})=-1.32-1.12\log_{10}(\mbox{Nodes}).
+\]
+
+New Model ($R^2=99.4\%$ (adj))
+\[
+\log_{10}(\mbox{SD})=-0.60-2.14\log_{10}(\mbox{Nodes})
+\]
+\end{slide}
+\closegraphsfile
+\end{document}
+
+%
+%
+\begin{slide}
+\begin{center}
+\textbf{Some additional comments}
+\end{center}
+Compartmental models of a dendrite begin with a subdivision of its
+sections into contiguous segments which, in turn, define the
+compartments of the mathematical model.
+
+\vfil
+
+Although the traditional and new compartmental models assign
+membrane potentials throughout a dendrite in different ways, both
+approaches use identical numbers of unknown potentials.
+
+\vfil
+
+The traditional and new compartmental models both involve nearest
+neighbour interactions, and give rise to families of differential
+equations that are structurally identical.
+
+\vfil
+
+The numerical solution of the ODE's requires the solution of a
+sparse matrix system in which the controlling matrix is time
+dependent. The equations can be efficiently solved by an iterative
+procedures.
+\vfill
+\end{slide}
+
+%
+%
+\begin{slide}
+\begin{center}
+\textbf{Analytical solution}
+\end{center}
+The deviation $V(t)$ of the somal potential from its resting value
+as a result of distributed current $I(x,t)$ on a uniform
+cylindrical dendrite of radius $a$ and length $l$ attached to a
+soma is
+\[
+V(t)=e^{-t/\tau}\,\Big[\,\phi_0(t)+\sum_\beta\;\phi_\beta(t)
+e^{-\beta^2 t/L^2\tau}\,\cos\beta\,\Big]
+\]
+where, in the usual notation,
+\[
+L=l\,\sqrt{\ds\frac{2 g_\mathrm{M}}{a g_\mathrm{A}}}
+\]
+and $\tau$ is the time constant of the somal and dendritic
+membranes (assumed identical). The summation is taken over all the
+non-negative solutions $\beta$ of the transcendental equation
+$\tan\beta+\gamma\beta=0$ where
+\[
+\gamma=\frac{\mbox{Somal membrane leakage conductance}}
+{\mbox{Dendritic membrane leakage conductance}}
+\]
+
+\pagebreak[4]
+
+In the special case of a neuron, initially at its resting
+potential, and stimulated by point currents $I_k(t)$ at distance
+$x_k$ from the soma of the uniform cylinder ($k=1,\cdots,n$), the
+coefficient functions $\phi_0$ and $\phi_\beta$ satisfy
+\[
+\begin{array}{rcl}
+\ds\frac{d\phi_0}{dt} & = &\ds -\frac{e^{t/\tau}}
+{C_\mathrm{D}+C_\mathrm{S}}\,\Bigg[\,
+I_\mathrm{S}(t)+\sum_{k=1}^n\;I_k(t)\,\Bigg]\,,\\[25pt]
+\ds\frac{d\phi_\beta}{dt} & = &
+\ds-\frac{2e^{(1+\beta^2/L^2)t/\tau}}
+{C_\mathrm{D}+C_\mathrm{S}\cos^2\beta}\,\times\\[20pt]
+&&\hskip-20pt\ds\Bigg[\, \sum_{k=1}^n
+\;I_k(t)\cos\beta\big(1-x_k/l\big)
++\cos\beta\,I_\mathrm{S}(t)\,\Bigg]\,.
+\end{array}
+\]
+The parameters $C_\mathrm{D}$ and $C_\mathrm{S}$ denote
+respectively the total membrane capacitances of the soma and
+dendrite, and $I_\mathrm{S}(t)$ is the current supplied to the
+soma.
+\end{slide}
+
+%
+%
+\begin{slide}
+\begin{center}
+\textbf{Use of the analytical solution}
+\end{center}
+
+New and traditional compartmental models (the latter represented
+by the NEURON simulator) were compared by estimating the accuracy
+with which both models computed the time course of the potential
+at the soma of the model neuron under the action of large scale
+exogenous input on its dendrites. Facts.
+
+\textbf{The connected cable} of the model neuron is equivalent to
+a cylinder (Rall cylinder).
+
+\textbf{The effect} of any configuration of exogenous input at the
+soma of the model neuron (assumed to be a sphere of diameter
+$40\,\mu$m) is exactly representable at the soma of the equivalent
+cylinder by a suitable configuration of exogenous input on that
+cylinder.
+
+\textbf{Each input} on the model neuron is mapped to an input on
+the equivalent cylinder of identical strength and lying at the
+same electrotonic distance from the soma of the equivalent
+cylinder as the original input lies from the soma of the model
+neuron. \vfill
+\end{slide}

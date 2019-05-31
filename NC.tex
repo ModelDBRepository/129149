@@ -1,0 +1,174 @@
+\documentclass[11pt]{article}
+\usepackage{amsfonts,amsbsy, amssymb, graphicx}
+
+% Tree-saver
+\setlength{\textwidth}{8.276in}
+\setlength{\textheight}{11.705in}
+
+%Allow 1in margin on each side and nothing else
+\addtolength{\textwidth}{-2in}
+\addtolength{\textheight}{-2in}
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\topmargin}{0pt}
+\addtolength{\topmargin}{-\headheight}
+\addtolength{\topmargin}{-\headsep}
+
+\input mfpic.tex
+
+\renewcommand{\baselinestretch}{1.3}
+\renewcommand{\mathrm}[1]{{\mbox{\tiny #1}}}
+
+\newcommand{\dfrac}[2]{\displaystyle{\frac{#1}{#2}}}
+\newcommand{\ds}[1]{\displaystyle#1}
+\newcommand{\bs}[0]{\boldsymbol}
+
+\parindent=0pt
+\parskip=5pt
+
+\title{\LARGE\bf Increased computational accuracy in
+multi-compartmental cable models by a novel approach for precise
+point process localization}
+\author{\Large\bf A.E. Lindsay\\
+Department of Mathematics, University of Edinburgh,\\
+Edinburgh EH9 3JZ \\[10pt]
+\Large\bf K.A. Lindsay \\
+Department of Mathematics, University of Glasgow,\\
+Glasgow G12 8QQ \\[10pt]
+\Large\bf J.R. Rosenberg$^\dagger$\\
+Division of Neuroscience and Biomedical Systems,\\
+University of Glasgow, Glasgow G12 8QQ}
+
+\makeatletter
+\def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\def\@biblabel#1{ }
+%\def\@biblabel#1{#1.}
+\makeatother
+
+\begin{document}
+
+\opengraphsfile{mfpic}
+
+\maketitle
+
+\thispagestyle{empty}
+
+\vfil
+
+\begin{tabular}{ll}
+$^\dagger$  & \textbf{Corresponding author} \\[5pt]
+            & J.R. Rosenberg \\
+            & West Medical Building \\
+            & Division of Neuroscience and Biomedical Systems \\
+            & University of Glasgow \\
+            & Glasgow G12 8QQ \\
+            & Scotland UK \\[5pt]
+            & Tel\quad(+44) 141 330 6589 \\
+            & Fax\quad(+44) 141 330 2923 \\
+            & Email \verb$j.rosenberg@bio.gla.ac.uk$\\[10pt]
+            & \textbf{Keywords} \\[5pt]
+            & Compartmental models, Dendrites, Cable Equation
+\end{tabular}
+
+\vfil
+
+\pagebreak[4]
+
+\begin{center}
+\begin{tabular}{p{5.2in}}
+\multicolumn{1}{c}{\textbf{Abstract}}\\[10pt]
+
+Compartmental models of dendrites are the most widely used tool
+for investigating their electrical behaviour. Traditional models
+assign a single potential to a compartment. This potential is
+associated with the membrane potential at the centre of the
+segment represented by the compartment. All input to that segment,
+independent of its location on the segment, is assumed to act at
+the centre of the segment with the potential of the compartment.
+By contrast, the compartmental model introduced in this article
+assigns a potential to each end of a segment, and takes into
+account the location of input to a segment on the model solution
+by partitioning the effect of this input between the axial
+currents at the proximal and distal boundaries of segments. For a
+given neuron, the new and traditional approaches to compartmental
+modelling use the same number of locations at which the membrane
+potential is to be determined, and lead to ordinary differential
+equations that are structurally identical. However, the solution
+achieved by the new approach gives an order of magnitude better
+accuracy and precision than that achieved by the latter in the
+presence of point process input.
+\end{tabular}
+\end{center}
+
+\pagebreak[4]
+
+\input NC1.tex
+\input NC2.tex
+\input NC3.tex
+\input NC4.tex
+\input NC5.tex
+\input NC6.tex
+
+\closegraphsfile
+
+\end{document}
+
+Compartmental models have become important tools for investigating
+the behaviour of neurons to the extent that a number of packages
+exist to facilitate their implementation (\emph{e.g.} Hines and
+Carnevale \cite{Hines97}; Bower and Beeman \cite{Bower97}). Their
+use is motivated by the desire to reduce the mathematical
+complexity inherent in a continuum description of a neuron. This
+simplification is achieved by replacing the partial differential
+equations defining the continuum description of a neuron by a
+compartmental model of the neuron in which its behaviour is
+described by the solution of a set of ordinary differential
+equations (Rall, \cite{Rall64}).
+
+The traditional approach to compartmental modelling, introduced by
+Rall (\cite{Rall64}), assumes that a ``lump of membrane becomes a
+compartment; the rate constants governing exchange between
+compartments are proportional to the series conductance between
+them". Rall's definition of a compartmental model thus
+distinguishes between the input acting on a localised region of
+neuronal membrane (the compartment) and the resistive properties
+of the axoplasm which determines the conductances linking
+compartments in his model. Other authors (\emph{e.g.} Segev and
+Burke, \cite{Segev98}) treat the neuronal segment, including the
+membrane and axoplasm, as the compartment. Both definitions,
+however, associate a single potential with a compartment, and
+assume that all input falling on the segment that is represented
+by the compartment will act with this potential. For this reason
+these compartments are iso-potential, and indeed Segev and Burke
+(\cite{Segev98}) state this explicitly. Of course, iso-potential
+compartments are a feature of the model and \emph{should not be
+confused} with the true potential distribution within segments.
+
+Compartmental models in which a compartment has a single potential
+are aesthetically unsatisfactory since a compartment of this type
+cannot act as the fundamental unit in the construction of a model
+dendrite for two reasons. First, compartments defined by a single
+potential must coexist in pairs in order to support axial current
+flow, and second, half compartments are required to represent
+branch points and dendritic terminals (\emph{e.g.}, Segev and
+Burke, \cite{Segev98}). In the new approach to compartmental
+modelling presented in this article, two potentials are assigned
+to each compartment --- one to represent the membrane potential at
+the proximal boundary of the segment and the other to represent
+the membrane potential at its distal boundary. The new compartment
+can exist as an independent entity without the need to introduce
+half compartments, and can therefore function as the basic
+building block of a multi-compartmental neuronal model. The new
+compartments more accurately describe the influence of point
+current and synaptic input to the segments they represent than
+those of a traditional compartmental model.
+
+The accuracy of the new and traditional approaches to
+compartmental modelling is first assessed by calculating the error
+in the somal potential of a test neuron when each approach is used
+to calculate this potential ten milliseconds after the initiation
+of large scale point current input. In a second comparison, the
+accuracy of the two approaches is assessed by comparing the
+statistics of the spike train output generated by each type of
+compartmental model of the test neuron when subjected to large
+scale synaptic input.

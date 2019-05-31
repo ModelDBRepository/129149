@@ -1,0 +1,365 @@
+\section{Results}
+The test procedure by which the numerical and analytical solutions
+of the model equations are compared will involve various levels of
+discretisation of the branched dendrite.
+
+The comparison of the behaviour of the traditional compartmental
+model, represented by the NEURON simulator (Hines and Carnevale,
+\cite{Hines97}), and the generalised compartmental model is based
+on simulations of large scale synaptic activity across the model
+dendrite illustrated in Figure \ref{TestNeuron}. Each simulation begins
+by distributing nodes across the test dendrite such that each
+dendritic section begins and ends on a node, and that within each
+dendritic section the nodes are uniformly spaced. For a given
+discretisation, 2000 simulations of the traditional and
+generalised models under identical conditions are carried out.
+Each simulation starts with the dendrite at rest and places a
+single exogenous input at a randomly chosen location on the
+dendrite. The potential at the soma is computed by solving the
+differential equations numerically for each model, and the
+magnitude of the relative error in this potential is recorded at
+$1$ms intervals up to and including $10$ms after the exogenous
+current is applied (see the Appendix for tables of complete
+results). The calculation of the relative error is made possible
+by the fact that an analytical solution is available for all
+distributions of exogenous input on the branched dendrite.
+
+At large (approximate) internodal distances, the discretisation of
+each section of the test dendrite may be very different, but as
+the maximum internodal distance decreases, the variation in
+internodal distances across different dendritic sections
+approaches zero. For example, the number of nodes used in the
+simulations here will vary from 21 ($166.8\mu\mbox{m}\le h \le
+501.2\mu$m) to 992 ($h\approx7.7\mu$m) where $h$ is the internodal
+distance. Since the computational effort involved in the numerical
+problem is entirely determined by the number of nodes appearing in
+the numerical scheme, under all circumstances the same
+discretisation is used in the numerical solution of both models.
+Moreover, a temporal discretisation of $dt=0.001$ms was used in
+all integrations to ensure that errors due to integration were
+insignificant compared with those introduced by the spatial
+discretisation process.
+
+The results illustrate separately the effect of the two major
+assumptions made in the construction of the traditional
+compartmental model and relaxed in the construction of the
+generalised compartmental model. Recall that in the traditional
+model all compartments are assumed to be iso-potential and all
+input is assumed to act at the designated node of the compartment.
+We use the term \emph{modified compartmental model} to denote a
+compartmental model in which the compartments are iso-potential
+but the input is distributed in accordance with the scheme set out
+for the generalised model. In practice, this means that exogenous
+input is partitioned between the nodes either side of its point of
+application. The fraction falling on each of these nodes will
+depend on the geometry of the dendritic section and the location
+of the point of application of the input. The modified
+compartmental model in which the iso-potential assumption remains
+in place allows one to investigate the effect that placement alone
+has on the accuracy the numerical solution. The move to the
+generalised model now relaxes the iso-potential assumption of the
+modified model and allows the combined effect of both
+generalisations to come into play.
+
+Figure \ref{mean} shows the percentage mean value of the modulus
+of the relative error of the membrane potential of the soma at
+times 2ms and 8ms after the application of a sustained stimulus at
+a randomly chosen location on the dendrite. For a given level of
+discretisation, identical for each compartmental model, this mean
+value is based on 2000 simulations of the effect of the stimulus
+which is again placed randomly, but identically, in each model.
+Figure \ref{mean} illustrates that for any level of discretisation
+the error in the NEURON simulator (Fig. \ref{mean} dotted line) is
+significantly greater than that in either the modified model (Fig.
+\ref{mean} dashed line) or generalised model (Fig. \ref{mean}
+solid line). For example, to achieve a 1\% mean error, the NEURON
+simulator needs approximately 400 nodes, the modified model 65
+nodes and the generalised model 50 nodes. In this example, it is
+the accurate placement of input that has greatest impact on
+reducing the error, although the benefit obtained by relaxing the
+iso-potential assumption is also significant.
+
+\begin{figure}[!h]
+\centering
+\begin{tabular}{cc}
+\begin{mfpic}[0.4][60]{-30}{400}{-0.2}{2.3}
+\headlen7pt
+\pen{1pt}
+\dotspace=4pt
+\dotsize=1.5pt
+%
+% x-axis
+\lines{(0,0),(400,0)}
+\lines{(0,0),(0,2)}
+\lines{(0,0),(0,-0.1)}
+\lines{(100,0),(100,-0.1)}
+\lines{(200,0),(200,-0.1)}
+\lines{(300,0),(300,-0.1)}
+\lines{(400,0),(400,-0.1)}
+\tlabel[tc](0,-0.2){\textsf{0}}
+\tlabel[tc](100,-0.2){\textsf{100}}
+\tlabel[tc](200,-0.2){\textsf{200}}
+\tlabel[tc](300,-0.2){\textsf{300}}
+\tlabel[tc](400,-0.2){\textsf{400}}
+%
+% y-axis
+\lines{(0,0.0),(-10,0.0)}
+\lines{(0,0.5),(-10,0.5)}
+\lines{(0,1.0),(-10,1.0)}
+\lines{(0,1.5),(-10,1.5)}
+\lines{(0,2.0),(-10,2.0)}
+\tlabel[cr](-15,0.0){\textsf{0.0}}
+\tlabel[cr](-15,0.5){\textsf{0.5}}
+\tlabel[cr](-15,1.0){\textsf{1.0}}
+\tlabel[cr](-15,1.5){\textsf{1.5}}
+\tlabel[cr](-15,2.0){\textsf{2.0}}
+\tlabel[cr](350,1.75){\textsf{t = 2ms}}
+%
+% Gen Mean error at t=2
+\curve{ ( 34,1.807),( 43,1.114),( 54,0.632),( 61,0.514),(
+75,0.338), ( 82,0.269),(
+93,0.211),(119,0.132),(142,0.091),(169,0.060),
+(193,0.050),(244,0.029),(293,0.021),(391,0.011)}
+%
+% Mod Mean error at t=2
+\dashed\curve{ ( 43, 2.226),( 54, 1.258),( 61, 1.049),( 75,
+0.680),( 82, 0.550), ( 93, 0.447),(119, 0.273),(142, 0.181),(169,
+0.128),(193, 0.101), (244, 0.063),(293, 0.043),(391, 0.023)}
+%
+% Old Mean error at t=2
+\dotted\curve{ (193, 2.072),(244, 1.657),(293, 1.397),(391,
+1.005)}
+\end{mfpic} &\qquad
+\begin{mfpic}[0.4][60]{-30}{400}{-0.2}{2.3}
+\headlen7pt
+\pen{1pt}
+\dotspace=4pt
+\dotsize=1.5pt
+%
+% x-axis
+\lines{(0,0),(400,0)} \lines{(0,0),(0,2)} \lines{(0,0),(0,-0.1)}
+\lines{(100,0),(100,-0.1)} \lines{(200,0),(200,-0.1)}
+\lines{(300,0),(300,-0.1)} \lines{(400,0),(400,-0.1)}
+\tlabel[tc](0,-0.2){\textsf{0}}
+\tlabel[tc](100,-0.2){\textsf{100}}
+\tlabel[tc](200,-0.2){\textsf{200}}
+\tlabel[tc](300,-0.2){\textsf{300}}
+\tlabel[tc](400,-0.2){\textsf{400}}
+%
+% y-axis
+\lines{(0,0.0),(-10,0.0)} \lines{(0,0.5),(-10,0.5)}
+\lines{(0,1.0),(-10,1.0)} \lines{(0,1.5),(-10,1.5)}
+\lines{(0,2.0),(-10,2.0)} \tlabel[cr](-15,0.0){\textsf{0.0}}
+\tlabel[cr](-15,0.5){\textsf{0.5}}
+\tlabel[cr](-15,1.0){\textsf{1.0}}
+\tlabel[cr](-15,1.5){\textsf{1.5}}
+\tlabel[cr](-15,2.0){\textsf{2.0}}
+\tlabel[cr](350,1.75){\textsf{t = 8ms}}
+%
+% Gen Mean error at t=8
+\curve{ ( 21,1.732),( 34,0.412),( 43,0.252),( 54,0.140),(
+61,0.119), ( 75,0.077),( 82,0.062),(
+93,0.050),(119,0.031),(142,0.020),
+(169,0.014),(193,0.011),(244,0.007),(293,0.004),(391,0.002)}
+
+%
+% Mod Mean error at t=8
+\dashed\curve{ ( 21,1.941),( 34,0.477),( 43,0.294),( 54,0.163),(
+61,0.142), ( 75,0.090),( 82,0.073),(
+93,0.059),(119,0.037),(142,0.024),
+(169,0.016),(193,0.013),(244,0.008),(293,0.005),(391,0.003)}
+%
+% Old Mean error at t=8
+\dotted\curve{ ( 54,2.155),( 61,1.929),( 75,1.552),( 82,1.404),(
+93,1.262),
+(119,1.000),(142,0.780),(169,0.665),(193,0.586),(244,0.469),
+(293,0.396),(391,0.286)}
+\end{mfpic}
+\end{tabular}
+\parbox{6in}{\caption{\label{mean} The percentage mean value of
+the modulus of the relative error of the membrane potential of the
+soma at 2ms and 8ms after the application of a randomly placed
+sustained stimulus is plotted against the number of nodes used to
+discretise the dendrite for the NEURON simulator (dotted line),
+the modified compartmental model (dashed line) and the generalised
+compartmental model (solid line).}}
+\end{figure}
+
+The conclusion from Figure \ref{mean} is that the generalised
+compartmental model performs better than both the modified and
+traditional models at all levels of discretisation. Therefore the
+ratio of the errors in the modified and NEURON simulator models to
+the error in the generalised model is a sensible measure of
+relative performance. The Common logarithm of this ratio is most
+useful for representational purposes as it will always be positive
+since the generalised model is known \emph{a priori} to perform
+better than either of the other two models. Figure \ref{sdev}
+indicates that this ratio is relatively insensitive to time for
+all levels of discretisation. This observation suggests that
+although the relative error in all models decreases with time
+(Figure \ref{mean}), the rate at which this occurs is effectively
+the same for all three models. More importantly, Figure \ref{sdev}
+also shows that the accuracy of the NEURON simulator (dashed line)
+relative to that of the generalised model deteriorates as spatial
+resolution is refined. The inference one would draw from this
+observation is that the NEURON simulator and the generalised
+compartmental model have different orders of numerical accuracy
+with respect to spatial discretisation. On the other hand, the
+modified model (solid line) and the generalised model appear to
+enjoy the same level of numerical accuracy with respect to spatial
+discretisation.
+
+An examination of the standard deviations of the errors (not
+shown) in the three models leads to a similar set of conclusions
+as those described for the relative accuracy of the different
+models. The standard deviation of the error in the generalised
+model is again the smallest of the three models, and so the Common
+logarithm of the ratios of the standard deviations in the modified
+and NEURON simulator models to that in the generalised model is a
+good measure. The Common logarithm of the two ratios is again
+largely independent of time for both models. With respect to
+spatial discretisation, this ratio is independent of the level of
+spatial disctetisation  for all practical purposes. On the other
+hand, the same ratio for the NEURON simulator grows in a similar
+way to that shown in Figure \ref{mean} (dashed lines) as the
+spatial discretisation is refined. So not only is the accuracy
+achieved by the NEURON simulator significantly less than that of
+the generalised model, it is also more erratic and therefore less
+precise.
+
+\begin{figure}[!h]
+\[
+\begin{array}{c}
+$\begin{mfpic}[15][60]{-1}{12}{-0.3}{2.7}
+\headlen7pt
+\pen{1pt}
+\dotspace=4pt
+\dotsize=1.5pt
+%
+% x-axis
+\lines{(0,0),(0,2.5)}
+\lines{(0,0),(10,0)}
+\lines{(0,0),(0,-0.1)}
+\lines{(2,0),(2,-0.1)}
+\lines{(4,0),(4,-0.1)}
+\lines{(6,0),(6,-0.1)}
+\lines{(8,0),(8,-0.1)}
+\lines{(10,0),(10,-0.1)}
+\tlabel[tc](0,-0.2){\textsf{0.0}}
+\tlabel[tc](2,-0.2){\textsf{2.0}}
+\tlabel[tc](4,-0.2){\textsf{4.0}}
+\tlabel[tc](6,-0.2){\textsf{6.0}}
+\tlabel[tc](8,-0.2){\textsf{8.0}}
+\tlabel[tc](10,-0.2){\textsf{10.0}}
+%
+% y-axis
+\lines{(0,0.0),(-0.3,0.0)}
+\lines{(0,0.5),(-0.3,0.5)}
+\lines{(0,1.0),(-0.3,1.0)}
+\lines{(0,1.5),(-0.3,1.5)}
+\lines{(0,2.0),(-0.3,2.0)}
+\lines{(0,2.5),(-0.3,2.5)}
+\tlabel[cr](-0.5,0.0){\textsf{0.0}}
+\tlabel[cr](-0.5,0.5){\textsf{0.5}}
+\tlabel[cr](-0.5,1.0){\textsf{1.0}}
+\tlabel[cr](-0.5,1.5){\textsf{1.5}}
+\tlabel[cr](-0.5,2.0){\textsf{2.0}}
+\tlabel[cr](-0.5,2.5){\textsf{2.5}}
+%
+% Mod Model at 21 nodes
+\lines{ ( 1.0,0.319),( 2.0,0.214),( 3.0,0.140),( 4.0,0.098),
+        ( 5.0,0.075),( 6.0,0.061),( 7.0,0.054),( 8.0,0.049),
+        ( 9.0,0.047),(10.0,0.045)}
+\tlabel[cr](0.8,0.319){\textsf{21}}
+%
+% Old Model at 21 nodes
+\dashed\lines{ ( 1.0,0.285),( 2.0,0.430),( 3.0,0.492),( 4.0,0.523),
+               ( 5.0,0.537),( 6.0,0.544),( 7.0,0.549),( 8.0,0.551),
+               ( 9.0,0.554),(10.0,0.555)}
+\tlabel[cl](10.5,0.555){\textsf{21}}
+%
+% Mod Model at 54 nodes
+\lines{ ( 1.0,0.487),( 2.0,0.299),( 3.0,0.188),( 4.0,0.128),(
+5.0,0.097), ( 6.0,0.080),( 7.0,0.071),( 8.0,0.067),(
+9.0,0.064),(10.0,0.064)}
+%
+% Old Model at 54 nodes
+\dashed\lines{ ( 1.0,0.898),( 2.0,1.071),( 3.0,1.127),( 4.0,1.151),
+               ( 5.0,1.165),( 6.0,1.175),( 7.0,1.181),( 8.0,1.186),
+               ( 9.0,1.190),(10.0,1.191)}
+\tlabel[cl](10.5,1.191){\textsf{54}}
+%
+% Mod Model at 119 nodes
+\lines{ ( 1.0,0.529),( 2.0,0.315),( 3.0,0.195),( 4.0,0.136),
+        ( 5.0,0.104),( 6.0,0.087),( 7.0,0.078),( 8.0,0.072),
+        ( 9.0,0.069),(10.0,0.069)}
+%
+% Old Model at 119 nodes
+\dashed\lines{ ( 1.0,1.268),( 2.0,1.422),( 3.0,1.459),( 4.0,1.477),
+               ( 5.0,1.487),( 6.0,1.494),( 7.0,1.499),( 8.0,1.503),
+               ( 9.0,1.506),(10.0,1.503)}
+\tlabel[cl](10.5,1.503){\textsf{119}}
+%
+% Mod Model at 244 nodes
+\lines{ ( 1.0,0.536),( 2.0,0.326),( 3.0,0.205),( 4.0,0.142),
+        ( 5.0,0.108),( 6.0,0.090),( 7.0,0.080),( 8.0,0.074),
+        ( 9.0,0.071),(10.0,0.074)}
+%
+% Old Model at 244 nodes
+\dashed\lines{ ( 1.0,1.581),( 2.0,1.744),( 3.0,1.782),( 4.0,1.798),
+               ( 5.0,1.807),( 6.0,1.814),( 7.0,1.818),( 8.0,1.822),
+               ( 9.0,1.826),(10.0,1.821)}
+\tlabel[cl](10.5,1.821){\textsf{244}}
+%
+% Mod Model at 495 nodes
+\lines{ ( 1.0,0.514),( 2.0,0.309),( 3.0,0.194),( 4.0,0.135),
+        ( 5.0,0.103),( 6.0,0.086),( 7.0,0.077),( 8.0,0.072),
+        ( 9.0,0.069),(10.0,0.071)}
+%
+% Old Model at 495 nodes
+\dashed\lines{ ( 1.0,1.873),( 2.0,2.045),( 3.0,2.091),( 4.0,2.111),
+               ( 5.0,2.122), ( 6.0,2.130),( 7.0,2.136),( 8.0,2.140),
+               ( 9.0,2.144),(10.0,2.138)}
+\tlabel[cl](10.5,2.138){\textsf{495}}
+%
+% Mod Model at 992 nodes
+\lines{ ( 1.0,0.510),( 2.0,0.312),( 3.0,0.197),( 4.0,0.136),
+        ( 5.0,0.106),( 6.0,0.089),( 7.0,0.079),( 8.0,0.073),
+        ( 9.0,0.072),(10.0,0.062)}
+%
+% Old Model at 992 nodes
+\dashed\lines{ ( 1.0,2.168),( 2.0,2.352),( 3.0,2.399),( 4.0,2.418),
+               ( 5.0,2.430),( 6.0,2.439),( 7.0,2.444),( 8.0,2.447),
+               ( 9.0,2.453),(10.0,2.414)}
+\tlabel[cl](10.5,2.414){\textsf{992}}
+\end{mfpic}$
+\end{array}\qquad
+\begin{tabular}{p{2.5in}}
+\caption{\label{sdev} The Common logarithm of
+the ratio of the mean value of the modulus of the relative error
+in the NEURON simulator to that of the generalised compartmental
+model (dashed line) and the modified compartmental model to that
+of the generalised compartmental model (solid line) are plotted
+against time for various levels of spatial discretisation.}
+\end{tabular}
+\]
+\end{figure}
+
+\section{Concluding remarks}
+This investigation has demonstrated that it is possible to achieve
+a cost free increase in the accuracy and precision of
+compartmental models once the assumption of iso-potential
+compartments is relaxed and the actual placement of input taken
+into account. In the case of large scale exogenous input, it was
+clear that placement was the major determinant of accuracy but
+that the relaxation of the iso-potential assumption produced a
+further significant reduction in overall error. One would
+anticipate that the physiological manifestations of these
+differences in accuracy would appear as errors in the measurement
+of the time constant of the somal membrane in response to a
+sustained input on a dendrite.
+
+\section*{Acknowledgement}
+Alan E Lindsay would like to thank the Wellcome Trust for the
+award of Vacation Scholarship (VS/03/GLA/8/SL/TH/FH) which was
+used to fund this work.

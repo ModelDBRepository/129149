@@ -1,0 +1,296 @@
+\section{The model neuron}
+Central to the comparison of the accuracy of the traditional and
+generalised compartmental models is the construction of a typical
+branched neuron for which the mathematical model has a closed form
+expression for the membrane potential in response to input. This
+solution then stands as a reference against which the performance
+of the traditional and generalised compartmental models may be
+measured. The most effective way to construct a branched model
+neuron with a closed form solution for the membrane potential is
+to choose the radii and lengths of its sections such that the Rall
+conditions for an equivalent cylinder are satisfied (Rall,
+\cite{Rall64}). The Rall conditions require that at any branch
+point the sum of the three-halves power of the diameters of the
+child limbs is equal to the three-halves power of the parent limb,
+and that the total electrotonic length from a branch point to
+dendritic tip is independent of path. In particular, the
+electrotonic distance from soma-to-tip is independent of path. The
+model neuron illustrated in Figure \ref{TestNeuron} satisfies
+these conditions. When the Rall conditions are satisfied, the
+effect at the soma of any configuration of input on the branched
+model of the neuron is identical to the effect at the soma of the
+unbranched equivalent cylinder with biophysical properties and
+configuration of input determined uniquely from those of the
+original branched neuron (Lindsay \emph{et al.},
+\cite{Lindsay03}).
+
+\begin{figure}[!h]
+\[
+\begin{array}{c}
+$\begin{mfpic}[1][1]{0}{220}{-20}{220}
+\pen{2pt}
+\dotsize=1pt
+\dotspace=3pt
+\lines{(-5,100),(5,110),(15,100),(5,90),(-5 ,100)}
+% Upper dendrite
+% Root branch
+\dotted\lines{(5,115),(15,170),(20,170)}
+\lines{(20.0,160),(36.7,160)}
+\tlabel[tc](28.4,150){\textsf{(a)}}
+% Level 1
+\lines{(50.0,190),(88.3,190)}
+\tlabel[bc](75,200){\textsf{(c)}}
+\lines{(50.0,130),(91.0,130)}
+\tlabel[tc](75,120){\textsf{(d)}}
+\dotted\lines{(36.7,160),(45,200),(55,200)}
+\dotted\lines{(36.7,160),(45,120),(55,120)}
+% Level 2
+\lines{(100.0,210),(153.2,210)}
+\lines{(100.0,190),(153.2,190)}
+\lines{(100.0,170),(153.2,170)}
+\tlabel[cl](160,210){\textsf{(g)}}
+\tlabel[cl](160,190){\textsf{(g)}}
+\tlabel[cl](160,170){\textsf{(g)}}
+\dotted\lines{(88.3,190),(95,220),(105,220)}
+\dotted\lines{(88.3,190),(95,160),(105,160)}
+\lines{(100.0,140),(165.1,140)}
+\lines{(100.0,120),(165.1,120)}
+\dotted\lines{(91.0,130),(95,150),(105,150)}
+\dotted\lines{(91.0,130),(95,110),(105,110)}
+\tlabel[cl](175,140){\textsf{(h)}}
+\tlabel[cl](175,120){\textsf{(h)}}
+%
+% Lower dendrite
+% Root branch
+\lines{(20.0,40),(58.0,40)}
+\dotted\lines{(5,85),(15,30),(25,30)}
+\tlabel[bc](39,50){\textsf{(b)}}
+% Level 1
+\lines{(70.0,70),(133.1,70)}
+\lines{(70.0,10),(127.1,10)}
+\dotted\lines{(58,40),(66.5,80),(76.5,80)}
+\dotted\lines{(58,40),(66.5,0),(76.5,0)}
+\tlabel[bc](105,80){\textsf{(e)}}
+\tlabel[tc](105,0){\textsf{(f)}}
+% Level 2
+\lines{(145,80),(195.1,80)}
+\lines{(145,60),(195.1,60)}
+\dotted\lines{(133.1,70),(140,90),(150,90)}
+\dotted\lines{(133.1,70),(140,50),(150,50)}
+\tlabel[cl](205,80){\textsf{(i)}}
+\tlabel[cl](205,60){\textsf{(i)}}
+\lines{(140,30),(179.6,30)}
+\lines{(140,10),(179.6,10)}
+\lines{(140,-10),(179.6,-10)}
+\dotted\lines{(127.1,10),(134,40),(144,40)}
+\dotted\lines{(127.1,10),(134,-20),(144,-20)}
+\tlabel[cl](190,30){\textsf{(j)}}
+\tlabel[cl](190,10){\textsf{(j)}}
+\tlabel[cl](190,-10){\textsf{(j)}}
+\end{mfpic}$
+\end{array}\qquad
+\begin{array}{ccc}
+\hline
+\mbox{Section} & \mbox{Length }\mu\mbox{m} & \mbox{Diameter }\mu\mbox{m}\\[2pt]
+\hline
+ (a) & 166.809245 & 7.089751 \\
+ (b) & 379.828386 & 9.189790 \\
+ (c) & 383.337494 & 4.160168 \\
+ (d) & 410.137845 & 4.762203 \\
+ (e) & 631.448520 & 6.345604 \\
+ (f) & 571.445800 & 5.200210 \\
+ (g) & 531.582750 & 2.000000 \\
+ (h) & 651.053246 & 3.000000 \\
+ (i) & 501.181023 & 4.000000 \\
+ (j) & 396.218388 & 2.500000 \\
+\hline
+\end{array}
+\]
+\centering
+\parbox{5in}{\caption{\label{TestNeuron} A branched neuron
+satisfying the Rall conditions. The radii and lengths of the
+dendritic section are given in the right hand panel of the figure.
+A each branch point, $l/\sqrt{r}$ is fixed for all children of the
+branch point.}}
+\end{figure}
+
+To guarantee that any apparent errors between the closed form
+solution and the numerical solution are not due to the lack of
+precision with which the branched dendrite is represented as an
+equivalent cylinder, a high degree of accuracy is used in the
+specification of dendritic radii and section lengths in the model
+neuron. The model neuron illustrated in Figure \ref{TestNeuron}
+will be assumed to have a dendritic membrane of specific
+conductance $g_\mathrm{M}=0.091$ mS/cm$^2$ and specific
+capacitance $1.0\mu$F/cm$^2$, and an intracellular medium of
+conductance $g_\mathrm{A}=14.286$ mS/cm. With these biophysical
+properties, the equivalent cylinder has length one electrotonic
+unit. The soma of the test dendrite is assumed to have a membrane
+of area $A_\mathrm{S}$, specific conductance $g_\mathrm{S}=g_\mathrm{M}$ and
+specific capacitance $c_\mathrm{S}=c_\mathrm{M}$.
+
+\subsection{Closed form solution for the equivalent cylinder}
+The first step in the assessment of the performance of both
+compartmental models requires the construction of the closed form
+solution for the Rall equivalent cylinder under the action of
+input on the cylinder and at its soma.
+
+Consider a uniform cylindrical dendrite of radius $r$ and length
+$l$ attached to a soma of area $A_\mathrm{S}$ at its left hand end
+which is taken to be the point $x=0$ of a coordinate system with
+axis oriented along the length of the dendrite. If $V(x,t)$ is the
+deviation of the transmembrane potential from its resting value at
+point $x$ and time $t>0$, then $V(x,t)$ satisfies the cable equation
+\begin{equation}\label{es1}
+\ds 2\pi r\Big(c_\mathrm{M}\frac{\partial V}{\partial t}
++g_\mathrm{M}V\Big)=\pi r^2 g_\mathrm{M}\frac{\partial^2V}
+{\partial x^2}-I(x,t)\,,\quad (x,t)\in(0,l)\times(0,\infty)
+\end{equation}
+where $c_\mathrm{M}$, $g_\mathrm{M}$ and $g_\mathrm{A}$ have their
+usual meanings and $I(x,t)$ is the linear density of exogenous
+current along the dendrite. A solution of equation (\ref{es1}) is
+sought satisfying the initial condition $V(x,0)=0$ and the
+boundary conditions
+\begin{equation}\label{es2}
+A_\mathrm{S}\Big(c_\mathrm{M}\,\frac{\partial V(0,t)}{\partial t}
++g_\mathrm{M}V(0,t)\Big)=\pi r^2g_\mathrm{A}\,
+\frac{\partial V(0,t)}{\partial x}-I_\mathrm{S}(t)\,,
+\qquad\frac{\partial V(l,t)}{\partial x}=0\,,
+\end{equation}
+in which it has been recognised that the somal and dendritic
+membranes have identical specific capacitances and conductances.
+Prior to describing the critical steps in the construction of the
+exact mathematical solution to the initial boundary value problem
+posed by equations (\ref{es1}) and (\ref{es2}), it is convenient
+to introduce the well-known non-dimensional electrotonic length
+\begin{equation}\label{es3}
+L=l\,\sqrt{\ds\frac{2 g_\mathrm{M}}{r g_\mathrm{A}}}\,.
+\end{equation}
+The required solution is now constructed by observing that the
+series
+\begin{equation}\label{es4}
+V(x,t)=e^{-t/\tau}\,\Big[\,\phi_0(t)+\sum_\beta\;\phi_\beta(t)
+e^{-\beta^2 t/L^2\tau}\,\cos{\beta(1-x/l)}\,\Big]\,,
+\qquad\tau=\frac{c_\mathrm{M}}{g_\mathrm{M}}\,,
+\end{equation}
+satisfies the gradient boundary condition at $x=l$ for all values
+of $\beta$ and functions $\phi_0(t)$ and $\phi_\beta(t)$, and will
+also satisfy the initial condition $V(x,0)=0$ provided
+$\phi_0(0)=\phi_\beta(0)=0$. This series solution for $V(x,t)$
+also satisfies the partial differential equation (\ref{es1})
+provided
+\begin{equation}\label{es4}
+\ds \frac{d\phi_0}{dt}+\sum_\beta\,\frac{d\phi_\beta}{dt}
+\,e^{-\beta^2\,t/L^2\tau}\,\cos{\beta(1-x/l)}
+=-\frac{I(x,t)e^{t/\tau}}{2\pi r c_\mathrm{M}}
+\end{equation}
+and the boundary condition at the soma provided
+\begin{equation}\label{es5}
+\frac{d\phi_0}{dt}+\sum_\beta\,\Big[\,\frac{d\phi_\beta}{dt}\,
+\cos\beta-\frac{\beta\cos\beta}{\gamma\tau\,L^2}\,\Big(\,
+\gamma\beta+\tan\beta\,\Big)\,\phi_\beta\,\Big]
+\,e^{-\beta^2\,t/L^2\tau}= -\frac{I_\mathrm{S}(t)}{A_\mathrm{S}
+c_\mathrm{M}}\; e^{t/\tau}
+\end{equation}
+where $\gamma=A_\mathrm{S}/2\pi r l$, that is, $\gamma$ is the
+ratio of the membrane surface area of the soma to the membrane
+surface area of the dendrite. Equation (\ref{es5}) suggests that
+the values of $\beta$ in expression (\ref{es4}) should be chosen
+to be the zeros of the transcendental equation
+\begin{equation}\label{es6}
+\tan\beta+\gamma\beta = 0\,.
+\end{equation}
+With this choice for the values of $\beta$, equations (\ref{es4})
+and (\ref{es5}) take the simplified form
+\begin{equation}\label{es7}
+\begin{array}{rcl}
+\ds \frac{d\phi_0}{dt}+\sum_\beta\,\frac{d\phi_\beta}{dt}
+\,e^{-\beta^2\,t/L^2\tau}\,\cos{\beta(1-x/l)}
+& = & -\ds\frac{I(x,t)e^{t/\tau}}{2\pi r c_\mathrm{M}}\,, \\[12pt]
+\ds\frac{d\phi_0}{dt}+\sum_\beta\,\frac{d\phi_\beta}{dt}\,
+\cos\beta\,e^{-\beta^2\,t/L^2\tau} & = & -
+\ds\frac{I_\mathrm{S}(t)}{A_\mathrm{S}c_\mathrm{M}}
+\; e^{t/\tau}\,.
+\end{array}
+\end{equation}
+The coefficients $\phi_0(t)$ and $\phi_\beta(t)$ are determined
+from equations (\ref{es7}) by two different procedures. To find
+$\phi_0(t)$, the first of equations (\ref{es7}) is integrated over
+$(0,l)$ to obtain
+\begin{equation}\label{es8}
+l\,\frac{d\phi_0}{dt}-\gamma\,l\,\sum_\beta\,\frac{d\phi_\beta}{dt}
+\,e^{-\beta^2\,t/L^2\tau}\,\cos\beta
+= -\frac{e^{t/\tau}}{2\pi r c_\mathrm{M}}\,\int_0^l\,I(x,t)\,dx\,.
+\end{equation}
+The summation in this expression is now eliminated using the
+second of equations (\ref{es7}) to get
+\begin{equation}\label{es9}
+\frac{d\phi_0}{dt}= -\frac{e^{t/\tau}}
+{(2\pi r l+A_\mathrm{S})c_\mathrm{M}}\,\Big[\,
+I_\mathrm{S}(t)+\int_0^l\,I(x,t)\,dx\,\Big]\,.
+\end{equation}
+Note that $(2\pi r l+A_\mathrm{S})c_\mathrm{M}$ is simply the
+total membrane capacitance of the dendrite and soma. The
+coefficient $\phi_0(t)$ is obtained by integrating equation
+(\ref{es9}) with respect to time with the initial condition
+$\phi_0(0)=0$ in the simulations to carried out here.
+
+The procedure to find $\phi_\beta(t)$ begins by subtracting
+equations (\ref{es7}) to get
+\begin{equation}\label{es10}
+\sum_\beta\,\frac{d\phi_\beta}{dt}
+\,e^{-\beta^2\,t/L^2\tau}\,\Big(\,\cos{\beta(1-x/l)}
+-\cos\beta\,\Big) = \frac{e^{t/\tau}}{2\pi r c_\mathrm{M}}
+\,\Big[\,\frac{I_\mathrm{S}(t)}{\gamma\,l}-I(x,t)\,\Big]\,.
+\end{equation}
+Further progress is based on the observation that if $\alpha$ and
+$\beta$ are solutions of equation (\ref{es6}) then
+\begin{equation}\label{es11}
+\int_0^l\,\cos\alpha\big(1-x/l\big)\big(\cos\beta\big(1-x/l\big)
+-\cos\beta\,\big)\,dx=
+\left[\begin{array}{cc}
+0 & \alpha\ne\beta\,, \\[10pt]
+\ds\frac{l(1+\gamma\cos^2\alpha)}{2} & \alpha=\beta\,.
+\end{array}\right.
+\end{equation}
+Equation (\ref{es10}) is multiplied by $\cos\alpha\big(1-x/l\big)$
+and integrated over $[0,l]$ with respect to $x$ to obtain
+\begin{equation}\label{es12}
+\frac{d\phi_\alpha}{dt}=-\frac{2e^{(1+\alpha^2/L^2)/\tau}}
+{(2\pi r l+A_\mathrm{S}\cos^2\alpha)c_\mathrm{M}}\,\Big[\,
+\int_0^1\,I(x,t)\cos\alpha\big(1-x/l\big)\,dx
++\cos\alpha\,I_\mathrm{S}(t)\,\Big]\,.
+\end{equation}
+The coefficient $\phi_\alpha(t)$ is obtained by integrating
+equation (\ref{es12}) with respect to time with the initial
+condition $\phi_\alpha(0)=0$ in the simulations to be carried out
+here. Once $\phi_0(t)$ and $\phi_\alpha(t)$ are known, the
+potential is determined everywhere from expression (\ref{es4}).
+
+\subsubsection{Computation of current on equivalent cylinder}
+The special case in which the current $I(x,t)$ is constructed from
+a series of point currents $I_1, \cdots,I_n$ at locations
+$x_1,\cdots x_n$ from the soma of the equivalent cable is
+particularly useful for the investigation of large scale synaptic
+activity. In this case
+\begin{equation}\label{ec1}
+I(x,t)=\sum_{k=1}^n\;I_k(t)\delta(x-x_k)
+\end{equation}
+and the corresponding coefficient functions $\phi_0$ and
+$\phi_\alpha$ satisfy
+\begin{equation}\label{ec2}
+\begin{array}{rcl}
+\ds\frac{d\phi_0}{dt} & = &\ds -\frac{e^{t/\tau}}
+{(2\pi r l+A_\mathrm{S})c_\mathrm{M}}\,\Big[\,
+I_\mathrm{S}(t)+\sum_{k=1}^n\;I_k(t)\,\Big]\,,\\[10pt]
+\ds\frac{d\phi_\alpha}{dt} & = & \ds-\frac{2e^{(1+\alpha^2/L^2)/\tau}}
+{(2\pi r l+A_\mathrm{S}\cos^2\alpha)c_\mathrm{M}}\,\Big[\,
+\sum_{k=1}^n \;I_k(t)\cos\alpha\big(1-x_k/l\big)
++\cos\alpha\,I_\mathrm{S}(t)\,\Big]\,.
+\end{array}
+\end{equation}
+If $X_k$ is the electrotonic distance of the input $I_k(t)$ at
+distance $x_k$ from the soma of the equivalent cylinder, then
+$I_k(t)$ is the sum of the exogenous current inputs to the
+branched neuron taken across all dendritic sections at
+electrotonic distance $X_k$ from the soma.

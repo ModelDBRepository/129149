@@ -1,0 +1,507 @@
+\section{Construction of compartmental models}
+The traditional and generalised compartmental models start with an
+identical partitioning of a neuron into segments which interact
+with the extracellular region (usually taken to be zero potential)
+by means of transmembrane current driven by the potential of the
+segment. In the mathematical model, each segment becomes a
+compartment with electrical properties chosen to reflect the
+biophysical properties of the segment it represents. Input to the
+segment becomes input to the compartment, and shapes its potential
+through a series of mathematical equations based on Kirchhoff's
+circuit laws, and the fact that compartments only interact with
+their nearest neighbours.
+
+The traditional compartmental model treats each segment as an
+iso-potential region of dendrite (\emph{e.g.} Segev and Burke,
+\cite{Segev98}), and therefore all spatially distributed input
+falling onto that segment experiences the same potential in the
+model. Consequently, the electrical effect of spatial distributed
+input on a segment is lost, and in practice all input to a segment
+is assumed to act at a single point, conventionally taken to be
+the centre of the segment.
+
+In the generalised compartmental model of a neuron the membrane
+potential of a segment is allowed to vary along its length
+allowing  the solution for the membrane potential in the
+generalised model to more accurately reflect the influence of
+spatially distributed input. While this might appear to be a minor
+difference between both models, and of no great consequence, it
+will be shown by simulation that this modification improves both
+the accuracy and precision of the compartmental model by an order
+of magnitude. Furthermore, this improvement will be achieved
+without any significant increase in computational effort. To
+appreciate the consequences of a non-constant compartmental
+potential, the steps in the construction of the traditional
+compartmental model are reviewed briefly before a detailed
+description of the generalised model is presented.
+
+\subsection{Geometrical construction of dendritic segments}
+Compartmental models of the neuron usually regard the dendritic
+section as a sequence of contiguous tapered circular
+cylinders\footnote{ One widely used implementation of
+compartmental models is the NEURON simulator developed by Hines
+and Carnevale (\cite{Hines97}).}. Any point at which a noticeable
+change in taper occurs is a natural candidate for the designated
+node of a dendritic segment, by this we mean the node at which the
+membrane potential of that segment is recorded. In practice, the
+designated nodes of a segment will correspond to the points at
+which morphological information is available. Figure \ref{2d}
+shows a dendritic segment
+$\mathcal{C}=[x_\mathrm{P},x_\mathrm{Q}]$ where $x_\mathrm{P}$ and
+$x_\mathrm{Q}$ are the respective distances of the left hand and
+right hand endpoints of the segment from the somal end of the
+dendritic section.
+
+\begin{figure}[!h]
+\[
+\begin{array}{c}
+$\begin{mfpic}[1.1][1.1]{-30}{150}{155}{320}
+\pen{1pt}
+\headlen4pt
+\arrow\lines{(15,300),(5,300)}
+\arrow\lines{(80,300),(90,300)}
+\headlen7pt
+\dotspace=4pt
+\dotsize=1.5pt
+%
+% Central cylinder
+\lines{(100,272),(130,272)}
+\lines{(100,208),(130,208)}
+%
+% LH cylinder
+\dotted\parafcn[s]{0,180,5}{(100+24*sind(t),240+32*cosd(t))}
+\parafcn[s]{0,180,5}{(100-24*sind(t),240+32*cosd(t))}
+\lines{(0,288),(100,272)}
+\lines{(0,192),(100,208)}
+%
+% Partial cylinder on left
+\dotted\parafcn[s]{0,180,5}{(36*sind(t),240+48*cosd(t))}
+\parafcn[s]{0,180,5}{(-36*sind(t),240+48*cosd(t))}
+\lines{(-30,288),(0,288)}
+\lines{(-30,192),(0,192)}
+%
+% Annotation of LH cylinder
+\arrow\lines{(30,240),(60,240)}
+\tlabel[bl](55,250){$I_\mathrm{PQ}$}
+\tlabel[bc](0,250){$V_\mathrm{P}$}
+\tlabel[cc](0,300){\large $x_\mathrm{P}$}
+\tlabel[cc](0,240){\large $\bullet$}
+\arrow\lines{(0,230),(0,170)}
+\tlabel[tc](0,165){$I^{(m)}_\mathrm{P}$}
+%
+% Annotation of Central cylinder
+\dotted\parafcn[s]{0,180,5}{(50+30*sind(t),240+40*cosd(t))}
+\parafcn[s]{0,180,5}{(50-30*sind(t),240+40*cosd(t))}
+\tlabel[bc](100,250){$V_\mathrm{Q}$}
+\tlabel[cc](100,300){\large $x_\mathrm{Q}$}
+\tlabel[cc](100,240){\large $\bullet$}
+\arrow\lines{(100,230),(100,170)}
+\tlabel[tc](100,165){$I^{(m)}_\mathrm{Q}$}
+%
+% Form compartment
+\tlabel[cc](50,300){\textsf{Compartment}}
+\end{mfpic}$
+\end{array}\qquad
+\begin{tabular}{p{1.9in}}
+\caption{\label{2d}
+The compartment occupying $[x_\mathrm{P},x_\mathrm{Q}]$ is
+represented. Currents $I^{(m)}_\mathrm{P}$ and
+$I^{(m)}_\mathrm{Q}$ flow across the membrane at $x_\mathrm{P}$
+and $x_\mathrm{Q}$ respectively and axial current $I_\mathrm{PQ}$
+flows from $x_\mathrm{P}$ to $x_\mathrm{Q}$ through the resistive
+dendritic core.}
+\end{tabular}
+\]
+\end{figure}
+
+Let $r_\mathrm{P}$ and $r_\mathrm{Q}$ be the respective radii of
+the dendrite at the nodes $x_\mathrm{P}$, and $x_\mathrm{Q}$. When
+the dendritic membrane is formed by rotating the straight line
+segment $[x_\mathrm{P},x_\mathrm{Q}]$ about the axis of the
+dendrite, as illustrated in Figure \ref{2d}, the membrane of the
+segment has radius
+\begin{equation}\label{car2}
+r(x) = \frac{r_\mathrm{P}(x_\mathrm{Q}-x)
++r_\mathrm{Q}(x-x_\mathrm{P})}{x_\mathrm{Q}-x_\mathrm{P}}\,,
+\qquad x\in\mathcal{C}\,.
+\end{equation}
+Moreover, it is straight forward Calculus to verify that
+\begin{equation}\label{dc1}
+\int_\mathcal{C}\,r(x)\,dx=
+\frac{1}{2}\,\big(x_\mathrm{Q}-x_\mathrm{P}\big)
+\big(r_\mathrm{P}+r_\mathrm{Q}\big)\,.
+\end{equation}
+
+\subsection{Intracellular resistance of dendritic segments}
+Assuming that the intracellular medium of the dendrite has
+constant conductance $g_\mathrm{A}$ (mS/cm), the general
+expressions for the axial resistance of the segment illustrated in
+Figure \ref{2d} is
+\begin{equation}\label{car1}
+R_\mathrm{PQ} = \frac{1}{g_\mathrm{A}}\,
+\int_{\mathcal{C}}\,\frac{dx}{\pi r^2(x)}=
+\frac{x_\mathrm{Q}-x_\mathrm{P}}
+{\pi g_\mathrm{A} r_\mathrm{P}r_\mathrm{Q}}
+\end{equation}
+where $r(x)$ is the radius of the dendritic section at position
+$x$, and the value stated in (\ref{car1}) is that for the
+piecewise tapered dendritic segment with radius given by
+(\ref{car2}). If $V_\mathrm{L}$ and $V_\mathrm{Q}$ are the
+respective potentials at the endpoints $x_\mathrm{P}$ and
+$x_\mathrm{Q}$ of the segment $\mathcal{C}$ then, in the absence
+of transmembrane current across the segment, the currents
+$I_\mathrm{PQ}$ appearing in Figure \ref{2d} is determined by
+Ohm's law and has value
+\begin{equation}\label{car4}
+I_\mathrm{PQ} = \ds\frac{(V_\mathrm{P}-V_\mathrm{Q})}
+{R_\mathrm{PQ}} = \frac{\pi g_\mathrm{A}r_\mathrm{P}r_\mathrm{Q}}
+{x_\mathrm{Q}-x_\mathrm{P}}\;\big(V_\mathrm{P}-V_\mathrm{Q}\big)\,.
+\end{equation}
+The dependence of $V_\mathrm{P}$ and $V_\mathrm{Q}$ on time $t$
+has been suppressed in equation (\ref{car4}) for representational
+simplicity, but is will be understood henceforth that all
+potentials at segment endpoints are functions of time although the
+dependence on $t$ is not made explicit. Most importantly, the
+calculation which leads to expressions (\ref{car1}) and
+(\ref{car4}) for the compartment resistance and axial current also
+implies that the potential distribution within the segment is
+\begin{equation}\label{tc1}
+V(x,t) = V_\mathrm{P}-I_\mathrm{PQ}\,\int^x_{x_\mathrm{P}}
+\;\frac{ds}{\pi g_\mathrm{A}\,r^2(s)}\,,\qquad
+x\in\mathcal{C}\,.
+\end{equation}
+For a dendritic section that is uniformly tapered this
+distribution is
+\begin{equation}\label{tc2}
+V(x,t) = \frac{V_\mathrm{P}\,r_\mathrm{P}\,(x_\mathrm{Q}-x)+
+V_\mathrm{Q}\,r_\mathrm{Q}(x-x_\mathrm{P})}{r(x)\,
+(x_\mathrm{Q}-x_\mathrm{P})}\,,\qquad x\in\mathcal{C}\,.
+\end{equation}
+Furthermore, the average potential of the compartment as measured
+in terms of the charge carrying capacity of its membrane is
+defined by
+\begin{equation}\label{tc3}
+V_\mathcal{C}=\frac{\ds\int_\mathcal{C}\,r(x)V(x,t)\,dx}
+{\ds\int_\mathcal{C}\,r(x)\,dx}=
+\frac{V_\mathrm{P}\,r_\mathrm{P}+V_\mathrm{Q}\,r_\mathrm{Q}}
+{r_\mathrm{P}+r_\mathrm{Q}}\,.
+\end{equation}
+
+Both the traditional and generalised compartmental models are
+based on Kirchhoff's current law which asserts that $I_\mathrm{LC}
+= I^{(m)}_\mathrm{C}+I_\mathrm{CR}$. Thus
+\begin{equation}\label{car5}
+\frac{V_\mathrm{L}}{R_\mathrm{LC}}
+-\Big(\,\frac{V_\mathrm{C}}{R_\mathrm{LC}}
++\frac{V_\mathrm{C}}{R_\mathrm{CR}}\,\Big)
++\frac{V_\mathrm{R}}{R_\mathrm{CR}}
+=I^{(m)}_\mathrm{C}\,,
+\end{equation}
+or in terms of the dendritic radii,
+\begin{equation}\label{car6}
+\Big(\frac{\pi g_\mathrm{A}r_\mathrm{L}r_\mathrm{C}}
+{x_\mathrm{C}-x_\mathrm{L}}\Big)\;V_\mathrm{L}
+-\Big(\frac{\pi g_\mathrm{A}r_\mathrm{L}r_\mathrm{C}}
+{x_\mathrm{C}-x_\mathrm{L}}
++\frac{\pi g_\mathrm{A}r_\mathrm{C}r_\mathrm{R}}
+{x_\mathrm{R}-x_\mathrm{C}}\Big)\;V_\mathrm{C}
++\Big(\frac{\pi g_\mathrm{A}r_\mathrm{C}r_\mathrm{R}}
+{x_\mathrm{R}-x_\mathrm{C}}\Big)\;V_\mathrm{R}=I^{(m)}_\mathrm{C}\,.
+\end{equation}
+
+\subsection{Specification of transmembrane current}
+The current crossing the membrane of the dendritic segment in
+Figure \ref{2d} has general expression
+\begin{equation}\label{tc0}
+\begin{array}{rcl}
+I^{(m)} & = & \ds 2\pi c_\mathrm{M}\,\frac{d}{dt}\,
+\int_\mathcal{C}\, r(x)\,V(x,t)\,dx
++2\pi\int_\mathcal{C}\, r(x)J_\mathrm{IVDC}(V(x,t))\,dx\\[12pt]
+&&\quad\ds+\;\sum_\mathcal{C}\,J_\mathrm{SYN}(V(x,t))
++\sum_\mathcal{C}\,I_\mathrm{EX}(x,t)
+\end{array}
+\end{equation}
+where $c_\mathrm{M}$ ($\mu$F/cm$^2$) is the specific capacitance
+(assumed constant) of the segment membrane, $V(x,t)$ is the
+membrane potential of the dendritic section at time $t$ (ms) and
+distance $x$ from its somal end, $J_\mathrm{IVDC}(x,t)$ is the
+density of transmembrane current ($\mu$A/cm$^2$) due to intrinsic
+voltage-dependent channel activity, $J_\mathrm{SYN}(x,t)$ is the
+linear density of synaptic current ($\mu$A/cm) due to synaptic
+activity falling on the segment and $I_\mathrm{EX}(x,t)$ is the
+linear density of exogenous current ($\mu$A/cm). The difference
+between the traditional and generalised compartmental models lies
+in the mathematical representation of $I^{(m)}$.
+
+\section{The traditional compartmental model}
+In the traditional compartmental model, the compartment is assumed
+to be iso-potential with membrane potential $V_\mathcal{C}$, the
+average potential of the compartment. With this assumption, the
+transmembrane current in the traditional compartmental model
+simplifies to
+\begin{equation}\label{tc00}
+I^{(m)} = \pi\big(x_\mathrm{Q}-x_\mathrm{P}\big)
+\big(r_\mathrm{P}+r_\mathrm{Q}\big)\,\Big[\,c_\mathrm{M}\,
+\frac{dV_\mathcal{C}}{dt}\,+J_\mathrm{IVDC}(V_\mathrm{C})\,\Big]
++\sum_\mathcal{C}\,J_\mathrm{SYN}(V_\mathrm{C})
++\sum_\mathcal{C}\,I_\mathrm{EX}(x,t)\,.
+\end{equation}
+For segments constructed from piecewise tapered elements,
+the values of these integrals are given in equations (\ref{dc1}).
+
+\subsection{The model differential equations}
+To make explicit the essential features of the mathematical
+problem that must be solved when using the traditional
+compartmental model to describe neuronal behaviour, it is
+necessary to state how intrinsic voltage-dependent current and
+synaptic current are to be modelled. The most common description
+of intrinsic voltage-dependent current is due to Hodgkin and
+Huxley (\cite{Hodgkin52}) and assumes that the contribution to
+transmembrane current density from ionic channels of species
+$\alpha$ is $J_\mathrm{IVDC}=g_\alpha(V)(V-E_\alpha)$ where
+$E_\alpha$ is the reversal potential for the species $\alpha$. The
+conductance $g_\alpha$ is defined in terms of auxiliary variables
+which themselves satisfy differential equations with coefficients
+that are dependent on the local membrane potential. It is in this
+sense that the conductance $g_\alpha(V)$ is dependent on the
+membrane potential. On the other hand, synaptic input due to ionic
+species $\beta$ is modelled by the specification
+$J_\mathrm{SYN}=g_\beta(t)(V-E_\beta)$ where $E_\beta$ is the
+reversal potential for the species and $g_\beta(t)$ is now the
+time course of the synaptic conductance. With these model
+representations of intrinsic voltage-dependent current and
+synaptic current, the transmembrane current at $x_\mathrm{C}$ has
+generic form
+\begin{equation}\label{mde1}
+\begin{array}{rcl}
+I^{(m)}_\mathrm{C} & = & \ds C_\mathrm{C}\,
+\frac{dV_\mathrm{C}}{dt}\,+\sum_\alpha\;
+G^\mathrm{IVDC}_\alpha(V_\mathrm{C})\big(\,V_\mathrm{C}-E_\alpha\,\big)
++\sum_\beta\,G^\mathrm{SYN}_\beta(t)
+\big(\,V_\mathrm{C}-E_\beta\,\big)+I_\mathrm{C}(t)
+\end{array}
+\end{equation}
+where $C_\mathrm{C}$ (constant) is the total membrane capacitance
+of the segment, $G^\mathrm{IVDC}_\alpha(V_\mathrm{C})$ denotes the
+total intrinsic voltage-dependent conductance of the channels of
+ionic species $\alpha$ associated with the segment,
+$G^\mathrm{SYN}_\beta(t)$ is the total synaptic conductance at
+time $t$ associated with channels of ionic species $\beta$ falling
+on the segment and $I_\mathrm{C}(t)$ plays the role of the total
+exogenous current input to the segment at time $t$.
+
+Suppose that the neuron is partitioned into $m$ compartments where
+the membrane potential at the designated node of the $k^{th}$
+compartment is $V_k(t)$ and let
+\begin{equation}\label{mde2}
+V(t)=\big[\,V_1(t),V_1(t),\cdots,V_m(t)\,]^\mathrm{T}\,.
+\end{equation}
+It follows immediately from the expression (\ref{mde1}) for the
+transmembrane current $I^{(m)}_\mathrm{C}$ and (\ref{car5}) that
+$V(t)$, the column vector of membrane potentials, satisfies the
+ordinary differential equations
+\begin{equation}\label{mde3}
+D^\mathrm{C}\,\frac{dV}{dt}+D^\mathrm{IVDC}(V)\,V+D^\mathrm{SYN}(t)\,V
++I(t)=AV
+\end{equation}
+where $D^\mathrm{C}$ is a constant diagonal matrix,
+$D^\mathrm{IVDC}(V)$ is a diagonal matrix of intrinsic
+voltage-dependent conductances, $D^\mathrm{SYN}(t)$ is a diagonal
+matrix of synaptic conductances and $I(t)$ is a column vector of
+exogenous currents. The $(j,k)^{th}$ entry of the matrix $A$,
+which is interpreted as a conductance matrix, is nonzero if the
+$j^{th}$ and $k^{th}$ designated nodes are neighbours, otherwise
+the entry is zero. The computational complexity of the final
+mathematical problem is determined by the structure of $A$
+provided all other matrices arising in the mathematical
+specification of the problem are not more complex than $A$. This
+is certainly true for the traditional compartmental model since
+all matrices other than $A$ are diagonal. Integration of equation
+(\ref{mde3}) over the interval $[t,t+h]$ yields
+\begin{equation}\label{mde4}
+D^\mathrm{C}\,\big[\,V(t+h)-V(t)\,\big]+
+\int_t^{t+h}\,\big[\,D^\mathrm{IVDC}(V)+
+D^\mathrm{SYN}(t)\,\big]\,V(t)\,dt
++\int_t^{t+h}\,I(t)=A\int_t^{t+h}\,V(t)\,dt\,.
+\end{equation}
+The trapezoidal quadrature is used to replace each integral in
+equation (\ref{mde4}) with the exception of the integral of
+intrinsic voltage-dependent current, which is replaced by the
+midpoint quadrature. The result of this calculation is
+\begin{equation}\label{mde5}
+\begin{array}{l}
+\ds D^\mathrm{C}\,\big[\,V(t+h)-V(t)\,\big]+
+h\,D^\mathrm{IVDC}(V(t+h/2))\,V(t+h/2)\\[10pt]
+\quad\ds+\;\frac{h}{2}\,\Big[\,D^\mathrm{SYN}(t+h)V(t+h)
++D^\mathrm{SYN}(t)V(t)\,\Big]+\frac{h}{2}
+\Big[\,I(t+h)+I(t)\,\Big]\\[10pt]
+\qquad\ds = \frac{h}{2}\,\Big[\,A V(t+h)+AV(t)\,\Big]+O(h^3)\,.
+\end{array}
+\end{equation}
+On taking account of the fact that
+\[
+V(t+h/2)=\frac{1}{2} \,\Big[\,V(t+h)+V(t)\,\Big]+O(h^2)\,,
+\]
+equation (\ref{mde5}) may be reorganised to give
+\begin{equation}\label{mde6}
+\begin{array}{l}
+\ds \Big[\,2 D^\mathrm{C}-hA+h\,D^\mathrm{SYN}(t+h)
++h\,D^\mathrm{IVDC}(V(t+h/2))\,\Big]\,V(t+h) = \\[10pt]
+\qquad\ds \Big[\,2 D^\mathrm{C}+hA+h D^\mathrm{SYN}(t)
+-h\,D^\mathrm{IVDC}(V(t+h/2))\,\Big]\,V(t)
+-h\Big[\,I(t+h)+I(t)\,\Big]
+\end{array}
+\end{equation}
+when the error structure is ignored. The detailed computation of
+$D^\mathrm{IVDC}(V(t+h/2))$ is determined entirely by the
+structure of the auxiliary equations. In the case of
+Hodgkin-Huxley like channels, it is standard knowledge that
+$D^\mathrm{IVDC}(V(t+h/2))$ can be computed to adequate accuracy
+from $V(t)$ and the differential satisfied by the auxiliary
+variables (Lindsay \emph{et al.}, \cite{Lindsay01a}).
+
+\section{The generalised compartmental model}
+Equations (\ref{tc1}) and (\ref{tc2}) provide the basis for the
+construction of the transmembrane current in the generalised
+compartmental model. Within the framework of this model,
+distributed transmembrane current and point sources of
+transmembrane current receive a different mathematical treatment.
+
+To appreciate why this is the case, consider a cylindrical
+dendritic segment of radius $a$, length $L$ and with membrane of
+constant conductance $g_\mathrm{M}$. Suppose that the segment is
+filled with intracellular medium of conductance $g_\mathrm{A}$ and
+that a potential difference $V$ exists across its length $L$. The
+axial current flowing along the segment is $I_\mathrm{A}=\pi a^2
+g_\mathrm{A} V/L$ and the total transmembrane current is
+$I_\mathrm{M}=2\pi a L g_\mathrm{M}\,(V/2)$. Thus
+\begin{equation}\label{pc1}
+\frac{\mbox{Transmembrane current}}{\mbox{Axial current}}
+=\frac{I_\mathrm{M}}{I_\mathrm{A}}=\frac{\pi a L g_\mathrm{M}\,V}
+{\pi a^2 g_\mathrm{A}\,(V/L)}=\frac{L^2 g_\mathrm{M}}
+{a g_\mathrm{A}}=\Big(\frac{L}{a}\Big)^2\,
+\frac{a g_\mathrm{M}}{g_\mathrm{A}}\,.
+\end{equation}
+For a typical dendrite $a g_\mathrm{M}/g_\mathrm{A}\approx
+10^{-5}$ which in turn suggest that membrane current losses are
+comparable to axial current only provided the segment is several
+orders of magnitude longer than its radius. Since the model only
+allows current to flow across the membrane at designated nodes, a
+well-structured compartmental model requires that the internodal
+distance does not become several orders of magnitude greater than
+the radius of the dendrite. By meeting this requirement, the
+effect of the transmembrane current on the axial current is
+locally negligible.
+
+Provided a compartment is not excessively long, the implication of
+this argument is that distributed transmembrane current has
+negligible impact on the local axial current flowing between
+designated nodes. Consequently, the effect of this distributed
+transmembrane current may be described in terms of the membrane
+potential computed from the axial current by ignoring the
+transmembrane current itself. On the other hand, point input of
+current due to synaptic activity or exogenous input necessarily
+causes a discontinuity in axial current irrespective of the size
+of the compartment or the strength of the input. Consequently,
+point current input must be treated separately from distributed
+input because it necessarily generates discontinuities in axial
+current and therefore affects the local transmembrane potential.
+
+The treatment of distributed transmembrane current takes advantage
+of the identity
+\begin{equation}\label{gcm1}
+\begin{array}{rcl}
+\ds\int_{x_\mathrm{P}}^{(x_\mathrm{P}+x_\mathrm{Q})/2}\,r(x)\,V(x,t)\,dx & = &
+\ds\frac{1}{8}\big(x_\mathrm{Q}-x_\mathrm{P}\big)
+\big(\,3r_\mathrm{P} V_\mathrm{P}+r_\mathrm{Q} V_\mathrm{Q}\,\big)\,,\\[12pt]
+\ds\int_{(x_\mathrm{P}+x_\mathrm{Q})/2}^{x_\mathrm{Q}}\,r(x)\,V(x,t)\,dx & = &
+\ds\frac{1}{8}\big(x_\mathrm{Q}-x_\mathrm{P}\big)
+\big(r_\mathrm{P} V_\mathrm{P}+3r_\mathrm{Q}
+V_\mathrm{Q}\,\big)\,.
+\end{array}
+\end{equation}
+These equations describe how transmembrane current falling on the
+segment should be partitioned between the membrane currents
+$I^{(m)}_\mathrm{P}$ and $I^{(m)}_\mathrm{Q}$ crossing the
+membrane at $x_\mathrm{P}$ and $x_\mathrm{Q}$.
+
+\subsection{Capacitative current}
+It now follows
+immediately from the general expression (\ref{tc0}) for
+transmembrane current that the capacitative component of this
+current is
+\begin{equation}\label{gcm2}
+\begin{array}{l}
+\ds 2\pi c_\mathrm{M}\,\frac{d}{dt}\,
+\int_\mathcal{L}\, r(x)\,V(x,t)\,dx+2\pi c_\mathrm{M}\,
+\frac{d}{dt}\,\int_\mathcal{R}\, r(x)\,V(x,t)\,dx = \\[12pt]
+\qquad\ds\frac{\pi c_\mathrm{M}\big(x_\mathrm{C}-x_\mathrm{L}\big)}{2}
+\Big[\,r_\mathrm{L}\frac{dV_\mathrm{L}}{dt}+3r_\mathrm{C}
+\frac{dV_\mathrm{C}}{dt}\,\Big]+
+\frac{\pi c_\mathrm{M}\big(x_\mathrm{R}-x_\mathrm{C}\big)}{2}
+\Big[\,3r_\mathrm{C}\frac{dV_\mathrm{C}}{dt}+r_\mathrm{R}
+\frac{dV_\mathrm{R}}{dt}\,\Big]\,.
+\end{array}
+\end{equation}
+
+\subsection{Intrinsic voltage-dependent current}
+A common specification of intrinsic voltage-dependent current
+describing the behaviour of channels of ionic species $\alpha$
+assumes that $J_\mathrm{IVDC}(x,t)=g_\alpha(V)(V-E_\alpha)$ where
+$V$ is the transmembrane potential, $E_\alpha$ (mV) is the
+reversal potential for species $\alpha$ and $g_\alpha(V)$
+(mS/cm$^2$) is a voltage-dependent membrane conductance (which may
+depend on a set of auxiliary variables such as the $m$, $n$ and
+$h$ appearing in the Hodgkin-Huxley (\cite{Hodgkin52}) model). The
+simplest case is the \emph{passive} membrane in which
+$g_\alpha(V)$ is constant for each species $\alpha$, albeit a
+different constant for each species. It then follows immediately
+from identity (\ref{gcm1}) and the general expression (\ref{tc0})
+that the contribution of intrinsic voltage-dependent current to
+the segment due to species $\alpha$ in a passive membrane is
+\begin{equation}\label{gcm3}
+\begin{array}{l}
+\ds 2\pi\int_\mathcal{L}\, r(x) g_\alpha(V-E_\alpha)\,dx
++2\pi\int_\mathcal{R}\, r(x) g_\alpha(V-E_\alpha)\,dx = \\[12pt]
+\qquad\ds\frac{\pi\big(x_\mathrm{C}-x_\mathrm{L}\big)}{2}
+\Big[\,r_\mathrm{L} g_\alpha(V_\mathrm{L}-E_\alpha)
++3r_\mathrm{C} g_\alpha(V_\mathrm{C}-E_\alpha)\,\Big]\\[12pt]
+\qquad\qquad\ds+\;\frac{\pi\big(x_\mathrm{R}-x_\mathrm{C}\big)}{2}
+\Big[\,3r_\mathrm{C} g_\alpha(V_\mathrm{C}-E_\alpha)
++r_\mathrm{R} g_\alpha(V_\mathrm{R}-E_\alpha)\,\Big]\,.
+\end{array}
+\end{equation}
+On the other hand, when $g_\alpha(V)$ is a non-constant function
+of $V$ as happens, for example, with a Hodgkin-Huxley membrane
+(\cite{Hodgkin52}), no analytical expression for the effect of
+intrinsic voltage transmembrane current exist. To resolve this
+impasse, one requires a generalised expression to describe the
+effect of intrinsic voltage-dependent transmembrane current. This
+expression must have the following properties. First, it must be
+tractable when $g_\alpha(V)$ is a non-constant function of $V$ in
+the sense that $g_\alpha(V)$ is evaluated for values of $V$ at
+designate nodes only. Second, the expression must incorporate the
+effect of changing membrane potential along a dendritic segment,
+and third, the generalised expression must reduce to expression
+(\ref{gcm3}) when $g_\alpha(V)$ is a constant function of $V$. For
+the specification $J_\mathrm{IVDC}(x,t)=g_\alpha(V)(V-E_\alpha)$,
+these three conditions are satisfied by replacing
+\[
+\ds 2\pi\int_\mathcal{L}\, r(x) g_\alpha(V)(V-E_\alpha)\,dx
++2\pi\int_\mathcal{R}\, r(x) g_\alpha(V)(V-E_\alpha)\,dx
+\]
+with the generalised expression
+\begin{equation}\label{gcm4}
+\begin{array}{l}
+\ds\frac{\pi\big(x_\mathrm{C}-x_\mathrm{L}\big)}{2}
+\Big[\,r_\mathrm{L} g_\alpha(V_\mathrm{L})(V_\mathrm{L}-E_\alpha)
++3r_\mathrm{C} g_\alpha(V_\mathrm{C})(V_\mathrm{C}-E_\alpha)\,\Big]\\[12pt]
+\qquad\ds+\;\frac{\pi\big(x_\mathrm{R}-x_\mathrm{C}\big)}{2}
+\Big[\,3r_\mathrm{C} g_\alpha(V_\mathrm{C})(V_\mathrm{C}-E_\alpha)
++r_\mathrm{R} g_\alpha(V_\mathrm{R})(V_\mathrm{R}-E_\alpha)\,\Big]\,.
+\end{array}
+\end{equation}
+Moreover, it is clear that the specification of intrinsic
+voltage-dependent current used in the traditional compartmental
+model is recovered from (\ref{gcm4}) by replacing $V_\mathrm{L}$
+and $V_\mathrm{R}$ with $V_\mathrm{C}$.

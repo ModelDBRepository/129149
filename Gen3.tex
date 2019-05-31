@@ -1,0 +1,419 @@
+\subsection{Point current input}
+It is through the mathematical description of point sources of
+current that the generalised compartmental model is superior to
+the traditional compartmental model. Consider first the
+description of exogenous input. The essential difference between
+exogenous current input and synaptic current input is that the
+contribution of the former is independent of the membrane
+potential whereas the contribution of the latter is governed by
+the membrane potential at the synapse. In overview, the mechanism
+used to describe both is identical.
+
+Let $x_1<x_2<\cdots x_{n-1}$ be the ordered locations of current
+input $I_1,\ I_2,\ \cdots\ I_{n-1}$ on the dendritic membrane
+lying between the designated nodes $x_0=x_\mathrm{L}$ and
+$x_n=x_\mathrm{C}$. The axial current $I_\mathrm{LC}$ flowing from
+$x_\mathrm{L}$ to $x_\mathrm{C}$ must now be modified by the
+presence of each current source. In the absence of point sources
+of current to the dendritic membrane occupying
+$[x_\mathrm{L},x_\mathrm{C}]$, $I\mathrm{LC}$ is the axial current
+flowing from $x_\mathrm{L}$ towards $x_\mathrm{C}$. On the other
+hand, if one allows point sources of current on the dendritic
+membrane occupying $[x_\mathrm{L},x_\mathrm{C}]$, Figure
+\ref{realcurrent} indicates that current $J_0$ and \textbf{not}
+$I_\mathrm{LC}$ flows from $x_\mathrm{L}$ towards $x_\mathrm{C}$
+and therefore $I_\mathrm{LC}$ must be corrected by the inclusion
+of point current $(J_0-I_\mathrm{LC})$ at $x_\mathrm{L}$. A
+similar argument applies to current reaching $x_\mathrm{C}$ from
+$x_\mathrm{L}$. The current flowing into $x_\mathrm{C}$ is
+$J_{n-1}$ and \textbf{not} $I_\mathrm{LC}$ and therefore the
+correction $(I_\mathrm{LC}-J_{n-1})$ must be included as a point
+current at $x_\mathrm{C}$.
+
+\begin{figure}[!h]
+\centerline{\qquad\begin{mfpic}[0.9][1]{-50}{400}{-30}{50}
+\pen{1pt}
+\headlen7pt
+%
+% Sealed cable
+\arrow\lines{(0,20),(25,20)}
+\arrow\lines{(40,20),(65,20)}
+\arrow\lines{(120,20),(145,20)}
+\arrow\lines{(160,20),(185,20)}
+\arrow\lines{(240,20),(265,20)}
+\arrow\lines{(280,20),(305,20)}
+%
+%
+\dotspace=4pt
+\dotsize=2pt
+\dotted\lines{(75,20),(110,20)}
+\dotted\lines{(195,20),(230,20)}
+%
+% Nodes on sealed cable
+\tlabel[cc](0,20){\large $\bullet$}
+\tlabel[cc](40,20){\large $\bullet$}
+\tlabel[cc](120,20){\large $\bullet$}
+\tlabel[cc](160,20){\large $\bullet$}
+\tlabel[cc](240,20){\large $\bullet$}
+\tlabel[cc](280,20){\large $\bullet$}
+\tlabel[cc](320,20){\large $\bullet$}
+%
+% Points on sealed cable
+\tlabel[br](0,30){$x_\mathrm{L}=x_0$}
+\tlabel[bc](40,30){$x_1$}
+\tlabel[bc](120,30){$x_{k-1}$}
+\tlabel[bc](160,30){$x_k$}
+\tlabel[bc](240,30){$x_{n-2}$}
+\tlabel[bc](280,30){$x_{n-1}$}
+\tlabel[bl](320,30){$x_n=x_\mathrm{C}$}
+%
+\tlabel[cc](20,10){$J_0$}
+\tlabel[cc](60,10){$J_1$}
+\tlabel[cc](140,10){$J_{k-1}$}
+\tlabel[cc](180,10){$J_k$}
+\tlabel[cc](260,10){$J_{n-2}$}
+\tlabel[cc](300,10){$J_{n-1}$}
+%
+% Sealed cable
+\arrow\lines{(40,10),(40,-10)}
+\tlabel[tc](40,-15){\textsf{$I_1$}}
+\arrow\lines{(120,10),(120,-10)}
+\tlabel[tc](120,-15){\textsf{$I_{k-1}$}}
+\arrow\lines{(160,10),(160,-10)}
+\tlabel[tc](160,-15){\textsf{$I_k$}}
+\arrow\lines{(240,10),(240,-10)}
+\tlabel[tc](240,-15){\textsf{$I_{n-2}$}}
+\arrow\lines{(280,10),(280,-10)}
+\tlabel[tc](280,-15){\textsf{$I_{n-1}$}}
+\end{mfpic}}
+\centering
+\parbox{4in}{\caption{\label{realcurrent} Configuration
+of point current input to the length of dendritic membrane between
+$x_\mathrm{L}$ and $x_\mathrm{C}$.}}
+\end{figure}
+
+If current $J_k$ flows from $x_k$ to $x_{k+1}$, then the aim of
+this analysis is to determine the corrections
+$(J_0-I_\mathrm{LC})$ and $(I_\mathrm{LC}-J_{n-1})$ that must be
+applied to $I_\mathrm{LC}$ at $x_\mathrm{L}$ and $x_\mathrm{C}$
+respectively as a consequence of the point current input to the
+dendritic membrane occupying $[x_\mathrm{L},x_\mathrm{C}]$.
+Kirchhoff's laws applied to the section of dendrite illustrated in
+Figure \ref{realcurrent} give
+\begin{equation}\label{pc2}
+J_0=J_1+I_1\,,\quad\cdots\quad J_{k-1}=J_k+I_k\,,\quad\cdots\quad
+J_{n-2}=J_{n-1}+I_{n-1}
+\end{equation}
+where
+\begin{equation}\label{pc3}
+J_k = \frac{\pi g_\mathrm{A}r_k r_{k+1}(V_k-V_{k+1})}{x_{k+1}-x_k}
+\,,\qquad k=0,1,\cdots,(n-1)\,.
+\end{equation}
+Bearing in mind that $V_0=V_\mathrm{L}$ and that
+$V_n=V_\mathrm{C}$, it follows directly from $J_{k-1}=J_k+I_k$
+that the potentials $V_1,\cdots, V_{n-1}$ satisfy the equations
+\begin{equation}\label{pc4}
+\frac{\pi g_\mathrm{A}r_{k-1} r_k(V_{k-1}-V_k)}{x_k-x_{k-1}}
+-\frac{\pi g_\mathrm{A}r_k r_{k+1}(V_k-V_{k+1})}
+{x_{k+1}-x_k}=I_k\,,\qquad k=1,\cdots,n-1\,,
+\end{equation}
+which on division by $\pi g_\mathrm{A} r_k$ yields
+\begin{equation}\label{pc4}
+\frac{r_{k-1} V_{k-1}}{x_k-x_{k-1}}
+-\Big(\frac{r_{k-1} V_k}{x_k-x_{k-1}}+
+\frac{r_{k+1}V_k}{x_{k+1}-x_k}\Big)
++\frac{r_{k+1}V_{k+1}}{x_{k+1}-x_k}
+=\frac{I_k}{\pi g_\mathrm{A} r_k}\,,\qquad k=1,\cdots,n-1\,.
+\end{equation}
+It is a matter of straight forward algebra to verify that
+\[
+\frac{r_{k-1} V_k}{x_k-x_{k-1}}+\frac{r_{k+1}V_k}{x_{k+1}-x_k}
+=\frac{r_k V_k (x_{k+1}-x_{k-1})}{(x_k-x_{k-1})(x_{k+1}-x_k)}\,,
+\]
+and when the right hand side of this equation is used to simplify
+the middle term in equation (\ref{pc4}), the result may be
+expressed in the form
+\begin{equation}\label{pc5}
+\frac{\big(\,r_{k-1} V_{k-1}-r_k V_k\,\big)}{x_k-x_{k-1}}
+-\frac{\big(\,r_k V_k- r_{k+1}V_{k+1}\,\big)}{x_{k+1}-x_k}
+=\frac{I_k}{\pi g_\mathrm{A} r_k}\,,\qquad k=1,\cdots,n-1\,.
+\end{equation}
+Most importantly, the validity of equation (\ref{pc5}) is
+independent of the specific nature of $I_k$, that is, it is valid
+for both exogenous current for which $I_k$ is independent of $V_k$
+and synaptic current for which $I_k=g_k(t)(V_k-E_k)$ where $E_k$
+is the reversal potential of the ionic species of the synapse. In
+all cases, the task is to compute the corrections
+$(J_0-I_\mathrm{LC})$ and $(I_\mathrm{LC}-J_{n-1})$, and to
+express these corrections in terms of the potentials
+$V_\mathrm{L}$ and $V_\mathrm{C}$.
+
+\subsection{Exogenous input}
+The application of identity (\ref{pc5}) to exogenous current is
+examined first. The aim of this section is to use identity
+(\ref{pc5}) to establish the corrections
+\begin{equation}\label{ei1}
+J_0-I_\mathrm{LC}=\sum_{k=1}^{n-1}\,\frac{r_\mathrm{L}}{r_k}\,
+\frac{x_\mathrm{C}-x_k}{x_\mathrm{C}-x_\mathrm{L}}\;I_k\,,\qquad
+I_\mathrm{LC}-J_{n-1}=\sum_{k=1}^{n-1}\,\frac{r_\mathrm{C}}{r_k}\,
+\frac{x_k-x_\mathrm{L}}{x_\mathrm{C}-x_\mathrm{L}}\;I_k
+\end{equation}
+to be applied at $x_\mathrm{L}$ and $x_\mathrm{C}$ respectively.
+These expressions make explicit how input $I_k$ is partitioned
+between nodes $x_\mathrm{L}$ and $x_\mathrm{C}$ taking account of
+its location within the segment and the geometry of the segment.
+To facilitate the derivation of these results, it is convenient to
+define
+\begin{equation}\label{ei2}
+\psi_k=\frac{r_k V_k- r_{k+1}V_{k+1}}{x_{k+1}-x_k}\,.
+\end{equation}
+By replacing $I_k/r_k$ from identity (\ref{pc5}), it follows that
+\[
+\begin{array}{rcl}
+\ds\sum_{k=1}^{n-1}\,\frac{r_0}{r_k}\,
+\frac{x_n-x_k}{x_n-x_0}\;I_k & = & \ds\frac{\pi g_\mathrm{A} r_0}
+{x_n-x_0}\,\sum_{k=1}^{n-1}\,\big(\,x_n-x_k\,\big)
+\big(\,\psi_{k-1}-\psi_k\,\big)\\[10pt]
+& = & \ds\frac{\pi g_\mathrm{A} r_0}{x_n-x_0}\,\Big[\,
+\sum_{k=0}^{n-2}\,\big(\,x_n-x_{k+1}\,\big)\,\psi_k
+-\sum_{k=1}^{n-1}\,\big(\,x_n-x_k\,\big)\psi_k\,\Big]\\[10pt]
+& = & \ds\frac{\pi g_\mathrm{A} r_0}{x_n-x_0}\,\Big[\,
+\big(\,x_n-x_1\,\big)\,\psi_0-\sum_{k=1}^{n-2}\,
+\big(\,x_{k+1}-x_k\,\big)\psi_k-\big(\,x_n-x_{n-1}\,\big)\,
+\psi_{n-1}\,\Big]\\[10pt]
+& = & \ds\frac{\pi g_\mathrm{A} r_0}{x_n-x_0}\,\Big[\,
+\big(\,x_n-x_1\,\big)\,\psi_0-\sum_{k=1}^{n-1}\,
+\big(\,r_k V_k-r_{k+1}V_{k+1}\,\big)\,\Big]\\[10pt]
+& = & \ds\frac{\pi g_\mathrm{A} r_0}{x_n-x_0}\,\Big[\,
+\frac{(x_n-x_1)}{(x_1-x_0)}\,\big(\,r_0 V_0-r_1 V_1\,\big)
+-\big(r_1 V_1-r_n V_n\big)\,\Big]\\[10pt]
+& = & \ds\frac{\pi g_\mathrm{A} r_0}{x_n-x_0}\,\Big[\,
+\frac{(x_n-x_0)}{(x_1-x_0)}\,\big(\,r_0 V_0-r_1 V_1\,\big)
++r_n V_n-r_0 V_0\,\Big]\\[10pt]
+& = & \ds\frac{\pi g_\mathrm{A} r_0 r_n (V_n-V_0)}{x_n-x_0}
++\frac{\pi g_\mathrm{A} r_0 r_1\big(\,V_0-V_1\,\big)}
+{x_1-x_0}\\[10pt]
+& = & J_0-I_\mathrm{LC}\,.
+\end{array}
+\]
+The second identity is obtained directly from the first by a piece
+of straight forward algebra based on the observation that
+$J_0=J_{n-1}+I_1+I_2+\cdots+I_{n-1}$.
+
+For example, in the special case of a single point input $I_1$ at
+point $x_1$ between the designated nodes $x_\mathrm{L}$ and
+$x_\mathrm{C}$, if follows directly from (\ref{ei1}) that
+\begin{equation}\label{ei9}
+J_0-I_\mathrm{LC}=\frac{r_\mathrm{L}}{r_1}\,
+\frac{x_\mathrm{C}-x_1}{x_\mathrm{C}-x_\mathrm{L}}\;I_1\,,\qquad
+I_\mathrm{LC}-J_1=\frac{r_\mathrm{C}}{r_1}\,
+\frac{x_1-x_\mathrm{L}}{x_\mathrm{C}-x_\mathrm{L}}\;I_1\,.
+\end{equation}
+If, in addition, the segment is uniform then $I_1$ is partitioned
+between the left hand and right hand endpoints of the segment in
+the proportion in which the position of the input divides the
+distance between the designated nodes.
+
+\subsection{Synaptic input}
+To appreciate how synaptic input differs from exogenous input,
+consider first the case of a single synapse of strength $g(t)$ at
+$x_\mathrm{S}\in\mathcal{L}$. In this simple case, the currents
+$J_0$ and $J_1$ are respectively
+\begin{equation}\label{si1}
+J_0 = \frac{\pi g_\mathrm{A}r_\mathrm{L} r_\mathrm{S}
+(V_\mathrm{L}-V_\mathrm{S})}{x_\mathrm{S}-x_\mathrm{L}}\,,
+\qquad
+J_1 = \frac{\pi g_\mathrm{A}r_\mathrm{S} r_\mathrm{C}
+(V_\mathrm{S}-V_\mathrm{C})}{x_\mathrm{C}-x_\mathrm{S}}\,,
+\qquad J_0=J_1+g(t)(V_\mathrm{S}-E_\mathrm{S})
+\end{equation}
+where $V_\mathrm{S}$ is the membrane potential at the synapse,
+$E_\mathrm{S}$ is the reversal potential for the ionic species of
+the synapse and $r_\mathrm{S}$ is the radius of the dendrite at
+the position of the synapse. It is easy to show from equations
+(\ref{si1}) that the required modification to the original core
+current at $x_\mathrm{L}$ and at $x_\mathrm{C}$ are respectively
+\begin{equation}\label{si2}
+\hskip-8pt\begin{array}{rcl}
+J_0-I_\mathrm{LC}& = & \ds \frac{\pi g(t) g_\mathrm{A}r_\mathrm{L}}
+{x_\mathrm{C}-x_\mathrm{L}}\,\Big[
+\frac{r_\mathrm{L}(x_\mathrm{C}-x_\mathrm{S})^2
+(V_\mathrm{L}-E_\mathrm{S})+r_\mathrm{C}(x_\mathrm{S}-x_\mathrm{L})
+(x_\mathrm{C}-x_\mathrm{S})(V_\mathrm{C}-E_\mathrm{S})}
+{g(t)(x_\mathrm{C}-x_\mathrm{S})(x_\mathrm{S}-x_\mathrm{L})+
+\pi g_\mathrm{A} r^2_\mathrm{S}(x_\mathrm{C}-x_\mathrm{L})}\,\Big]\,,\\[10pt]
+I_\mathrm{LC}-J_1 & = & \ds\frac{\pi g(t) g_\mathrm{A}r_\mathrm{C}}
+{x_\mathrm{C}-x_\mathrm{L}}\,\Big[
+\frac{r_\mathrm{L}(x_\mathrm{S}-x_\mathrm{L})
+(x_\mathrm{C}-x_\mathrm{S})(V_\mathrm{L}-E_\mathrm{S})
++r_\mathrm{C}(x_\mathrm{S}-x_\mathrm{L})^2
+(V_\mathrm{C}-E_\mathrm{S})}{g(t)(x_\mathrm{C}-x_\mathrm{S})
+(x_\mathrm{S}-x_\mathrm{L})+\pi g_\mathrm{A} r^2_\mathrm{S}
+(x_\mathrm{C}-x_\mathrm{L})}\,\Big]\,.
+\end{array}
+\end{equation}
+In particular, it is clear that the modification to the core
+current $I_\mathrm{LC}$ can be characterised exactly by the
+addition of currents at $x_\mathrm{L}$ and $x_\mathrm{C}$.
+Although this methodology can be continued for many different
+synapses in the interval $(x_\mathrm{L},x_\mathrm{C})$, it is
+clear that this approach, when used to describe the effect of many
+synapses, will lead to an unacceptable level of complexity in the
+representation of their effect. What is required are approximate
+but yet tractable expressions for the modifications
+$J_0-I_\mathrm{LC}$ and $I_\mathrm{LC}-J_{n-1}$ in the axial
+current at $x_\mathrm{L}$ and $x_\mathrm{C}$. Moreover, these
+expressions should recognise that synaptic activity changes the
+local potential distribution.
+
+Towards this end, let the synapse at node $x_k\in\mathcal{L}$ have
+conductance $g_k(t)$ and reversal potential $E_k$, then the
+current supplied by that synapse is $I_k=g_k(t)(V_k-E_k)$ where
+$V_k$ is the membrane potential at location $x_k$ and time $t$. To
+avoid the complexity alluded to, but yet take advantage of
+formulae (\ref{ei1}), the membrane potential
+\[
+V(x,t)=\frac{V_\mathrm{L}\,r_\mathrm{L}\,(x_\mathrm{C}-x)+
+V_\mathrm{C}\,r_\mathrm{C}(x-x_\mathrm{L})}{r_k\,
+(x_\mathrm{C}-x_\mathrm{L})}
+\]
+is used in the first instance to estimate the synaptic current
+using the formula
+\begin{equation}\label{si3}
+\begin{array}{rcl}
+I_k=g_k(t)\big(V_k-E_k\big) & = & \ds g_k(t)\Big(
+\frac{V_\mathrm{L}\,r_\mathrm{L}\,(x_\mathrm{C}-x_k)+
+V_\mathrm{C}\,r_\mathrm{C}(x_k-x_\mathrm{L})}{r_k\,
+(x_\mathrm{C}-x_\mathrm{L})}-E_k\Big)\\[10pt]
+& = & \ds g_k(t)\,\frac{r_\mathrm{L}}{r_k}\,\frac{x_\mathrm{C}-x_k}
+{x_\mathrm{C}-x_\mathrm{L}}\,\big(V_\mathrm{L}-E_k\big)
++g_k(t)\,\frac{r_\mathrm{C}}{r_k}\,\frac{x_k-x_\mathrm{L}}
+{x_\mathrm{C}-x_\mathrm{L}}\,\big(V_\mathrm{C}-E_k\big)\,.
+\end{array}
+\end{equation}
+This expression for $I_k$ can now be used in formulae (\ref{ei1})
+to conclude that the effect of synaptic input at $x_1,\cdots,
+x_{n-1}$ may be described by the addition of current
+\begin{equation}\label{si4}
+\begin{array}{rcl}
+J_0-I_\mathrm{LC} & = & \ds V_\mathrm{L}\,\sum_{k=1}^{n-1}\,g_k(t)\,
+\Big(\,\frac{r_\mathrm{L}}{r_k}\,\frac{x_\mathrm{C}-x_k}
+{x_\mathrm{C}-x_\mathrm{L}}\,\Big)^2\\[10pt]
+&&\qquad\ds+\; V_\mathrm{C}\,\sum_{k=1}^{n-1}\,g_k(t)\,
+\frac{r_\mathrm{L} r_\mathrm{C}}{r^2_k}\,
+\frac{(x_\mathrm{C}-x_k)(x_k-x_\mathrm{L})}
+{(x_\mathrm{C}-x_\mathrm{L})^2}-\sum_{k=1}^{n-1}\,
+\frac{r_\mathrm{L}}{r_k}\,
+\frac{x_\mathrm{C}-x_k}{x_\mathrm{C}-x_\mathrm{L}}\;g_k(t) E_k\,,
+\end{array}
+\end{equation}
+at designated point $x_\mathrm{L}$ and by the addition of current
+\begin{equation}\label{si5}
+\begin{array}{rcl}
+I_\mathrm{LC}-J_{n-1} & = & \ds V_\mathrm{L}\,
+\sum_{k=1}^{n-1}\,g_k(t)\,\frac{r_\mathrm{L}r_\mathrm{C}}{r^2_k}\,
+\frac{(x_k-x_\mathrm{L})(x_\mathrm{C}-x_k)}
+{(x_\mathrm{C}-x_\mathrm{L})^2}\\[10pt]
+&&\qquad\ds+\;V_\mathrm{C}\,\sum_{k=1}^{n-1}\,g_k(t)\,
+\Big(\frac{r_\mathrm{C}}{r_k}\,\frac{x_k-x_\mathrm{L}}
+{x_\mathrm{C}-x_\mathrm{L}}\Big)^2-\sum_{k=1}^{n-1}\,
+\frac{r_\mathrm{C}}{r_k}\,
+\frac{x_k-x_\mathrm{L}}{x_\mathrm{C}-x_\mathrm{L}}\;g_k(t) E_k
+\end{array}
+\end{equation}
+at designated point $x_\mathrm{C}$.
+
+\subsection{The model differential equations}
+Suppose that the neuron is partitioned into $m$ compartments where
+the membrane potential at the designated node of the $k^{th}$
+compartment is $V_k(t)$ and let
+\begin{equation}\label{gmde1}
+V(t)=\big[\,V_1(t),V_1(t),\cdots,V_m(t)\,]^\mathrm{T}\,.
+\end{equation}
+The fundamental difference between the generalised and traditional
+compartmental models lies in the specification of the
+transmembrane current. In the traditional model, the specification
+of the transmembrane current falling on a compartment depends only
+on the membrane potential at the designated node of the
+compartment itself. By contrast, in the generalised model the
+mathematical specification of the transmembrane current falling on
+a compartment depends not only on the membrane potential at the
+designated node of the compartment, but also on the membrane
+potential at the designated nodes of the neighbouring
+compartments. For example, the capacitative current in the
+generalised model is expressed as a linear combination of the
+derivative of the membrane potential at the designated node of the
+compartment and the derivative of the membrane potential at the
+nodes of the neighbouring compartments. Similarly, the intrinsic
+voltage-dependent currents and synaptic currents are expressed as
+linear combinations of functions of the membrane potential at the
+designated node of the compartment and those of the neighbouring
+compartments.
+
+It follows immediately from these observations that $V(t)$, the
+column vector of membrane potentials, satisfies the ordinary
+differential equations
+\begin{equation}\label{gmde2}
+F^\mathrm{C}\,\frac{dV}{dt}+G^\mathrm{IVDC}(V)\,V+G^\mathrm{SYN}(t)\,V
++I(t)=AV
+\end{equation}
+where the constant matrix $F^\mathrm{C}$ replaces the diagonal
+matrix $D^\mathrm{C}$ in expression (\ref{mde3}), the matrix
+$G^\mathrm{IVDC}(V)$ of intrinsic voltage-dependent conductances
+replaces the diagonal matrix $D^\mathrm{IVDC}(V)$ in (\ref{mde3}),
+the matrix $G^\mathrm{SYN}(t)$ of synaptic conductances replaces
+the diagonal matrix $D^\mathrm{SYN}(t)$ in (\ref{mde3}) and $I(t)$
+is a column vector of exogenous currents. On the other hand, the
+conductance matrix $A$ is identical to that of the traditional
+compartmental model.
+
+Equation (\ref{gmde2}) is now integrated over the interval
+$[t,t+h]$ to get
+\begin{equation}\label{gmde3}
+F^\mathrm{C}\,\big[\,V(t+h)-V(t)\,\big]+
+\int_t^{t+h}\,\big[\,G^\mathrm{IVDC}(V)+
+G^\mathrm{SYN}(t)\,\big]\,V(t)\,dt
++\int_t^{t+h}\,I(t)=A\int_t^{t+h}\,V(t)\,dt\,.
+\end{equation}
+The trapezoidal quadrature is used to replace each integral in
+equation (\ref{gmde3}) with the exception of the integral of
+intrinsic voltage-dependent current, which is replaced by the
+midpoint quadrature. The result of this calculation is
+\begin{equation}\label{gmde4}
+\begin{array}{l}
+\ds F^\mathrm{C}\,\big[\,V(t+h)-V(t)\,\big]+
+h\,G^\mathrm{IVDC}(V(t+h/2))\,V(t+h/2)\\[10pt]
+\quad\ds+\;\frac{h}{2}\,\Big[\,G^\mathrm{SYN}(t+h)V(t+h)
++G^\mathrm{SYN}(t)V(t)\,\Big]+\frac{h}{2}
+\Big[\,I(t+h)+I(t)\,\Big]\\[10pt]
+\qquad\ds = \frac{h}{2}\,\Big[\,A V(t+h)+AV(t)\,\Big]+O(h^3)\,.
+\end{array}
+\end{equation}
+On taking account of the fact that
+\[
+V(t+h/2)=\frac{1}{2} \,\Big[\,V(t+h)+V(t)\,\Big]+O(h^2)\,,
+\]
+equation (\ref{mde5}) may be reorganised to give
+\begin{equation}\label{mde6}
+\begin{array}{l}
+\ds \Big[\,2 F^\mathrm{C}-hA+h\,G^\mathrm{SYN}(t+h)
++h\,G^\mathrm{IVDC}(V(t+h/2))\,\Big]\,V(t+h) = \\[10pt]
+\qquad\ds \Big[\,2 F^\mathrm{C}+hA+h G^\mathrm{SYN}(t)
+-h\,G^\mathrm{IVDC}(V(t+h/2))\,\Big]\,V(t)
+-h\Big[\,I(t+h)+I(t)\,\Big]
+\end{array}
+\end{equation}
+when the error structure is ignored. The detailed computation of
+$G^\mathrm{IVDC}(V(t+h/2))$ is determined entirely by the
+structure of the auxiliary equations. In the case of
+Hodgkin-Huxley like channels, it is standard knowledge that
+$G^\mathrm{IVDC}(V(t+h/2))$ can be computed to adequate accuracy
+from $V(t)$ and the differential satisfied by the auxiliary
+variables (Lindsay \emph{et al.}, \cite{Lindsay01a}).
+
+The inference to be drawn from the fact that matrix $2
+F^\mathrm{C}-hA+h\,G^\mathrm{SYN}(t+h)
++h\,G^\mathrm{IVDC}(V(t+h/2))$ is not more complex than $A$ itself
+is that the numerical complexity of the mathematical problem posed
+by the generalised compartmental model is identical to that posed
+by the traditional compartmental model.

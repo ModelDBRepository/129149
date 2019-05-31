@@ -1,0 +1,378 @@
+\addtocontents{toc}{\vskip8pt}
+\addtocontents{toc}{\bf\hskip18pt References\hfill \thepage}
+\addtocontents{toc}{\vskip4pt}
+
+\begin{thebibliography}{99}
+
+\bibitem[1997]{Bower97} Bower JM and Beeman D (1997) The
+book of GENESIS. 2nd ed. NY Telos.
+
+\bibitem[1997]{Hines97} Hines M and Carnevale N (1997) The
+NEURON simulation environmment. \emph{Neural Computation}
+9:1179-1209.
+
+\bibitem[1952]{Hodgkin52} Hodgkin AL and Huxley AF (1952) A
+quantitative description of membrane current and its application
+to conduction and excitation in nerve. \emph{Journal of
+Physiology} 117:500-544.
+
+\bibitem[2003]{Lindsay03} Lindsay KA, Rosenberg JR and
+Tucker G (2003). Analytical and numerical construction of
+equivalent cables. \emph{Mathematical Biosciences} 184:137-164.
+
+\bibitem[1999]{Oram99} Oram MW, Wiener MC, Lestienne R, Richmond
+BJ (1999) Stochastic nature of precisely timed spike patterns in
+visual system neuronal responses. \emph{Journal of
+Neurophysiology} 81:3021-3033.
+
+\bibitem[2003]{Poirazi03} Poriazi P, Brannon T, and Mel BW (2003).
+Pyramidal neuron as two-layer neural network \emph{Neuron}
+37:989-999.
+
+\bibitem[1964]{Rall64} Rall W (1964) Theoretical significance
+of dendritic trees and motoneuron input-output relations. In
+\emph{Neural Theory and Modelling.} R.F.Reiss  (ed.). Stanford
+University Press, Stanford CA.
+
+\bibitem[1998]{Segev98} Segev I and Burke RE (1998)
+Compartmental models of complex neurons. In \emph{Methods in
+Neuronal Modeling - from ions to networks} 2nd Edition. Koch C and
+Segev I (eds.). Ch.3, pp 93-136. MIT Press, MA.
+
+\end{thebibliography}
+
+\pagebreak[4]
+
+\textbf{Appendix 1 -- Numerical estimation of perturbations to axial current}
+
+The example in Subsection \ref{stage1} demonstrates that synaptic
+and exogenous input do not act independently. This means that both
+types of point process input must be treated simultaneously in the
+construction of the equations to determine the perturbations
+$I_\mathrm{P}$ and $I_\mathrm{D}$ of the axial current. The
+equations for the perturbations in axial current are constructed
+by replacing $I_k$ in equations (\ref{syn1b}, \ref{syn4} and
+\ref{syn5}) by $I_\mathrm{PD}+\widehat{I}_k$ where $\widehat{I}_k$
+is the perturbation to $I_k$. If $\lambda=\lambda_k$ is the site
+of an exogenous input then the appropriate equation for the
+perturbed currents is
+\begin{equation}\label{syn17a}
+\widehat{I}_k-\widehat{I}_{k+1}=\mathcal{I}_k(t)\,,
+\end{equation}
+whereas if $\lambda=\lambda_k$ is the site of a synapse with
+conductance $g_k(t)$, the appropriate equation is
+\begin{equation}\label{syn17b}
+\widehat{I}_k-\widehat{I}_{k+1}+\frac{g_k h}{\pi g_\mathrm{A}}
+\sum_{j=1}^k \frac{(\lambda_j-\lambda_{j-1})}{r_{j-1}\,r_j}\,
+\widehat{I}_j = \mathcal{I}_k(t)
+\end{equation}
+where the current $\mathcal{I}_k(t)$ is defined by the formula
+\begin{equation}\label{syn17c}
+\mathcal{I}_k(t)=g_k(t)\,\Big[\,(1-\lambda_k)\frac{r_\mathrm{P}}{r_k}
+\,V_\mathrm{P}+\lambda_k\frac{r_\mathrm{D}}{r_k}\, V_\mathrm{D}
+-E_k\,\Big]\,.
+\end{equation}
+The derivation of equation (\ref{syn17b}) takes advantage of the
+identity
+\[
+\sum_{j=1}^k \,\frac{(\lambda_j-\lambda_{j-1})}{r_{j-1}\,r_j}
+=\frac{\lambda_k}{r_\mathrm{P}\,r_k}\,,
+\]
+which can be established by induction. Note that expression
+(\ref{syn17c}) for $\mathcal{I}_k(t)$ when $\lambda=\lambda_k$ is
+a synapse is precisely the current that would be expected to flow
+at the synapse if the distribution of potential on the segment was
+described by expression (\ref{mp3}). Finally, equation
+(\ref{syn5}) simplifies to
+\begin{equation}\label{syn17d}
+\sum_{j=1}^{n+1}
+\frac{(\lambda_j-\lambda_{j-1})r_\mathrm{P}\,r_\mathrm{D}}
+{r_{j-1}\,r_j}\,\widehat{I}_j = 0
+\end{equation}
+where the constant multiplier $r_\mathrm{P}\,r_\mathrm{D}$ has
+been added without loss to make the coefficients of this equation
+comparable to those appearing in the first $n$ equations.
+Equations (\ref{syn17a},\ref{syn17b} and \ref{syn17d}) may be
+represented compactly in matrix notation by
+\begin{equation}\label{syn18}
+A\,\widehat{I}+GC\,\widehat{I}=\mathcal{I}
+\end{equation}
+where $\widehat{I}=[\widehat{I}_1,\ \cdots\ ,\widehat{I}_{n+1}
+]^\mathrm{T}$ is the $(n+1)$ dimensional column vector of
+perturbations in axial current, $\mathcal{I}=[\mathcal{I}_1,\
+\cdots\ , \mathcal{I}_n,0\,]^\mathrm{T}$ and $A$ is the
+$(n+1)\times(n+1)$ matrix
+\begin{equation}\label{syn19}
+\left[\begin{array}{ccccccc}
+1 & \hskip-9pt-1 &  0 & \cdots & \cdots & 0 \\[5pt]
+0 &  1 & \hskip-9pt-1 & \cdots & \cdots & 0 \\[5pt]
+0 &  0 &  1 & \cdots & \cdots & 0 \\[5pt]
+\cdots & \cdots & \cdots & \cdots & \cdots & \cdots \\[5pt]
+0 & 0 & 0 & \cdots & 1 & \hskip-9pt-1 \\[5pt]
+\ds\frac{\lambda_1 r_\mathrm{P}r_\mathrm{D}}{r_0 r_1} &
+\ds\frac{(\lambda_2-\lambda_1)r_\mathrm{P}r_\mathrm{D}}{r_1 r_2} &
+\ds\frac{(\lambda_3-\lambda_2)r_\mathrm{P}r_\mathrm{D}}{r_2 r_3} &
+\cdots &
+\ds\frac{(\lambda_n-\lambda_{n-1})r_\mathrm{P}r_\mathrm{D}}{r_{n-1}
+r_n} & \ds\frac{(1-\lambda_n)r_\mathrm{P}r_\mathrm{D}} {r_n
+r_{n+1}}
+\end{array}\right]\,.
+\end{equation}
+Briefly, $G$ is an $(n+1)\times(n+1)$ diagonal matrix in which the
+$(k,k)$ entry is zero if $\lambda_k$ is the site of an exogenous
+input and takes the value $g_k(t)$ if $\lambda_k$ is the site of a
+synapse. The $(n+1,n+1)$ entry of $G$ is always zero. The matrix
+$C$ is a lower triangular matrix of type $(n+1)\times(n+1)$ in
+which all the nonzero entries in the $k^{th}$ column take the
+value $(\lambda_k-\lambda_{k-1})/(\pi g_\mathrm{A}r_{k-1}\,r_k)$.
+
+\textbf{Multiple point inputs}
+
+To take account of the influence of the matrix $GC$ in the
+solution of equation (\ref{syn18}), the algorithm
+\begin{equation}\label{syn20}
+A\widehat{I}^{(m+1)}=\mathcal{I}-GC\widehat{I}^{(m)}
+\end{equation}
+is iterated with initial condition
+$A\widehat{I}^{(0)}=\mathcal{I}$. Although it can be demonstrated
+that the matrix $A$ has a simple closed form expression for its
+inverse, it is not (numerically) efficient to use this expression
+to solve equation (\ref{syn20}). Instead, we observe that $A$ has
+an $LU$ factorisation in which $U$ is the $(n+1)\times(n+1)$ upper
+triangular matrix with ones everywhere in the main diagonal,
+negative ones everywhere in the super-diagonal and zero everywhere
+else, and $L$ is the $(n+1)\times(n+1)$ lower triangular matrix
+\begin{equation}\label{syn21}
+\left[\begin{array}{ccccccc}
+1 & 0 & 0 & 0 & \cdots & \cdots & 0 \\[5pt]
+0 & 1 & 0 & 0 & \cdots & \cdots & 0 \\[5pt]
+0 & 0 & 1 & 0 & \cdots & \cdots & 0 \\[5pt]
+\cdots & \cdots & \cdots & \cdots & \cdots & \cdots & \cdots \\[5pt]
+\ds\frac{\lambda_1\,r_\mathrm{P}}{r_1} &
+\ds\frac{\lambda_2\,r_\mathrm{P}}{r_2} &
+\ds\frac{\lambda_3\,r_\mathrm{P}}{r_3} &
+\ds\frac{\lambda_4\,r_\mathrm{P}}{r_4} & \cdots &
+\ds\frac{\lambda_n\,r_\mathrm{P}}{r_n} & 1
+\end{array}\right]\,.
+\end{equation}
+Since $\mathcal{I}$ is a linear combination of $V_\mathrm{P}$,
+$V_\mathrm{D}$ and a voltage independent term, then the solution
+to equation (\ref{syn20}) has general representation
+\begin{equation}\label{syn22}
+\widehat{I} = \phi_1(t)V_\mathrm{P} +
+\phi_2(t)V_\mathrm{D}+\phi_3(t)
+\end{equation}
+where $\phi_1(t)$, $\phi_2(t)$ and $\phi_3(t)$ satisfy
+\begin{equation}\label{syn23}
+\begin{array}{rcl}
+A\,\phi_1 & = & \Big[\,g_1(1-\lambda_1)\ds\frac{r_\mathrm{P}}{r_1}
+,\ \cdots \ ,\
+g_n(1-\lambda_n)\ds\frac{r_\mathrm{P}}{r_n},0\,\Big]^\mathrm{T}
+-GC\,\phi_1\,,\\[10pt]
+A\,\phi_2 & = & \Big[\,g_1\lambda_1\ds\frac{r_\mathrm{D}}{r_1}
+,\ \cdots \ ,\ g_n\lambda_n\ds\frac{r_\mathrm{D}}{r_n},0\,\Big]^\mathrm{T}-GC\,\phi_2\,,\\[10pt]
+A\,\phi_3 & = & -\Big[\,g_1E_1,\ \cdots \ ,\
+g_nE_n,0\,\Big]^\mathrm{T}-GC\,\phi_3\,.
+\end{array}
+\end{equation}
+The equations (\ref{syn23}) for $\phi_1(t)$, $\phi_2(t)$ and
+$\phi_3(t)$ may be solved easily by an iterative procedure based
+on the sparse $LU$ factorisation of $A$. If the conductances
+$g_1,\ \cdots ,\ g_n$ are sufficiently small, the solution of
+equations (\ref{syn23}) is well approximated by ignoring the
+second term on the right hand side or equations (\ref{syn23}).
+This approximation is equivalent to using the partitioning rule
+(\ref{potc3}) in combination with formula (\ref{mp3}) for the
+membrane potential.
+
+\textbf{Special case of exogenous input}
+
+If $\lambda_1,\ \cdots\ ,\lambda_n$ are sites of exogenous input
+$\mathcal{I}_1,\ \cdots \,\mathcal{I}_n$ then $G=0$ in equation
+(\ref{syn20}) and $\mathcal{I}$ is the vector of exogenous
+currents. In this case, expressions (\ref{ei1}) for $I_\mathrm{P}$
+and $I_\mathrm{D}$ are obtained immediately as the first and last
+entries in the solution $\widehat{I}$ of equation
+$A\,\widehat{I}=LU\,\widehat{I}=\mathcal{I}$.
+
+\textbf{Appendix 2 -- The partitioning of capacitative current on tapered
+cylinders}
+
+Recall from expressions (\ref{potc3}) that the contributions made
+to the proximal and distal perturbations to the axial current as a
+consequence of capacitative transmembrane current on a tapered
+segment with membrane of variable specific capacitance are
+respectively
+\begin{equation}\label{dtc13}
+\begin{array}{rcl}
+I^\mathrm{\,cap}_\mathrm{P} & = & 2\pi\, r_\mathrm{P} h
+\ds\Big[r_\mathrm{P}\frac{dV_\mathrm{P}}{dt}
+\int_0^1\frac{(1-\lambda)^2 c_\mathrm{M}(\lambda)\,d\lambda}
+{(1-\lambda)\,r_\mathrm{P}+\lambda\,r_\mathrm{D}}
++r_\mathrm{D}\frac{dV_\mathrm{D}}{dt} \int_0^1
+\frac{\lambda(1-\lambda)c_\mathrm{M}(\lambda)\,d\lambda}
+{(1-\lambda)\,r_\mathrm{P}+\lambda\,r_\mathrm{D}}\Big],\\[12pt]
+-I^\mathrm{\,cap}_\mathrm{D} & = & 2\pi\, r_\mathrm{D} h
+\ds\Big[r_\mathrm{P}\frac{dV_\mathrm{P}}{dt}\int_0^1\,
+\frac{\lambda(1-\lambda)c_\mathrm{M}(\lambda)\,d\lambda}
+{(1-\lambda)\,r_\mathrm{P}+\lambda\,r_\mathrm{D}}+r_\mathrm{D}
+\frac{dV_\mathrm{D}}{dt}\int_0^1\,\frac{\lambda^2
+c_\mathrm{M}(\lambda)\,d\lambda}
+{(1-\lambda)\,r_\mathrm{P}+\lambda\,r_\mathrm{D}}\,\Big]\,.
+\end{array}
+\end{equation}
+For tapered segments ($r_\mathrm{P}\ne r_\mathrm{D}$) with
+membranes of non-uniform specific capacitance, the integrals in
+(\ref{dtc13}) have values
+\begin{equation}\label{dtc15}
+\begin{array}{rcl}
+I^\mathrm{\,cap}_\mathrm{P} & = & \ds 2\pi h
+\,r_\mathrm{P}\Big[c_\mathrm{P}\psi(r_\mathrm{P},r_\mathrm{D})
++c_\mathrm{D}\phi(r_\mathrm{P},r_\mathrm{D})\Big]
+\frac{dV_\mathrm{P}}{dt}\\[10pt]
+&&\qquad\ds+\;2\pi h\Big[c_\mathrm{P}r_\mathrm{D}
+\phi(r_\mathrm{P},r_\mathrm{D})+c_\mathrm{D}r_\mathrm{P}
+\phi(r_\mathrm{D},r_\mathrm{P})\Big]\frac{dV_\mathrm{D}}{dt}\,,\\[10pt]
+-I^\mathrm{\,cap}_\mathrm{D} & = & \ds 2\pi h
+\Big[c_\mathrm{P}r_\mathrm{D}\phi(r_\mathrm{P},r_\mathrm{D})
++c_\mathrm{D}r_\mathrm{P}\phi(r_\mathrm{D},r_\mathrm{P})\Big]
+\frac{dV_\mathrm{P}}{dt}\\[10pt]
+&&\qquad\ds+\;2\pi h r_\mathrm{D}\Big[c_\mathrm{P}
+\phi(r_\mathrm{D},r_\mathrm{P})+c_\mathrm{D}\psi(r_\mathrm{D},
+r_\mathrm{P})\Big]\frac{dV_\mathrm{D}}{dt}\nonumber
+\end{array}
+\end{equation}
+where $c_\mathrm{M}(\lambda)=(1-\lambda)c_\mathrm{P}+\lambda\,
+c_\mathrm{D}$ and the auxiliary functions $\phi(x,y)$ and
+$\psi(x,y)$ are defined by
+\begin{equation}\label{dtc16}
+\begin{array}{rcl}
+\phi(x,y) & = & \ds\frac{x}{6(x-y)^3}\,\Big[x^2-5xy-2y^2
++\frac{6xy^2}{x-y}\,\log\frac{x}{y}\,\Big]\,,\\[10pt]
+\psi(x,y) & = & \ds\frac{x}{6(x-y)^3}\,\Big[2x^2-7xy+11y^2
+-\frac{6y^3}{x-y}\log\frac{x}{y}\,\Big]\,.
+\end{array}
+\end{equation}
+The evaluation of the integrals in expression (\ref{dtc13}) is
+facilitated by defining the auxiliary integrals
+\[
+\mathcal{K}_1= \int_0^1\frac{(1-\lambda)^2
+\widehat{c}_\mathrm{M}(\lambda)\,d\lambda}
+{\widehat{r}(\lambda)}\,,\qquad \mathcal{K}_2=\int_0^1
+\frac{\lambda(1-\lambda)\widehat{c}_\mathrm{M}(\lambda)\,d\lambda}
+{\widehat{r}(\lambda)}\,,\qquad
+\mathcal{K}_3=\int_0^1\,\frac{\lambda^2\widehat{c}_\mathrm{M}(\lambda)\,d\lambda}
+{\widehat{r}(\lambda)}
+\]
+and observing that $\mathcal{K}_1$, $\mathcal{K}_2$ and
+$\mathcal{K}_3$ can be determined easily from the identities
+\[
+\begin{array}{rcl}
+\mathcal{K}_1+2\mathcal{K}_2+\mathcal{K}_3 & = & \ds
+\int_0^1\frac{\widehat{c}_\mathrm{M}(\lambda)\,d\lambda}{\widehat{r}(\lambda)}\,,\\[10pt]
+r_\mathrm{P}\,\mathcal{K}_1+r_\mathrm{D}\,\mathcal{K}_2 & = &
+\ds\int_0^1 (1-\lambda)\widehat{c}_\mathrm{M}(\lambda)\,d\lambda\,,\\[10pt]
+r_\mathrm{P}\,\mathcal{K}_2+r_\mathrm{D}\,\mathcal{K}_3 & = & \ds\int_0^1
+\lambda\,\widehat{c}_\mathrm{M}(\lambda)\,d\lambda\,.
+\end{array}
+\]
+The results given in subsection \ref{CapCurrent} for a uniform
+segment ($r_\mathrm{P}=r_\mathrm{D}$) are obtained from formulae
+(\ref{dtc15}) by replacing $\phi(x,y)$ and $\psi(x,y)$ with their
+respective limiting values of $1/12$ and $1/4$ where each limit is
+taken as $x\to y$.
+
+\pagebreak[4]
+
+\textbf{Appendix 3 -- Partitioning of voltage-dependent current on
+tapered cylinders}
+
+The construction of $I^\mathrm{\,cap}_\mathrm{P}$ and
+$I^\mathrm{\,cap}_\mathrm{D}$ for a membrane with non-constant
+specific capacitance provides the framework for treating intrinsic
+voltage-dependent transmembrane current. For tapered segments with
+non-constant membrane conductance, the contributions to the
+perturbations in the axial current at the proximal and distal
+boundaries of the segment are identical to expressions
+(\ref{dtc15}) with $c_\mathrm{P}$ replaced by
+$g_\mathrm{P}(V_\mathrm{P};\bs{\theta})\,$ and $c_\mathrm{D}$
+replaced by $g_\mathrm{D}(V_\mathrm{D};\bs{\theta})\,$. These
+contributions are
+\begin{equation}\label{dtc19}
+\begin{array}{rcl}
+I^\mathrm{\,IVDC}_\mathrm{P} & = & 2\pi h
+\,r_\mathrm{P}\Big[g_\mathrm{P}(V_\mathrm{P};\bs{\theta})\,\psi(r_\mathrm{P},r_\mathrm{D})
++g_\mathrm{D}(V_\mathrm{D};\bs{\theta})\,\phi(r_\mathrm{P},r_\mathrm{D})\Big]
+(V_\mathrm{P}-E)\\[5pt]
+&&\qquad+\;2\pi
+h\Big[g_\mathrm{P}(V_\mathrm{P};\bs{\theta})\,r_\mathrm{D}
+\phi(r_\mathrm{P},r_\mathrm{D})+g_\mathrm{D}(V_\mathrm{D};\bs{\theta})\,r_\mathrm{P}
+\phi(r_\mathrm{D},r_\mathrm{P})\Big](V_\mathrm{D}-E)\,,\\[10pt]
+-I^\mathrm{\,IVDC}_\mathrm{D} & = & 2\pi h
+\Big[g_\mathrm{P}(V_\mathrm{P};\bs{\theta})\,r_\mathrm{D}\phi(r_\mathrm{P},r_\mathrm{D})
++g_\mathrm{D}(V_\mathrm{D};\bs{\theta})\,r_\mathrm{P}\phi(r_\mathrm{D},r_\mathrm{P})\Big]
+(V_\mathrm{P}-E)\\[5pt]
+&&\qquad+\;2\pi
+h\,r_\mathrm{D}\Big[g_\mathrm{P}(V_\mathrm{P};\bs{\theta})\,
+\phi(r_\mathrm{D},r_\mathrm{P})+g_\mathrm{D}(V_\mathrm{D};\bs{\theta})\,
+\psi(r_\mathrm{D},r_\mathrm{P})\Big](V_\mathrm{D}-E)
+\end{array}
+\end{equation}
+where the auxiliary functions $\phi(x,y)$ and $\psi(x,y)$ are
+defined in (\ref{dtc16}).
+
+\textbf{Appendix 4 -- Analytical solution for somal potential of
+test neuron}
+
+It may be shown that $V(t)$, the deviation of the somal
+transmembrane potential from its resting value as a result of a
+distribution $\mathcal{I}(x,t)$ of current on a uniform
+cylindrical dendrite of radius $a$ and length $l$ attached to a
+soma is
+\begin{equation}\label{es4}
+V(t)=e^{-t/\tau}\,\Big[\,\phi_0(t)+\sum_\beta\;\phi_\beta(t)
+e^{-\beta^2 t/L^2\tau}\,\cos\beta\,\Big]\,, \qquad
+L=l\,\sqrt{\ds\frac{2 g_\mathrm{M}}{a g_\mathrm{A}}}
+\end{equation}
+where $\tau$ is the time constant of the somal and dendritic
+membranes and $g_\mathrm{M}$ and $g_\mathrm{A}$ have their usual
+meanings. The summation is taken over all the solutions $\beta$ of
+the transcendental equation $\tan\beta+\gamma\beta=0$ where
+$\gamma$ (constant) is the ratio of the total membrane area of the
+soma to the total membrane area of the dendrite. The functions
+$\phi_0(t)$ and $\phi_\beta(t)$ are solutions of the differential
+equations
+\begin{equation}\label{es9}
+\begin{array}{rcl}
+\ds\frac{d\phi_0}{dt} & = & -\ds\frac{e^{t/\tau}}
+{C_\mathrm{D}+C_\mathrm{S}}\,\Big[\,
+\mathcal{I}_\mathrm{S}(t)+\int_0^l\,\mathcal{I}(x,t)\,dx\,\Big]\,,\\[10pt]
+\ds\frac{d\phi_\beta}{dt} & = &
+-\ds\frac{2e^{(1+\beta^2/L^2)t/\tau}} {C_\mathrm{D}
++C_\mathrm{S}\cos^2\beta}\,\Big[\,
+\int_0^1\,\mathcal{I}(x,t)\cos\beta\big(1-x/l\big)\,dx
++\cos\beta\,\mathcal{I}_\mathrm{S}(t)\,\Big]
+\end{array}
+\end{equation}
+with initial conditions $\phi_0(0)=\phi_\beta(0)=0$, that is, the
+neuron is initialised at its resting potential. The parameters
+$C_\mathrm{S}$ and $C_\mathrm{D}$ denote respectively the total
+membrane capacitances of the soma and dendrite, and
+$\mathcal{I}_\mathrm{S}(t)$ is the current supplied to the soma.
+
+In the special case in which point currents $\mathcal{I}_1(t),
+\cdots,\mathcal{I}_n(t)$ act at distances $x_1,\cdots x_n$ from
+the soma of the uniform cylinder, the corresponding coefficient
+functions $\phi_0$ and $\phi_\beta$ satisfy
+\begin{equation}\label{ec2}
+\begin{array}{rcl}
+\ds\frac{d\phi_0}{dt} & = &\ds -\frac{e^{t/\tau}}
+{C_\mathrm{D}+C_\mathrm{S}}\,\Big[\,
+\mathcal{I}_\mathrm{S}(t)+\sum_{k=1}^n\;\mathcal{I}_k(t)\,\Big]\,,\\[10pt]
+\ds\frac{d\phi_\beta}{dt} & = &
+\ds-\frac{2e^{(1+\beta^2/L^2)t/\tau}}
+{C_\mathrm{D}+C_\mathrm{S}\cos^2\beta}\,\Big[\, \sum_{k=1}^n
+\;\mathcal{I}_k(t)\cos\beta\big(1-x_k/l\big)
++\cos\beta\,\mathcal{I}_\mathrm{S}(t)\,\Big]\,.
+\end{array}
+\end{equation}

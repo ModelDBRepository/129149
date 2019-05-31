@@ -1,0 +1,396 @@
+[Squeakfoundation]Unrandom Random (was Two fixes I would like!)
+Ken G. Brown squeakfoundation@lists.squeakfoundation.org
+Wed, 4 Dec 2002 13:27:09 -0700
+
+Previous message: [Squeakfoundation]Two fixes I would like!
+Next message: [Squeakfoundation]Unrandom Random (was Two fixes I would like!)
+Messages sorted by: [ date ] [ thread ] [ subject ] [ author ]
+
+--------------------------------------------------------------------------------
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_0028_01C29B98.D88E3D90
+Content-Type: text/plain;
+    charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
+
+An associate of mine has previously run into problems with utilizing underlying platform random number generation for encryption and
+security and had come across a site that plotted noise spheres for various RNG's. Unfortunately, the site is no longer accessible.
+He ended up going with the attached 'C' code for RNG, for use in the algorithms.
+When asked for a pointer to the www site, he said:
+
+> The site in question is no longer up. What it did was plot the "noise
+> sphere" of the output of numerous RNG's from different OS's to give a
+> measure of how good any encryption would be. Noise spheres of higher
+> dimensions are used to rate high-order correlations between samples in
+> sequences. I would suggest doing a search on "noise sphere". (if I recall
+> correctly, either the 'mathworks' site and/or the 'wolfram' (mathematica)
+> site(s) have a good discussion on the use of "noise spheres".)
+>
+> The DDJ mag (Doctor Dobb's Journal) site also used to have a good discussion
+> on the difficulty of artificially generated randomness as well.
+>
+> Windows 98/ME/NT4 did rate as among the poorest RNGs; Windows 2000 was much
+> improved and Windows XP rates as equivalent to many UNIX's. In any case, the
+> MAC (OS7 and later) and Linux (2.4 kernel) rated as among the best.
+>
+<snip>
+>We ended up using a RNG we found in the 95-03 version of 'snippets'. I have
+> included them here.
+
+Perhaps this information may help with the RNG considerations.
+
+Ken
+
+
+
+> -----Original Message-----
+> From: squeakfoundation-admin@lists.squeakfoundation.org
+> [mailto:squeakfoundation-admin@lists.squeakfoundation.org]On Behalf Of
+> Tim Rowledge
+> Sent: December 3, 2002 4:28 PM
+> To: squeakfoundation@lists.squeakfoundation.org
+> Subject: Re: [Squeakfoundation]Two fixes I would like!
+>
+>
+> John M McIntosh <johnmci@smalltalkconsulting.com> is claimed by the authorities to have written:
+>
+> > One of the issues is that on the mac the millisecond clock starts from
+> > zero at application start time, so this code
+>
+> Possible simple improvement; add a prim to return a seed. Each platform
+> can do whatever it can plausibly do (sounds like some OSs have some sort
+> of facility for random) and returns a number. Is a SmallInt good enough
+> or should we allow LPIs?
+>
+> If the prim fails then we fall back to the current case and nobody is
+> any worse off.
+>
+> tim
+> --
+> Tim Rowledge, tim@sumeru.stanford.edu, http://sumeru.stanford.edu/tim
+> Strange OpCodes: SDS: Sort of Do Something
+>
+> _______________________________________________
+> Squeakfoundation mailing list
+> Squeakfoundation@lists.squeakfoundation.org
+> http://lists.squeakfoundation.org/listinfo/squeakfoundation
+
+------=_NextPart_000_0028_01C29B98.D88E3D90
+Content-Type: application/octet-stream;
+    name="RAND2.C"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+    filename="RAND2.C"
+
+/********************************************************************
+          The McGill Super-Duper Random Number Generator
+             G. Marsaglia, K. Ananthanarayana, N. Paul
+
+    Incorporating the Ziggurat method of sampling from decreasing
+              or symmetric unimodal density functions.
+                      G. Marsaglia, W.W. Tsang
+
+                 Rewritten into C by E. Schneider
+ *********************************************************************/
+
+static unsigned long mcgn, srgn;
+
+#define MULT 69069L
+
+void rstart (long i1, long i2)
+{
+      mcgn = (unsigned long)((i1 == 0L) ? 0L : i1 | 1L);
+      srgn = (unsigned long)((i2 == 0L) ? 0L : (i2 & 0x7FFL) | 1L);
+}
+
+long uni(void)
+{
+      unsigned long r0, r1;
+
+      r0 = (srgn >> 15);
+      r1 = srgn ^ r0;
+      r0 = (r1 << 17);
+      srgn = r0 ^ r1;
+      mcgn = MULT * mcgn;
+      r1 = mcgn ^ srgn;
+      return (r1 >> 1);
+}
+
+long vni(void)
+{
+      unsigned long r0, r1;
+
+      r0 = (srgn >> 15);
+      r1 = srgn ^ r0;
+      r0 = (r1 << 17);
+      srgn = r0 ^ r1;
+      mcgn = MULT * mcgn;
+      r1 = mcgn ^ srgn;
+      return r1;
+}
+
+/*
+"Anyone who consider arithmetic means of producing random number is,
+ of course, in a state of sin" - John Von Neumann
+*/
+
+------=_NextPart_000_0028_01C29B98.D88E3D90
+Content-Type: application/octet-stream;
+    name="RAND1.C"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+    filename="RAND1.C"
+
+/************************************************************************
+ This random number generator originally appeared in "Toward a Universal
+ Random Number Generator" by George Marsaglia and Arif Zaman.
+ Florida State University Report: FSU-SCRI-87-50 (1987)
+
+ It was later modified by F. James and published in "A Review of Pseudo-
+ random Number Generators"
+
+ Converted from FORTRAN to C by Phil Linttell, James F. Hickling
+ Management Consultants Ltd, Aug. 14, 1989.
+
+ THIS IS THE BEST KNOWN RANDOM NUMBER GENERATOR AVAILABLE.
+       (However, a newly discovered technique can yield
+         a period of 10^600. But that is still in the development stage.)
+
+ It passes ALL of the tests for random number generators and has a period
+   of 2^144, is completely portable (gives bit identical results on all
+   machines with at least 24-bit mantissas in the floating point
+   representation).
+
+ The algorithm is a combination of a Fibonacci sequence (with lags of 97
+   and 33, and operation "subtraction plus one, modulo one") and an
+   "arithmetic sequence" (using subtraction).
+
+ On a Vax 11/780, this random number generator can produce a number in
+    13 microseconds.
+************************************************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <time.h>
+
+#define TRUE    1
+#define FALSE   0
+
+float u[97], c, cd, cm;
+int i97, j97, test;
+
+int rmarin(int ij, int kl);
+int ranmar(float rvec[], int len);
+
+
+int main()
+{
+
+        float temp[100];
+        int i;
+        int ij, kl, len;
+
+        /*These are the seeds needed to produce the test case results*/
+
+        ij = 1802;
+        kl = 9373;
+
+        /*Do the initialization*/
+
+        if (1 == rmarin(ij,kl))
+                return 1;
+
+        /*Generate 20000 random numbers*/
+
+        len = 100;
+        for ( i=0; i<=199 ; i++)
+                if (1 == ranmar(temp, len))
+                        return 1;
+
+        /*If the random number generator is working properly,
+          the next six random numbers should be:
+
+            6533892.0  14220222.0   7275067.0
+            6172232.0   8354498.0  10633180.0
+        */
+
+        len = 6;
+        if (1 == ranmar(temp, len))
+                return 1;
+
+        for ( i=0; i<=5; i++)
+                printf("%12.1f\n",4096.0*4096.0*temp[i]);
+
+        return 0;
+}
+
+
+/************************************************************************
+ This is the initialization routine for the random number generator RANMAR()
+ NOTE: The seed variables can have values between:    0 <= IJ <= 31328
+                                                      0 <= KL <= 30081
+ The random number sequences created by these two seeds are of sufficient
+ length to complete an entire calculation with. For example, if several
+ different groups are working on different parts of the same calculation,
+ each group could be assigned its own IJ seed. This would leave each group
+ with 30000 choices for the second seed. That is to say, this random
+ number generator can create 900 million different subsequences -- with
+ each subsequence having a length of approximately 10^30.
+
+ Use IJ = 1802 & KL = 9373 to test the random number generator. The
+ subroutine RANMAR should be used to generate 20000 random numbers.
+ Then display the next six random numbers generated multiplied by 4096*4096
+ If the random number generator is working properly, the random numbers
+ should be:
+           6533892.0  14220222.0   7275067.0
+           6172232.0   8354498.0  10633180.0
+************************************************************************/
+
+int rmarin(int ij, int kl)
+{
+
+        float s, t;
+        int i, j, k, l, m;
+        int ii, jj;
+
+        /* Change FALSE to TRUE in the next statement to test the
+           random routine.*/
+
+        test = TRUE;
+
+        if ( ( ij < 0 || ij > 31328 ) ||
+                ( kl < 0 || kl > 30081 ) )
+        {
+                printf ("RMARIN: The first random number seed must have a "
+                        "value between 0 and 31328\n");
+                printf ("        The second random number seed must have a "
+                        "value between 0 and 30081");
+                return 1;
+        }
+
+        i = (int)fmod(ij/177.0, 177.0) + 2;
+        j = (int)fmod(ij      , 177.0) + 2;
+        k = (int)fmod(kl/169.0, 178.0) + 1;
+        l = (int)fmod(kl      , 169.0);
+
+        for ( ii=0; ii<=96; ii++ )
+        {
+                s = (float)0.0;
+                t = (float)0.5;
+                for ( jj=0; jj<=23; jj++ )
+                {
+                        m = (int)fmod( fmod(i*j,179.0)*k , 179.0 );
+                        i = j;
+                        j = k;
+                        k = m;
+                        l = (int)fmod( 53.0*l+1.0 , 169.0 );
+                        if ( fmod(l*m,64.0) >= 32)
+                                s = s + t;
+                        t = (float)(0.5 * t);
+                }
+                u[ii] = s;
+        }
+
+        c  = (float)(  362436.0 / 16777216.0);
+        cd = (float)( 7654321.0 / 16777216.0);
+        cm = (float)(16777213.0 / 16777216.0);
+
+        i97 = 96;
+        j97 = 32;
+
+        test = TRUE;
+
+        return 0;
+}
+
+int ranmar(float rvec[], int len)
+{
+        float uni;
+        int ivec;
+
+        if ( !test )
+        {
+                printf ("RANMAR: Call the initialization routine (RMARIN) "
+                        "before calling RANMAR.\n");
+                return 1;
+        }
+
+        for ( ivec=0; ivec < len; ivec++)
+        {
+                uni = u[i97] - u[j97];
+                if ( uni < 0.0F )
+                        uni = uni + 1.0;
+                u[i97] = uni;
+                i97--;
+                if ( i97 < 0 )
+                        i97 = 96;
+                j97--;
+                if ( j97 < 0 )
+                        j97 = 96;
+                c = c - cd;
+                if ( c < 0.0F )
+                        c = c + cm;
+                uni = uni - c;
+                if ( uni < 0.0F )
+                        uni = uni + 1.0;
+                rvec[ivec] = uni;
+        }
+        return 0;
+}
+
+/* I use the following procedure in TC to generate seeds:
+
+  The sow() procedure calculates two seeds for use with the random number
+  generator from the system clock.  I decided how to do this myself, and
+  I am sure that there must be better ways to select seeds; hopefully,
+  however, this is good enough.  The first seed is calculated from the values
+  for second, minute, hour, and year-day; weighted with the second most
+  significant and year-day least significant.  The second seed weights the
+  values in reverse.
+*/
+
+void sow( seed1, seed2 )
+int *seed1, *seed2;
+{
+        struct tm *tm_now;
+        float s_sig, s_insig, maxs_sig, maxs_insig;
+        long secs_now;
+        int s, m, h, d, s1, s2;
+
+        time(&secs_now);
+        tm_now = localtime(&secs_now);
+
+        s = tm_now->tm_sec + 1;
+        m = tm_now->tm_min + 1;
+        h = tm_now->tm_hour + 1;
+        d = tm_now->tm_yday + 1;
+
+        maxs_sig   = (float)(60.0 + 60.0/60.0 + 24.0/60.0/60.0 +
+              366.0/24.0/60.0/60.0);
+        maxs_insig = (float)(60.0 + 60.0*60.0 + 24.0*60.0*60.0 +
+              366.0*24.0*60.0*60.0);
+
+        s_sig      = (float)(s + m/60.0 + h/60.0/60.0 + d/24.0/60.0/60.0);
+        s_insig    = (float)(s + m*60.0 + h*60.0*60.0 + d*24.0*60.0*60.0);
+
+        s1 = (int)(s_sig   / maxs_sig   * 31328.0);
+        s2 = (int)(s_insig / maxs_insig * 30081.0);
+
+        *seed1 = s1;
+        *seed2 = s2;
+}
+
+------=_NextPart_000_0028_01C29B98.D88E3D90--
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+Previous message: [Squeakfoundation]Two fixes I would like!
+Next message: [Squeakfoundation]Unrandom Random (was Two fixes I would like!)
+Messages 

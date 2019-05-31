@@ -1,0 +1,29 @@
+\contentsline {section}{\numberline {1}Introduction}{4}
+\contentsline {section}{\numberline {2}Structure of compartmental models}{5}
+\contentsline {section}{\numberline {3}Distributed and point input to a segment}{6}
+\contentsline {subsection}{\numberline {3.1}Axial current in the absence of distributed and point current input}{6}
+\contentsline {subsection}{\numberline {3.2}Motivation for partitioning point current input - model accuracy}{7}
+\contentsline {subsection}{\numberline {3.3}Partitioning rule for transmembrane current}{8}
+\contentsline {subsection}{\numberline {3.4}Specification of transmembrane current}{9}
+\contentsline {section}{\numberline {4}Representation of partitioned transmembrane current}{9}
+\contentsline {subsection}{\numberline {4.1}Point sources of transmembrane current}{10}
+\contentsline {subsection}{\numberline {4.2}Generalisation of partitioning rule for point input}{10}
+\contentsline {subsection}{\numberline {4.3}Special and general solutions of the point input partitioning equations}{13}
+\contentsline {subsubsection}{\numberline {4.3.1}Single synaptic input}{13}
+\contentsline {subsubsection}{\numberline {4.3.2}Multiple point inputs}{13}
+\contentsline {subsubsection}{\numberline {4.3.3}Exogenous input}{14}
+\contentsline {subsection}{\numberline {4.4}Distributed transmembrane current}{14}
+\contentsline {subsubsection}{\numberline {4.4.1}Capacitative transmembrane current}{15}
+\contentsline {subsubsection}{\numberline {4.4.2}Intrinsic voltage-dependent transmembrane current}{16}
+\contentsline {section}{\numberline {5}Construction of the model differential equations}{16}
+\contentsline {subsection}{\numberline {5.1}Some additional comments}{18}
+\contentsline {section}{\numberline {6}The model neuron}{19}
+\contentsline {subsection}{\numberline {6.1}Analytical solution}{20}
+\contentsline {section}{\numberline {7}Simulation exercises}{20}
+\contentsline {subsection}{\numberline {7.1}First simulation exercise}{21}
+\contentsline {subsubsection}{\numberline {7.1.1}Results}{21}
+\contentsline {subsection}{\numberline {7.2}Second simulation exercise}{24}
+\contentsline {section}{\numberline {8}Concluding remarks}{25}
+\vskip 8pt
+\bf \hskip 18pt References\hfill 26
+\vskip 4pt

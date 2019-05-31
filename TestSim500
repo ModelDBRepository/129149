@@ -1,0 +1,532 @@
+begintemplate Simul
+
+objref stim001
+objref stim002
+objref stim003
+objref stim004
+objref stim005
+objref stim006
+objref stim007
+objref stim008
+objref stim009
+objref stim010
+objref stim011
+objref stim012
+objref stim013
+objref stim014
+objref stim015
+objref stim016
+objref stim017
+objref stim018
+objref stim019
+objref stim020
+objref stim021
+objref stim022
+objref stim023
+objref stim024
+objref stim025
+objref stim026
+objref stim027
+objref stim028
+objref stim029
+objref stim030
+objref stim031
+objref stim032
+objref stim033
+objref stim034
+objref stim035
+objref stim036
+objref stim037
+objref stim038
+objref stim039
+objref stim040
+objref stim041
+objref stim042
+objref stim043
+objref stim044
+objref stim045
+objref stim046
+objref stim047
+objref stim048
+objref stim049
+objref stim050
+objref stim051
+objref stim052
+objref stim053
+objref stim054
+objref stim055
+objref stim056
+objref stim057
+objref stim058
+objref stim059
+objref stim060
+objref stim061
+objref stim062
+objref stim063
+objref stim064
+objref stim065
+objref stim066
+objref stim067
+objref stim068
+objref stim069
+objref stim070
+objref stim071
+objref stim072
+objref stim073
+objref stim074
+objref stim075
+
+public soma, dend, run
+create soma, dend[16]
+
+proc init() {local i
+
+    create soma, dend[16]
+    access soma
+
+    L = 40
+    diam = 40
+    nseg = 1
+    Ra = 69.9986
+    insert pas
+    g_pas = 0.000091
+    e_pas = -60.0
+
+    dend[0] {  L = 265.791375  diam = 2.00000000   nseg = 14 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[1] {  L = 265.791375  diam = 2.00000000   nseg = 14 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[2] {  L = 265.791375  diam = 2.00000000   nseg = 14 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[3] {  L = 325.526623  diam = 3.00000000   nseg = 17 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[4] {  L = 325.526623  diam = 3.00000000   nseg = 17 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[5] {  L = 205.068923  diam = 4.76220316   nseg = 11 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[6] {  L = 191.668747  diam = 4.16016760   nseg = 11 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[7] {  L = 083.404623  diam = 7.08975084   nseg = 6  Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[8] {  L = 250.590512  diam = 4.00000000   nseg = 14 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[9] {  L = 250.590512  diam = 4.00000000   nseg = 14 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[10] {  L = 198.109194  diam = 2.50000000  nseg = 11 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[11] {  L = 198.109194  diam = 2.50000000  nseg = 11 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[12] {  L = 198.109194  diam = 2.50000000  nseg = 11 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[13] {  L = 285.722900  diam = 5.20020956  nseg = 15 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[14] {  L = 315.724260  diam = 6.34960420  nseg = 17 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+    dend[15] {  L = 189.914193  diam = 9.18978988  nseg = 11 Ra = 69.9986 insert pas g_pas = 0.000091 e_pas = -60.0 }
+
+    connect dend[15](0), soma(1)
+    for i=13,14 connect dend[i](0), dend[15](1)
+    for i=10,12 connect dend[i](0), dend[13](1)
+    for i=8,9 connect  dend[i](0),dend[14](1)
+
+    connect dend[7](0), soma(1)
+    for i=5,6 connect dend[i](0), dend[7](1)
+    for i=3,4 connect dend[i](0), dend[5](1)
+    for i=0,2 connect dend[i](0), dend[6](1)
+
+}
+
+proc run() {
+
+    dend[$1] stim001 = new IClamp($2)
+    stim001.del = 0
+    stim001.dur = 10
+    stim001.amp = 0.02
+
+    dend[$1] stim002 = new IClamp($2)
+    stim002.del = 0
+    stim002.dur = 10
+    stim002.amp = 0.02
+
+    dend[$1] stim003 = new IClamp($2)
+    stim003.del = 0
+    stim003.dur = 10
+    stim003.amp = 0.02
+
+    dend[$1] stim004 = new IClamp($2)
+    stim004.del = 0
+    stim004.dur = 10
+    stim004.amp = 0.02
+
+    dend[$1] stim005 = new IClamp($2)
+    stim005.del = 0
+    stim005.dur = 10
+    stim005.amp = 0.02
+
+    dend[$1] stim006 = new IClamp($2)
+    stim006.del = 0
+    stim006.dur = 10
+    stim006.amp = 0.02
+
+    dend[$1] stim007 = new IClamp($2)
+    stim007.del = 0
+    stim007.dur = 10
+    stim007.amp = 0.02
+
+    dend[$1] stim008 = new IClamp($2)
+    stim008.del = 0
+    stim008.dur = 10
+    stim008.amp = 0.02
+
+    dend[$1] stim009 = new IClamp($2)
+    stim009.del = 0
+    stim009.dur = 10
+    stim009.amp = 0.02
+
+    dend[$1] stim010 = new IClamp($2)
+    stim010.del = 0
+    stim010.dur = 10
+    stim010.amp = 0.02
+
+    dend[$1] stim011 = new IClamp($2)
+    stim011.del = 0
+    stim011.dur = 10
+    stim011.amp = 0.02
+
+    dend[$1] stim012 = new IClamp($2)
+    stim012.del = 0
+    stim012.dur = 10
+    stim012.amp = 0.02
+
+    dend[$1] stim013 = new IClamp($2)
+    stim013.del = 0
+    stim013.dur = 10
+    stim013.amp = 0.02
+
+    dend[$1] stim014 = new IClamp($2)
+    stim014.del = 0
+    stim014.dur = 10
+    stim014.amp = 0.02
+
+    dend[$1] stim015 = new IClamp($2)
+    stim015.del = 0
+    stim015.dur = 10
+    stim015.amp = 0.02
+
+    dend[$1] stim016 = new IClamp($2)
+    stim016.del = 0
+    stim016.dur = 10
+    stim016.amp = 0.02
+
+    dend[$1] stim017 = new IClamp($2)
+    stim017.del = 0
+    stim017.dur = 10
+    stim017.amp = 0.02
+
+    dend[$1] stim018 = new IClamp($2)
+    stim018.del = 0
+    stim018.dur = 10
+    stim018.amp = 0.02
+
+    dend[$1] stim019 = new IClamp($2)
+    stim019.del = 0
+    stim019.dur = 10
+    stim019.amp = 0.02
+
+    dend[$1] stim020 = new IClamp($2)
+    stim020.del = 0
+    stim020.dur = 10
+    stim020.amp = 0.02
+
+    dend[$1] stim021 = new IClamp($2)
+    stim021.del = 0
+    stim021.dur = 10
+    stim021.amp = 0.02
+
+    dend[$1] stim022 = new IClamp($2)
+    stim022.del = 0
+    stim022.dur = 10
+    stim022.amp = 0.02
+
+    dend[$1] stim023 = new IClamp($2)
+    stim023.del = 0
+    stim023.dur = 10
+    stim023.amp = 0.02
+
+    dend[$1] stim024 = new IClamp($2)
+    stim024.del = 0
+    stim024.dur = 10
+    stim024.amp = 0.02
+
+    dend[$1] stim025 = new IClamp($2)
+    stim025.del = 0
+    stim025.dur = 10
+    stim025.amp = 0.02
+
+    dend[$1] stim026 = new IClamp($2)
+    stim026.del = 0
+    stim026.dur = 10
+    stim026.amp = 0.02
+
+    dend[$1] stim027 = new IClamp($2)
+    stim027.del = 0
+    stim027.dur = 10
+    stim027.amp = 0.02
+
+    dend[$1] stim028 = new IClamp($2)
+    stim028.del = 0
+    stim028.dur = 10
+    stim028.amp = 0.02
+
+    dend[$1] stim029 = new IClamp($2)
+    stim029.del = 0
+    stim029.dur = 10
+    stim029.amp = 0.02
+
+    dend[$1] stim030 = new IClamp($2)
+    stim030.del = 0
+    stim030.dur = 10
+    stim030.amp = 0.02
+
+    dend[$1] stim031 = new IClamp($2)
+    stim031.del = 0
+    stim031.dur = 10
+    stim031.amp = 0.02
+
+    dend[$1] stim032 = new IClamp($2)
+    stim032.del = 0
+    stim032.dur = 10
+    stim032.amp = 0.02
+
+    dend[$1] stim033 = new IClamp($2)
+    stim033.del = 0
+    stim033.dur = 10
+    stim033.amp = 0.02
+
+    dend[$1] stim034 = new IClamp($2)
+    stim034.del = 0
+    stim034.dur = 10
+    stim034.amp = 0.02
+
+    dend[$1] stim035 = new IClamp($2)
+    stim035.del = 0
+    stim035.dur = 10
+    stim035.amp = 0.02
+
+    dend[$1] stim036 = new IClamp($2)
+    stim036.del = 0
+    stim036.dur = 10
+    stim036.amp = 0.02
+
+    dend[$1] stim037 = new IClamp($2)
+    stim037.del = 0
+    stim037.dur = 10
+    stim037.amp = 0.02
+
+    dend[$1] stim038 = new IClamp($2)
+    stim038.del = 0
+    stim038.dur = 10
+    stim038.amp = 0.02
+
+    dend[$1] stim039 = new IClamp($2)
+    stim039.del = 0
+    stim039.dur = 10
+    stim039.amp = 0.02
+
+    dend[$1] stim040 = new IClamp($2)
+    stim040.del = 0
+    stim040.dur = 10
+    stim040.amp = 0.02
+
+    dend[$1] stim041 = new IClamp($2)
+    stim041.del = 0
+    stim041.dur = 10
+    stim041.amp = 0.02
+
+    dend[$1] stim042 = new IClamp($2)
+    stim042.del = 0
+    stim042.dur = 10
+    stim042.amp = 0.02
+
+    dend[$1] stim043 = new IClamp($2)
+    stim043.del = 0
+    stim043.dur = 10
+    stim043.amp = 0.02
+
+    dend[$1] stim044 = new IClamp($2)
+    stim044.del = 0
+    stim044.dur = 10
+    stim044.amp = 0.02
+
+    dend[$1] stim045 = new IClamp($2)
+    stim045.del = 0
+    stim045.dur = 10
+    stim045.amp = 0.02
+
+    dend[$1] stim046 = new IClamp($2)
+    stim046.del = 0
+    stim046.dur = 10
+    stim046.amp = 0.02
+
+    dend[$1] stim047 = new IClamp($2)
+    stim047.del = 0
+    stim047.dur = 10
+    stim047.amp = 0.02
+
+    dend[$1] stim048 = new IClamp($2)
+    stim048.del = 0
+    stim048.dur = 10
+    stim048.amp = 0.02
+
+    dend[$1] stim049 = new IClamp($2)
+    stim049.del = 0
+    stim049.dur = 10
+    stim049.amp = 0.02
+
+    dend[$1] stim050 = new IClamp($2)
+    stim050.del = 0
+    stim050.dur = 10
+    stim050.amp = 0.02
+
+    dend[$1] stim051 = new IClamp($2)
+    stim051.del = 0
+    stim051.dur = 10
+    stim051.amp = 0.02
+
+    dend[$1] stim052 = new IClamp($2)
+    stim052.del = 0
+    stim052.dur = 10
+    stim052.amp = 0.02
+
+    dend[$1] stim053 = new IClamp($2)
+    stim053.del = 0
+    stim053.dur = 10
+    stim053.amp = 0.02
+
+    dend[$1] stim054 = new IClamp($2)
+    stim054.del = 0
+    stim054.dur = 10
+    stim054.amp = 0.02
+
+    dend[$1] stim055 = new IClamp($2)
+    stim055.del = 0
+    stim055.dur = 10
+    stim055.amp = 0.02
+
+    dend[$1] stim056 = new IClamp($2)
+    stim056.del = 0
+    stim056.dur = 10
+    stim056.amp = 0.02
+
+    dend[$1] stim057 = new IClamp($2)
+    stim057.del = 0
+    stim057.dur = 10
+    stim057.amp = 0.02
+
+    dend[$1] stim058 = new IClamp($2)
+    stim058.del = 0
+    stim058.dur = 10
+    stim058.amp = 0.02
+
+    dend[$1] stim059 = new IClamp($2)
+    stim059.del = 0
+    stim059.dur = 10
+    stim059.amp = 0.02
+
+    dend[$1] stim060 = new IClamp($2)
+    stim060.del = 0
+    stim060.dur = 10
+    stim060.amp = 0.02
+
+    dend[$1] stim061 = new IClamp($2)
+    stim061.del = 0
+    stim061.dur = 10
+    stim061.amp = 0.02
+
+    dend[$1] stim062 = new IClamp($2)
+    stim062.del = 0
+    stim062.dur = 10
+    stim062.amp = 0.02
+
+    dend[$1] stim063 = new IClamp($2)
+    stim063.del = 0
+    stim063.dur = 10
+    stim063.amp = 0.02
+
+    dend[$1] stim064 = new IClamp($2)
+    stim064.del = 0
+    stim064.dur = 10
+    stim064.amp = 0.02
+
+    dend[$1] stim065 = new IClamp($2)
+    stim065.del = 0
+    stim065.dur = 10
+    stim065.amp = 0.02
+
+    dend[$1] stim066 = new IClamp($2)
+    stim066.del = 0
+    stim066.dur = 10
+    stim066.amp = 0.02
+
+    dend[$1] stim067 = new IClamp($2)
+    stim067.del = 0
+    stim067.dur = 10
+    stim067.amp = 0.02
+
+    dend[$1] stim068 = new IClamp($2)
+    stim068.del = 0
+    stim068.dur = 10
+    stim068.amp = 0.02
+
+    dend[$1] stim069 = new IClamp($2)
+    stim069.del = 0
+    stim069.dur = 10
+    stim069.amp = 0.02
+
+    dend[$1] stim070 = new IClamp($2)
+    stim070.del = 0
+    stim070.dur = 10
+    stim070.amp = 0.02
+
+    dend[$1] stim071 = new IClamp($2)
+    stim071.del = 0
+    stim071.dur = 10
+    stim071.amp = 0.02
+
+    dend[$1] stim072 = new IClamp($2)
+    stim072.del = 0
+    stim072.dur = 10
+    stim072.amp = 0.02
+
+    dend[$1] stim073 = new IClamp($2)
+    stim073.del = 0
+    stim073.dur = 10
+    stim073.amp = 0.02
+
+    dend[$1] stim074 = new IClamp($2)
+    stim074.del = 0
+    stim074.dur = 10
+    stim074.amp = 0.02
+
+    dend[$1] stim075 = new IClamp($2)
+    stim075.del = 0
+    stim075.dur = 10
+    stim075.amp = 0.02
+
+    dt = 0.001
+    v_init = -60
+    finitialize(-60)
+
+    for i=1,10 {
+        while (t <= i) {
+            secondorder = 2
+            fadvance()
+        }
+        fprint("%f \t",-(60 + v(0.5)) )
+    }
+    fprint("\n")
+}
+
+endtemplate Simul
+
+objref f1
+f1 = new File()
+
+f1.ropen("InputCurrents.dat")
+wopen("NRes0200.res")
+
+objectvar Simuls
+    Simuls = new Simul( )
+
+for i=1,2000 {
+    print "Simulation ", i "complete"
+    Simuls.run( f1.scanvar(), f1.scanvar() )
+}
+
+f1.ropen()
+wopen()
